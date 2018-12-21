@@ -14,6 +14,7 @@ public class Main {
         APIRequest apiRequest = new APIRequestImpl();
         GetFirstArrivalToStopResponse getFirstArrivalToStopResponse = apiRequest.getFirstArrivalToStop(ksIds, 5);
         System.out.println(getFirstArrivalToStopResponse);
+        System.out.println(apiRequest.getClassifiers());
     }
 
 }

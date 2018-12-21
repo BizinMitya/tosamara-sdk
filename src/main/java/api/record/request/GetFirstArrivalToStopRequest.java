@@ -2,10 +2,9 @@ package api.record.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class GetFirstArrivalToStopRequest implements Serializable {
+public class GetFirstArrivalToStopRequest {
 
     @JsonProperty(value = "method")
     private String method = "getFirstArrivalToStop";

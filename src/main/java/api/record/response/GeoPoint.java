@@ -2,9 +2,7 @@ package api.record.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
-public class GeoPoint implements Serializable {
+public class GeoPoint {
 
     @JsonProperty(value = "latitude")
     private Double latitude;

@@ -31,11 +31,9 @@ public class APIRequestImpl implements APIRequest {
     public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, Integer count) {
         try {
             GetFirstArrivalToStopRequest getFirstArrivalToStopRequest = new GetFirstArrivalToStopRequest(ksIds, count);
-            return OBJECT_MAPPER.readValue(doRequest(OBJECT_MAPPER.writeValueAsString(getFirstArrivalToStopRequest)), GetFirstArrivalToStopResponse.class);
-            ObjectMapper objectMapper = new ObjectMapper();
-            String result = doRequest(objectMapper.writeValueAsString(getFirstArrivalToStopRequest));
+            String result = doRequest(OBJECT_MAPPER.writeValueAsString(getFirstArrivalToStopRequest));
             if (result != null) {
-                return objectMapper.readValue(result, GetFirstArrivalToStopResponse.class);
+                return OBJECT_MAPPER.readValue(result, GetFirstArrivalToStopResponse.class);
             }
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);

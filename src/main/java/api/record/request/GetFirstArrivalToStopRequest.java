@@ -7,35 +7,16 @@ import java.util.List;
 public class GetFirstArrivalToStopRequest {
 
     @JsonProperty(value = "method")
-    private String method = "getFirstArrivalToStop";
+    private final String method = "getFirstArrivalToStop";
 
     @JsonProperty(value = "KS_ID")
-    private List<Integer> ksIds;
+    private final List<Integer> ksIds;
 
     @JsonProperty(value = "COUNT")
-    private Integer count;
-
-    public GetFirstArrivalToStopRequest() {
-    }
+    private final Integer count;
 
     public GetFirstArrivalToStopRequest(List<Integer> ksIds, Integer count) {
         this.ksIds = ksIds;
-        this.count = count;
-    }
-
-    public List<Integer> getKsIds() {
-        return ksIds;
-    }
-
-    public void setKsIds(List<Integer> ksIds) {
-        this.ksIds = ksIds;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
         this.count = count;
     }
 

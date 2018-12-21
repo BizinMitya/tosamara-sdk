@@ -9,17 +9,6 @@ import java.util.List;
 public class Classifiers {
 
     @ElementList(entry = "file", inline = true)
-    private List<Classifier> files;
-
-    public Classifiers() {
-    }
-
-    public List<Classifier> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<Classifier> files) {
-        this.files = files;
-    }
+    public List<Classifier> files;
 
 }

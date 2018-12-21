@@ -5,42 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class GeoPoint {
 
     @JsonProperty(value = "latitude")
-    private Double latitude;
+    public Double latitude;
 
     @JsonProperty(value = "longitude")
-    private Double longitude;
+    public Double longitude;
 
     /**
      * Радиус окрестности, в которой сообщение стоит показывать, в метрах.
      */
     @JsonProperty(value = "radius")
-    private Integer radius;
-
-    public GeoPoint() {
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Integer getRadius() {
-        return radius;
-    }
-
-    public void setRadius(Integer radius) {
-        this.radius = radius;
-    }
+    public Integer radius;
 
 }

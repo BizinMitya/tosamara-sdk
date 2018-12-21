@@ -6,11 +6,8 @@ import api.record.Vote;
 import api.record.request.FindShortestPathRequest;
 import api.record.request.GeoPoint;
 import api.record.request.GetFirstArrivalToStopRequest;
-import api.record.response.Classifiers;
-import api.record.response.FullStops;
-import api.record.response.FindShortestPathResponse;
-import api.record.response.GetFirstArrivalToStopResponse;
-import api.record.response.Stops;
+import api.record.response.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
@@ -20,18 +17,21 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.apache.http.HttpStatus.SC_OK;
 
 public class APIRequestImpl implements APIRequest {
-    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+            .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
     @Nullable
     public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, Integer count) {
         try {
-            GetFirstArrivalToStopRequest getFirstArrivalToStopRequest = new GetFirstArrivalToStopRequest(ksIds, count);
-            String result = doRequest(OBJECT_MAPPER.writeValueAsString(getFirstArrivalToStopRequest));
+            GetFirstArrivalToStopRequest request = new GetFirstArrivalToStopRequest(ksIds, count);
+            String result = doRequest(OBJECT_MAPPER.writeValueAsString(request));
             if (result != null) {
                 return OBJECT_MAPPER.readValue(result, GetFirstArrivalToStopResponse.class);
             }
@@ -39,6 +39,11 @@ public class APIRequestImpl implements APIRequest {
             LOGGER.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    @Override
+    public GetFirstArrivalToStopResponse getFirstArrivalToStop(Integer ksId, @Nullable Integer count) {
+        return getFirstArrivalToStop(Collections.singletonList(ksId), count);
     }
 
     public void getRouteArrivalToStop(Integer ksId, Integer krId) {
@@ -49,10 +54,18 @@ public class APIRequestImpl implements APIRequest {
 
     }
 
-    public FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2, Criterion criterion, TransportType... transports) throws IOException {
-        FindShortestPathRequest request = new FindShortestPathRequest(geoPoint1, geoPoint2, criterion, transports);
-        String rawData = doRequest(OBJECT_MAPPER.writeValueAsString(request));
-        return OBJECT_MAPPER.readValue(rawData, FindShortestPathResponse.class);
+    public FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2,
+                                                     Criterion criterion, TransportType... transports) {
+        try {
+            FindShortestPathRequest request = new FindShortestPathRequest(geoPoint1, geoPoint2, criterion, transports);
+            String rawData = doRequest(OBJECT_MAPPER.writeValueAsString(request));
+            if (rawData != null) {
+                return OBJECT_MAPPER.readValue(rawData, FindShortestPathResponse.class);
+            }
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     public void getTransportPosition(String hullNo) {

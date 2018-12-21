@@ -3,9 +3,7 @@ package api.record.request;
 import api.record.Criterion;
 import api.record.TransportType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class FindShortestPathRequest {
 
@@ -13,16 +11,16 @@ public class FindShortestPathRequest {
     private final String method = "findShortestPath";
 
     @JsonProperty(value = "LATITUDE1")
-    private final double latitude1;
+    private final Double latitude1;
 
     @JsonProperty(value = "LONGITUDE1")
-    private final double longitude1;
+    private final Double longitude1;
 
     @JsonProperty(value = "LATITUDE2")
-    private final double latitude2;
+    private final Double latitude2;
 
     @JsonProperty(value = "LONGITUDE2")
-    private final double longitude2;
+    private final Double longitude2;
 
     @JsonProperty(value = "CRITERION")
     private final Criterion criterion;
@@ -31,8 +29,8 @@ public class FindShortestPathRequest {
     private final TransportType[] transports;
 
     public FindShortestPathRequest(
-            @Nonnull GeoPoint firstPoint,
-            @Nonnull GeoPoint secondPoint,
+            @NotNull GeoPoint firstPoint,
+            @NotNull GeoPoint secondPoint,
             Criterion criterion,
             TransportType[] transports
     ) {

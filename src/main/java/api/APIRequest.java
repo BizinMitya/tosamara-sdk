@@ -4,11 +4,7 @@ import api.record.Criterion;
 import api.record.TransportType;
 import api.record.Vote;
 import api.record.request.GeoPoint;
-import api.record.response.Classifiers;
-import api.record.response.FullStops;
-import api.record.response.FindShortestPathResponse;
-import api.record.response.GetFirstArrivalToStopResponse;
-import api.record.response.Stops;
+import api.record.response.*;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
@@ -36,8 +32,8 @@ public interface APIRequest {
     String STOPS_URI = "http://tosamara.ru/api/classifiers/stops.xml";
     String STOPS_FULL_URI = "http://tosamara.ru/api/classifiers/stopsFullDB.xml";
 
-    String CLIENT_ID = "";
-    String KEY = "";
+    String CLIENT_ID = "DmitrijBizin";
+    String KEY = "EhR22W";
 
     Logger LOGGER = Logger.getLogger(APIRequest.class);
 
@@ -50,6 +46,16 @@ public interface APIRequest {
      * @return объект ответа
      */
     GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count);
+
+    /**
+     * Метод получения прогнозов прибытия транспорта на выбранную остановку.
+     * Возможен запрос на несколько остановок сразу, в таком случае результаты упорядочиваются по времени прибытия.
+     *
+     * @param ksId  классификаторный номер остановки.
+     * @param count количество ближайших прибывающих маршрутов (необязательный параметр).
+     * @return объект ответа
+     */
+    GetFirstArrivalToStopResponse getFirstArrivalToStop(Integer ksId, @Nullable Integer count);
 
     /**
      * Метод получения информации о прибытии транспортных средств выбранного маршрута на выбранную остановку.
@@ -74,8 +80,9 @@ public interface APIRequest {
      * @param geoPoint2  координаты конечной точки маршрута в WGS 84.
      * @param transports допустимые типы транспорта, набор значений через запятую.
      * @param criterion  критерий оптимальности, одно из значений.
+     * @return объект ответа
      */
-    FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2, Criterion criterion, TransportType... transports) throws IOException;
+    FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2, Criterion criterion, TransportType... transports);
 
     /**
      * Метод дает информацию, на каком маршруте находится указанное транспортное средство, и сколько времени оно будет двигаться до последующих остановок.
@@ -156,38 +163,44 @@ public interface APIRequest {
                          Integer radius, Integer ksId, Integer transportHullNo, Integer expireTime, String deviceId);
 
     @Nullable
-    default String doRequest(String message) {
-        try {
-            List<NameValuePair> nameValuePairs = new ArrayList<>();
-            nameValuePairs.add(new BasicNameValuePair("clientId", CLIENT_ID));
-            nameValuePairs.add(new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + KEY)));
-            nameValuePairs.add(new BasicNameValuePair("os", "android"));
-            nameValuePairs.add(new BasicNameValuePair("message", message));
-            Response response = Request.Post(API_URI)
-                    .bodyForm(nameValuePairs, Charsets.UTF_8)
-                    .execute();
-            HttpResponse httpResponse = response.returnResponse();
-            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
-                return IOUtils.toString(httpResponse.getEntity().getContent());
-            } else {
-                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
-                return null;
-            }
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
+    default String doRequest(String message) throws IOException {
+        List<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("clientId", CLIENT_ID));
+        nameValuePairs.add(new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + KEY)));
+        nameValuePairs.add(new BasicNameValuePair("os", "android"));
+        nameValuePairs.add(new BasicNameValuePair("message", message));
+        Response response = Request.Post(API_URI)
+                .bodyForm(nameValuePairs, Charsets.UTF_8)
+                .execute();
+        HttpResponse httpResponse = response.returnResponse();
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
+        if (statusCode == SC_OK) {
+            return IOUtils.toString(httpResponse.getEntity().getContent());
+        } else {
+            LOGGER.error("response code: " + statusCode);
+            return null;
         }
-        return null;
     }
 
     /**
      * Метод получения списка справочников.
      *
-     * @return объекта справочников
+     * @return объект справочников.
      */
     Classifiers getClassifiers();
 
+    /**
+     * Метод получения списка остановок.
+     *
+     * @return объект остановок.
+     */
     Stops getStops();
 
+    /**
+     * Метод получения списка расширенной информации об остановках.
+     *
+     * @return объект расширенной информации об остановках.
+     */
     FullStops getFullStops();
 
 }

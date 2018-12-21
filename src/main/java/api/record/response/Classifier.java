@@ -8,28 +8,9 @@ import org.simpleframework.xml.Root;
 public class Classifier {
 
     @Attribute
-    private String name;
+    public String name;
 
     @Element
-    private Double modified;
-
-    public Classifier() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getModified() {
-        return modified;
-    }
-
-    public void setModified(Double modified) {
-        this.modified = modified;
-    }
+    public Double modified;
 
 }

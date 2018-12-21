@@ -4,29 +4,42 @@ import api.record.Criterion;
 import api.record.TransportType;
 import api.record.Vote;
 import api.record.request.GeoPoint;
+import api.record.response.Classifiers;
+import api.record.response.FullStops;
 import api.record.response.FindShortestPathResponse;
 import api.record.response.GetFirstArrivalToStopResponse;
-import com.sun.istack.internal.Nullable;
+import api.record.response.Stops;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.http.HttpStatus.SC_OK;
 
 /**
  * http://www.tosamara.ru/api/
  */
 public interface APIRequest {
 
-    String URI = "http://tosamara.ru/api/v2/json";
+    String API_URI = "http://tosamara.ru/api/v2/json";
+    String CLASSIFIERS_URI = "http://tosamara.ru/api/classifiers";
+    String STOPS_URI = "http://tosamara.ru/api/classifiers/stops.xml";
+    String STOPS_FULL_URI = "http://tosamara.ru/api/classifiers/stopsFullDB.xml";
+
     String CLIENT_ID = "";
     String KEY = "";
+
+    Logger LOGGER = Logger.getLogger(APIRequest.class);
 
     /**
      * Метод получения прогнозов прибытия транспорта на выбранную остановку.
@@ -142,6 +155,7 @@ public interface APIRequest {
     void sendUserMessage(String text, @Nullable String textEn, String link, GeoPoint geoPoint,
                          Integer radius, Integer ksId, Integer transportHullNo, Integer expireTime, String deviceId);
 
+    @Nullable
     default String doRequest(String message) {
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<>();
@@ -149,14 +163,31 @@ public interface APIRequest {
             nameValuePairs.add(new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + KEY)));
             nameValuePairs.add(new BasicNameValuePair("os", "android"));
             nameValuePairs.add(new BasicNameValuePair("message", message));
-            Response response = Request.Post(URI)
+            Response response = Request.Post(API_URI)
                     .bodyForm(nameValuePairs, Charsets.UTF_8)
                     .execute();
-            return IOUtils.toString(response.returnResponse().getEntity().getContent());
+            HttpResponse httpResponse = response.returnResponse();
+            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
+                return IOUtils.toString(httpResponse.getEntity().getContent());
+            } else {
+                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
+                return null;
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
         return null;
     }
+
+    /**
+     * Метод получения списка справочников.
+     *
+     * @return объекта справочников
+     */
+    Classifiers getClassifiers();
+
+    Stops getStops();
+
+    FullStops getFullStops();
 
 }

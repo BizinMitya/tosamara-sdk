@@ -2,9 +2,7 @@ package api.record.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
-
-public class Transport implements Serializable {
+public class Transport {
 
     /**
      * Тип транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.

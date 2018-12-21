@@ -20,6 +20,10 @@ public class Main {
 
         APIRequest apiRequest = new APIRequestImpl();
         GetFirstArrivalToStopResponse getFirstArrivalToStopResponse = apiRequest.getFirstArrivalToStop(ksIds, 5);
+        System.out.println(getFirstArrivalToStopResponse);
+        System.out.println(apiRequest.getClassifiers());
+        System.out.println(apiRequest.getStops());
+        System.out.println(apiRequest.getFullStops());
 
         // findShortestPath test
         GeoPoint firstPoint = new GeoPoint(53.2031789523201, 50.1480975970282);

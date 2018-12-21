@@ -1,9 +1,10 @@
 package api;
 
 import api.record.Criterion;
-import api.record.Transports;
+import api.record.TransportType;
 import api.record.Vote;
 import api.record.request.GeoPoint;
+import api.record.response.FindShortestPathResponse;
 import api.record.response.GetFirstArrivalToStopResponse;
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.codec.Charsets;
@@ -61,7 +62,7 @@ public interface APIRequest {
      * @param transports допустимые типы транспорта, набор значений через запятую.
      * @param criterion  критерий оптимальности, одно из значений.
      */
-    void findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2, List<Transports> transports, Criterion criterion);
+    FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2, Criterion criterion, TransportType... transports) throws IOException;
 
     /**
      * Метод дает информацию, на каком маршруте находится указанное транспортное средство, и сколько времени оно будет двигаться до последующих остановок.

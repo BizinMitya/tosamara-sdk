@@ -15,6 +15,11 @@ public class GeoPoint implements Serializable {
     public GeoPoint() {
     }
 
+    public GeoPoint(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Double getLatitude() {
         return latitude;
     }

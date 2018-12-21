@@ -1,6 +1,6 @@
 package api.record;
 
-public enum Transports {
+public enum TransportType {
 
     bus,
     tram,

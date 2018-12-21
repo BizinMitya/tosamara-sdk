@@ -1,10 +1,12 @@
 package api;
 
 import api.record.Criterion;
-import api.record.Transports;
+import api.record.TransportType;
 import api.record.Vote;
+import api.record.request.FindShortestPathRequest;
 import api.record.request.GeoPoint;
 import api.record.request.GetFirstArrivalToStopRequest;
+import api.record.response.FindShortestPathResponse;
 import api.record.response.GetFirstArrivalToStopResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,12 +14,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class APIRequestImpl implements APIRequest {
+    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, Integer count) {
         try {
             GetFirstArrivalToStopRequest getFirstArrivalToStopRequest = new GetFirstArrivalToStopRequest(ksIds, count);
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(doRequest(objectMapper.writeValueAsString(getFirstArrivalToStopRequest)), GetFirstArrivalToStopResponse.class);
+            return OBJECT_MAPPER.readValue(doRequest(OBJECT_MAPPER.writeValueAsString(getFirstArrivalToStopRequest)), GetFirstArrivalToStopResponse.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,8 +34,10 @@ public class APIRequestImpl implements APIRequest {
 
     }
 
-    public void findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2, List<Transports> transports, Criterion criterion) {
-
+    public FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2, Criterion criterion, TransportType... transports) throws IOException {
+        FindShortestPathRequest request = new FindShortestPathRequest(geoPoint1, geoPoint2, criterion, transports);
+        String rawData = doRequest(OBJECT_MAPPER.writeValueAsString(request));
+        return OBJECT_MAPPER.readValue(rawData, FindShortestPathResponse.class);
     }
 
     public void getTransportPosition(String hullNo) {

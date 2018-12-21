@@ -1,11 +1,21 @@
 package api;
 
 import api.record.Criterion;
-import api.record.GeoPoint;
 import api.record.Transports;
 import api.record.Vote;
+import api.record.request.GeoPoint;
+import api.record.response.GetFirstArrivalToStopResponse;
 import com.sun.istack.internal.Nullable;
+import org.apache.commons.codec.Charsets;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.client.fluent.Response;
+import org.apache.http.message.BasicNameValuePair;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,14 +23,19 @@ import java.util.List;
  */
 public interface APIRequest {
 
+    String URI = "http://tosamara.ru/api/v2/json";
+    String CLIENT_ID = "";
+    String KEY = "";
+
     /**
      * Метод получения прогнозов прибытия транспорта на выбранную остановку.
      * Возможен запрос на несколько остановок сразу, в таком случае результаты упорядочиваются по времени прибытия.
      *
      * @param ksIds классификаторные номера остановок.
      * @param count количество ближайших прибывающих маршрутов (необязательный параметр).
+     * @return объект ответа
      */
-    void getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count);
+    GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count);
 
     /**
      * Метод получения информации о прибытии транспортных средств выбранного маршрута на выбранную остановку.
@@ -125,5 +140,22 @@ public interface APIRequest {
      */
     void sendUserMessage(String text, @Nullable String textEn, String link, GeoPoint geoPoint,
                          Integer radius, Integer ksId, Integer transportHullNo, Integer expireTime, String deviceId);
+
+    default String doRequest(String message) {
+        try {
+            List<NameValuePair> nameValuePairs = new ArrayList<>();
+            nameValuePairs.add(new BasicNameValuePair("clientId", CLIENT_ID));
+            nameValuePairs.add(new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + KEY)));
+            nameValuePairs.add(new BasicNameValuePair("os", "android"));
+            nameValuePairs.add(new BasicNameValuePair("message", message));
+            Response response = Request.Post(URI)
+                    .bodyForm(nameValuePairs, Charsets.UTF_8)
+                    .execute();
+            return IOUtils.toString(response.returnResponse().getEntity().getContent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

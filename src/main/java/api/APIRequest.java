@@ -5,7 +5,9 @@ import api.record.Transports;
 import api.record.Vote;
 import api.record.request.GeoPoint;
 import api.record.response.Classifiers;
+import api.record.response.FullStops;
 import api.record.response.GetFirstArrivalToStopResponse;
+import api.record.response.Stops;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
@@ -30,6 +32,9 @@ public interface APIRequest {
 
     String API_URI = "http://tosamara.ru/api/v2/json";
     String CLASSIFIERS_URI = "http://tosamara.ru/api/classifiers";
+    String STOPS_URI = "http://tosamara.ru/api/classifiers/stops.xml";
+    String STOPS_FULL_URI = "http://tosamara.ru/api/classifiers/stopsFullDB.xml";
+
     String CLIENT_ID = "";
     String KEY = "";
 
@@ -179,5 +184,9 @@ public interface APIRequest {
      * @return объекта справочников
      */
     Classifiers getClassifiers();
+
+    Stops getStops();
+
+    FullStops getFullStops();
 
 }

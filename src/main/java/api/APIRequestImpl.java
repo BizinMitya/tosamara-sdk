@@ -6,7 +6,9 @@ import api.record.Vote;
 import api.record.request.GeoPoint;
 import api.record.request.GetFirstArrivalToStopRequest;
 import api.record.response.Classifiers;
+import api.record.response.FullStops;
 import api.record.response.GetFirstArrivalToStopResponse;
+import api.record.response.Stops;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
@@ -27,7 +29,10 @@ public class APIRequestImpl implements APIRequest {
         try {
             GetFirstArrivalToStopRequest getFirstArrivalToStopRequest = new GetFirstArrivalToStopRequest(ksIds, count);
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(doRequest(objectMapper.writeValueAsString(getFirstArrivalToStopRequest)), GetFirstArrivalToStopResponse.class);
+            String result = doRequest(objectMapper.writeValueAsString(getFirstArrivalToStopRequest));
+            if (result != null) {
+                return objectMapper.readValue(result, GetFirstArrivalToStopResponse.class);
+            }
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -88,6 +93,44 @@ public class APIRequestImpl implements APIRequest {
             HttpResponse httpResponse = response.returnResponse();
             if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
                 return serializer.read(Classifiers.class, httpResponse.getEntity().getContent());
+            } else {
+                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
+                return null;
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public Stops getStops() {
+        try {
+            Response response = Request.Get(STOPS_URI)
+                    .execute();
+            Serializer serializer = new Persister();
+            HttpResponse httpResponse = response.returnResponse();
+            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
+                return serializer.read(Stops.class, httpResponse.getEntity().getContent());
+            } else {
+                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
+                return null;
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public FullStops getFullStops() {
+        try {
+            Response response = Request.Get(STOPS_FULL_URI)
+                    .execute();
+            Serializer serializer = new Persister();
+            HttpResponse httpResponse = response.returnResponse();
+            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
+                return serializer.read(FullStops.class, httpResponse.getEntity().getContent());
             } else {
                 LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
                 return null;

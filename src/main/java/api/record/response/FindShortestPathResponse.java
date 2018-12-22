@@ -7,7 +7,7 @@ import java.util.List;
 public class FindShortestPathResponse {
 
     /**
-     * Время выполнения маршрута в минутах.
+     * Время выполнения маршрута в секундах.
      */
     @JsonProperty(value = "time")
     public Integer time;

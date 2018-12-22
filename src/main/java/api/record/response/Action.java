@@ -23,7 +23,7 @@ public class Action {
     public Integer length;
 
     /**
-     * Время выполнения.
+     * Время выполнения в секундах.
      */
     @JsonProperty(value = "time")
     public Integer time;

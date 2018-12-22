@@ -32,8 +32,8 @@ public interface APIRequest {
     String STOPS_URI = "http://tosamara.ru/api/classifiers/stops.xml";
     String STOPS_FULL_URI = "http://tosamara.ru/api/classifiers/stopsFullDB.xml";
 
-    String CLIENT_ID = "DmitrijBizin";
-    String KEY = "EhR22W";
+    String CLIENT_ID = "";
+    String KEY = "";
 
     Logger LOGGER = Logger.getLogger(APIRequest.class);
 

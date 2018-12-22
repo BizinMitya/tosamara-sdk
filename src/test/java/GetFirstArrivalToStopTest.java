@@ -1,21 +1,17 @@
 import api.APIRequest;
 import api.APIRequestImpl;
-import api.record.request.GeoPoint;
-import api.record.response.*;
+import api.record.response.GetFirstArrivalToStopResponse;
+import api.record.response.Stop;
+import api.record.response.Stops;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
-
-import static api.record.Criterion.time;
-import static api.record.TransportType.*;
-
-class SmokeTest {
+class GetFirstArrivalToStopTest {
 
     private static final APIRequest API_REQUEST = new APIRequestImpl();
 
     @Test
-    void smokeTest1() {
+    void forAllStopsTest() {
         Stops stops = API_REQUEST.getStops();
         for (Stop stop : stops.stops) {
             try {
@@ -32,26 +28,6 @@ class SmokeTest {
             } catch (Throwable t) {
                 Assertions.fail(t);
             }
-        }
-    }
-
-    @Test
-    void smokeTest2() {
-        Random random = new Random();
-        FullStops fullStops = API_REQUEST.getFullStops();
-        FullStop firstStop = fullStops.stops.get(random.nextInt(fullStops.stops.size()));
-        FullStop secondStop = fullStops.stops.get(random.nextInt(fullStops.stops.size()));
-        GeoPoint firstPoint = new GeoPoint(firstStop.latitude, firstStop.longitude);
-        GeoPoint secondPoint = new GeoPoint(secondStop.latitude, secondStop.longitude);
-        try {
-            FindShortestPathResponse shortestPath =
-                    API_REQUEST.findShortestPath(firstPoint, secondPoint, time,
-                            bus, tram, trolleybus, metro, riverfleet, railway);
-            for (Action action : shortestPath.actions) {
-                System.out.println(action);
-            }
-        } catch (Throwable t) {
-            Assertions.fail(t);
         }
     }
 

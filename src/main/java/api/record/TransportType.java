@@ -6,7 +6,7 @@ public enum TransportType {
     tram,
     trolleybus,
     metro,
-    railway,
-    riverfleet
+    railway, // пока не поддерживается?
+    riverfleet // пока не поддерживается?
 
 }

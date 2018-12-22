@@ -43,7 +43,7 @@ public interface APIRequest {
      *
      * @param ksIds классификаторные номера остановок.
      * @param count количество ближайших прибывающих маршрутов (необязательный параметр).
-     * @return объект ответа
+     * @return объект ответа.
      */
     GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count);
 
@@ -52,7 +52,7 @@ public interface APIRequest {
      *
      * @param ksId  классификаторный номер остановки.
      * @param count количество ближайших прибывающих маршрутов (необязательный параметр).
-     * @return объект ответа
+     * @return объект ответа.
      */
     GetFirstArrivalToStopResponse getFirstArrivalToStop(Integer ksId, @Nullable Integer count);
 
@@ -77,9 +77,9 @@ public interface APIRequest {
      *
      * @param geoPoint1  координаты начальной точки маршрута в WGS 84.
      * @param geoPoint2  координаты конечной точки маршрута в WGS 84.
-     * @param transports допустимые типы транспорта, набор значений через запятую.
      * @param criterion  критерий оптимальности, одно из значений.
-     * @return объект ответа
+     * @param transports допустимые типы транспорта, набор значений через запятую.
+     * @return объект ответа.
      */
     FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2, Criterion criterion, TransportType... transports);
 

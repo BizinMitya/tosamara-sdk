@@ -32,8 +32,8 @@ public interface APIRequest {
     String STOPS_FULL_URI = BASE_URL + "/classifiers/stopsFullDB.xml";
     String ROUTES_URI = BASE_URL + "/classifiers/routes.xml";
 
-    String CLIENT_ID = "DmitrijBizin";
-    String KEY = "EhR22W";
+    String CLIENT_ID = "";
+    String KEY = "";
 
     Logger LOGGER = Logger.getLogger(APIRequest.class);
 

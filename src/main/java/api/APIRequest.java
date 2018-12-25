@@ -1,10 +1,8 @@
 package api;
 
-import api.record.Criterion;
-import api.record.TransportType;
-import api.record.Vote;
-import api.record.request.GeoPoint;
-import api.record.response.*;
+import api.record.pojo.*;
+import api.record.response.FindShortestPathResponse;
+import api.record.response.GetFirstArrivalToStopResponse;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
@@ -27,13 +25,15 @@ import static org.apache.http.HttpStatus.SC_OK;
  */
 public interface APIRequest {
 
-    String API_URI = "http://tosamara.ru/api/v2/json";
-    String CLASSIFIERS_URI = "http://tosamara.ru/api/classifiers";
-    String STOPS_URI = "http://tosamara.ru/api/classifiers/stops.xml";
-    String STOPS_FULL_URI = "http://tosamara.ru/api/classifiers/stopsFullDB.xml";
+    String BASE_URL = "http://tosamara.ru/api";
+    String API_URI = BASE_URL + "/v2/json";
+    String CLASSIFIERS_URI = BASE_URL + "/classifiers";
+    String STOPS_URI = BASE_URL + "/classifiers/stops.xml";
+    String STOPS_FULL_URI = BASE_URL + "/classifiers/stopsFullDB.xml";
+    String ROUTES_URI = BASE_URL + "/classifiers/routes.xml";
 
-    String CLIENT_ID = "";
-    String KEY = "";
+    String CLIENT_ID = "DmitrijBizin";
+    String KEY = "EhR22W";
 
     Logger LOGGER = Logger.getLogger(APIRequest.class);
 
@@ -191,15 +191,22 @@ public interface APIRequest {
     /**
      * Метод получения списка остановок.
      *
-     * @return объект остановок.
+     * @return список остановок.
      */
     Stops getStops();
 
     /**
-     * Метод получения списка расширенной информации об остановках.
+     * Метод получения списка остановок с расширенной информацией.
      *
-     * @return объект расширенной информации об остановках.
+     * @return список остановок с расширенной информацией.
      */
     FullStops getFullStops();
+
+    /**
+     * Метод получения списка маршрутов.
+     *
+     * @return список маршрутов.
+     */
+    Routes getRoutes();
 
 }

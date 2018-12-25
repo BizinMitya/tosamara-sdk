@@ -1,5 +1,6 @@
 package api.record.response;
 
+import api.record.pojo.Action;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

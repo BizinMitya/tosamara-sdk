@@ -1,7 +1,5 @@
-package api.record.response;
+package api.record.pojo;
 
-import api.record.ActionType;
-import api.record.request.GeoPoint;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 

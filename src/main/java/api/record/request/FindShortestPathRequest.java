@@ -1,7 +1,8 @@
 package api.record.request;
 
-import api.record.Criterion;
-import api.record.TransportType;
+import api.record.pojo.Criterion;
+import api.record.pojo.GeoPoint;
+import api.record.pojo.TransportType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 

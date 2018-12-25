@@ -1,11 +1,11 @@
-package api.record;
+package api.record.pojo;
 
 public enum TransportType {
 
     bus,
+    metro,
     tram,
     trolleybus,
-    metro,
     railway, // пока не поддерживается?
     riverfleet // пока не поддерживается?
 

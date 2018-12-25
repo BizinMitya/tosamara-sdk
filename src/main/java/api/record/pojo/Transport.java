@@ -1,6 +1,5 @@
-package api.record.response;
+package api.record.pojo;
 
-import api.record.Quality;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,4 +1,4 @@
-package api.record.request;
+package api.record.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,8 +1,8 @@
 import api.APIRequest;
 import api.APIRequestImpl;
 import api.record.response.GetFirstArrivalToStopResponse;
-import api.record.response.Stop;
-import api.record.response.Stops;
+import api.record.pojo.Stop;
+import api.record.pojo.Stops;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

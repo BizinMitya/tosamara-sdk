@@ -1,12 +1,10 @@
 package api;
 
-import api.record.Criterion;
-import api.record.TransportType;
-import api.record.Vote;
+import api.record.pojo.*;
 import api.record.request.FindShortestPathRequest;
-import api.record.request.GeoPoint;
 import api.record.request.GetFirstArrivalToStopRequest;
-import api.record.response.*;
+import api.record.response.FindShortestPathResponse;
+import api.record.response.GetFirstArrivalToStopResponse;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
@@ -148,6 +146,25 @@ public class APIRequestImpl implements APIRequest {
             HttpResponse httpResponse = response.returnResponse();
             if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
                 return serializer.read(FullStops.class, httpResponse.getEntity().getContent());
+            } else {
+                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
+                return null;
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public Routes getRoutes() {
+        try {
+            Response response = Request.Get(ROUTES_URI)
+                    .execute();
+            Serializer serializer = new Persister();
+            HttpResponse httpResponse = response.returnResponse();
+            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
+                return serializer.read(Routes.class, httpResponse.getEntity().getContent());
             } else {
                 LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
                 return null;

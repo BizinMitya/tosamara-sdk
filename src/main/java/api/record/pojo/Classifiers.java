@@ -1,4 +1,4 @@
-package api.record.response;
+package api.record.pojo;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;

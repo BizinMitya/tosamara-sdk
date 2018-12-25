@@ -1,4 +1,4 @@
-package api.record;
+package api.record.pojo;
 
 public enum ActionType {
 

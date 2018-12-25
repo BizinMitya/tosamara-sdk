@@ -1,11 +1,11 @@
 import api.APIRequest;
 import api.APIRequestImpl;
-import api.record.ActionType;
-import api.record.request.GeoPoint;
-import api.record.response.Action;
+import api.record.pojo.ActionType;
+import api.record.pojo.GeoPoint;
+import api.record.pojo.Action;
 import api.record.response.FindShortestPathResponse;
-import api.record.response.FullStop;
-import api.record.response.FullStops;
+import api.record.pojo.FullStop;
+import api.record.pojo.FullStops;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static api.record.Criterion.time;
-import static api.record.TransportType.*;
+import static api.record.pojo.Criterion.time;
+import static api.record.pojo.TransportType.*;
 
 class FindShortestPathTest {
 

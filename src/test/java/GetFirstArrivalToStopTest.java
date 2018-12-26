@@ -1,8 +1,8 @@
 import api.APIRequest;
 import api.APIRequestImpl;
-import api.record.response.GetFirstArrivalToStopResponse;
 import api.record.pojo.Stop;
 import api.record.pojo.Stops;
+import api.record.response.GetFirstArrivalToStopResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,14 +15,16 @@ class GetFirstArrivalToStopTest {
         Stops stops = API_REQUEST.getStops();
         for (Stop stop : stops.stops) {
             try {
-                GetFirstArrivalToStopResponse getFirstArrivalToStopResponse = API_REQUEST.getFirstArrivalToStop(stop.ksId, 1);
+                GetFirstArrivalToStopResponse getFirstArrivalToStopResponse = API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
                 if (!getFirstArrivalToStopResponse.transports.isEmpty()) {
-                    System.out.println(
-                            "Остановка: " + stop.title + ", " +
-                                    getFirstArrivalToStopResponse.transports.get(0).number +
-                                    "(" + getFirstArrivalToStopResponse.transports.get(0).stateNumber + ")" + " -> " +
-                                    getFirstArrivalToStopResponse.transports.get(0).nextStopName +
-                                    ", через " + getFirstArrivalToStopResponse.transports.get(0).timeInSeconds + " сек."
+                    getFirstArrivalToStopResponse.transports.forEach(transport ->
+                            System.out.println(
+                                    "Остановка: " + stop.title + ", " +
+                                            transport.number +
+                                            "(" + transport.stateNumber + ")" + " -> " +
+                                            transport.nextStopName +
+                                            ", через " + transport.timeInSeconds + " сек."
+                            )
                     );
                 }
             } catch (Throwable t) {

@@ -13,6 +13,8 @@ import org.apache.http.client.fluent.Response;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,11 +28,12 @@ import static org.apache.http.HttpStatus.SC_OK;
 public interface APIRequest {
 
     String BASE_URL = "http://tosamara.ru/api";
-    String API_URI = BASE_URL + "/v2/json";
-    String CLASSIFIERS_URI = BASE_URL + "/classifiers";
-    String STOPS_URI = BASE_URL + "/classifiers/stops.xml";
-    String STOPS_FULL_URI = BASE_URL + "/classifiers/stopsFullDB.xml";
-    String ROUTES_URI = BASE_URL + "/classifiers/routes.xml";
+    String API_URL = BASE_URL + "/v2/json";
+    String CLASSIFIERS_URL = BASE_URL + "/classifiers";
+    String STOPS_URL = CLASSIFIERS_URL + "/stops.xml";
+    String STOPS_FULL_URL = CLASSIFIERS_URL + "/stopsFullDB.xml";
+    String ROUTES_URL = CLASSIFIERS_URL + "/routes.xml";
+    String ROUTES_AND_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/routesAndStopsCorrespondence.xml";
 
     String CLIENT_ID = "";
     String KEY = "";
@@ -162,13 +165,13 @@ public interface APIRequest {
                          Integer radius, Integer ksId, Integer transportHullNo, Integer expireTime, String deviceId);
 
     @Nullable
-    default String doRequest(String message) throws IOException {
+    default String doAPIRequest(String message) throws IOException {
         List<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("clientId", CLIENT_ID));
         nameValuePairs.add(new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + KEY)));
         nameValuePairs.add(new BasicNameValuePair("os", "android"));
         nameValuePairs.add(new BasicNameValuePair("message", message));
-        Response response = Request.Post(API_URI)
+        Response response = Request.Post(API_URL)
                 .bodyForm(nameValuePairs, Charsets.UTF_8)
                 .execute();
         HttpResponse httpResponse = response.returnResponse();
@@ -179,6 +182,25 @@ public interface APIRequest {
             LOGGER.error("response code: " + statusCode);
             return null;
         }
+    }
+
+    @Nullable
+    default <T> T doClassifierRequest(Class<T> classifierType, String url) {
+        try {
+            Response response = Request.Get(url)
+                    .execute();
+            Serializer serializer = new Persister();
+            HttpResponse httpResponse = response.returnResponse();
+            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
+                return serializer.read(classifierType, httpResponse.getEntity().getContent());
+            } else {
+                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
+                return null;
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     /**
@@ -208,5 +230,12 @@ public interface APIRequest {
      * @return список маршрутов.
      */
     Routes getRoutes();
+
+    /**
+     * Метод получения списка связей маршрутов и остановок.
+     *
+     * @return список связей маршрутов и остановок.
+     */
+    RoutesWithStops getRoutesWithStops();
 
 }

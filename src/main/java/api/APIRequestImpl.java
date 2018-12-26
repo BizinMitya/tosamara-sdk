@@ -7,18 +7,11 @@ import api.record.response.FindShortestPathResponse;
 import api.record.response.GetFirstArrivalToStopResponse;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Response;
 import org.jetbrains.annotations.Nullable;
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
-import static org.apache.http.HttpStatus.SC_OK;
 
 public class APIRequestImpl implements APIRequest {
 
@@ -29,7 +22,7 @@ public class APIRequestImpl implements APIRequest {
     public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, Integer count) {
         try {
             GetFirstArrivalToStopRequest request = new GetFirstArrivalToStopRequest(ksIds, count);
-            String result = doRequest(OBJECT_MAPPER.writeValueAsString(request));
+            String result = doAPIRequest(OBJECT_MAPPER.writeValueAsString(request));
             if (result != null) {
                 return OBJECT_MAPPER.readValue(result, GetFirstArrivalToStopResponse.class);
             }
@@ -56,7 +49,7 @@ public class APIRequestImpl implements APIRequest {
                                                      Criterion criterion, TransportType... transports) {
         try {
             FindShortestPathRequest request = new FindShortestPathRequest(geoPoint1, geoPoint2, criterion, transports);
-            String rawData = doRequest(OBJECT_MAPPER.writeValueAsString(request));
+            String rawData = doAPIRequest(OBJECT_MAPPER.writeValueAsString(request));
             if (rawData != null) {
                 return OBJECT_MAPPER.readValue(rawData, FindShortestPathResponse.class);
             }
@@ -98,81 +91,29 @@ public class APIRequestImpl implements APIRequest {
 
     }
 
-    @Nullable
     @Override
     public Classifiers getClassifiers() {
-        try {
-            Response response = Request.Get(CLASSIFIERS_URI)
-                    .execute();
-            Serializer serializer = new Persister();
-            HttpResponse httpResponse = response.returnResponse();
-            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
-                return serializer.read(Classifiers.class, httpResponse.getEntity().getContent());
-            } else {
-                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
-                return null;
-            }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return null;
+        return doClassifierRequest(Classifiers.class, CLASSIFIERS_URL);
     }
 
     @Override
     public Stops getStops() {
-        try {
-            Response response = Request.Get(STOPS_URI)
-                    .execute();
-            Serializer serializer = new Persister();
-            HttpResponse httpResponse = response.returnResponse();
-            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
-                return serializer.read(Stops.class, httpResponse.getEntity().getContent());
-            } else {
-                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
-                return null;
-            }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return null;
+        return doClassifierRequest(Stops.class, STOPS_URL);
     }
 
     @Override
     public FullStops getFullStops() {
-        try {
-            Response response = Request.Get(STOPS_FULL_URI)
-                    .execute();
-            Serializer serializer = new Persister();
-            HttpResponse httpResponse = response.returnResponse();
-            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
-                return serializer.read(FullStops.class, httpResponse.getEntity().getContent());
-            } else {
-                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
-                return null;
-            }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return null;
+        return doClassifierRequest(FullStops.class, STOPS_FULL_URL);
     }
 
     @Override
     public Routes getRoutes() {
-        try {
-            Response response = Request.Get(ROUTES_URI)
-                    .execute();
-            Serializer serializer = new Persister();
-            HttpResponse httpResponse = response.returnResponse();
-            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
-                return serializer.read(Routes.class, httpResponse.getEntity().getContent());
-            } else {
-                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
-                return null;
-            }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return null;
+        return doClassifierRequest(Routes.class, ROUTES_URL);
+    }
+
+    @Override
+    public RoutesWithStops getRoutesWithStops() {
+        return doClassifierRequest(RoutesWithStops.class, ROUTES_AND_STOPS_CORRESPONDENCE_URL);
     }
 
 }

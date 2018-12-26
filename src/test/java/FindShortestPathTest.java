@@ -1,11 +1,7 @@
 import api.APIRequest;
 import api.APIRequestImpl;
-import api.record.pojo.ActionType;
-import api.record.pojo.GeoPoint;
-import api.record.pojo.Action;
+import api.record.pojo.*;
 import api.record.response.FindShortestPathResponse;
-import api.record.pojo.FullStop;
-import api.record.pojo.FullStops;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

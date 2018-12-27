@@ -8,7 +8,7 @@ class ClassifiersTest {
     private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
 
     @Test
-    void allTest() {
+    void allClassifiersTest() {
         getClassifiersTest();
         getStopsTest();
         getFullStopsTest();

@@ -1,6 +1,9 @@
 package api;
 
-import api.record.pojo.*;
+import api.record.pojo.Criterion;
+import api.record.pojo.GeoPoint;
+import api.record.pojo.TransportType;
+import api.record.pojo.Vote;
 import api.record.response.FindShortestPathResponse;
 import api.record.response.GetFirstArrivalToStopResponse;
 import org.apache.commons.codec.Charsets;
@@ -13,8 +16,6 @@ import org.apache.http.client.fluent.Response;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,11 +30,6 @@ public interface APIRequest {
 
     String BASE_URL = "http://tosamara.ru/api";
     String API_URL = BASE_URL + "/v2/json";
-    String CLASSIFIERS_URL = BASE_URL + "/classifiers";
-    String STOPS_URL = CLASSIFIERS_URL + "/stops.xml";
-    String STOPS_FULL_URL = CLASSIFIERS_URL + "/stopsFullDB.xml";
-    String ROUTES_URL = CLASSIFIERS_URL + "/routes.xml";
-    String ROUTES_AND_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/routesAndStopsCorrespondence.xml";
 
     String CLIENT_ID = "";
     String KEY = "";
@@ -183,59 +179,5 @@ public interface APIRequest {
             return null;
         }
     }
-
-    @Nullable
-    default <T> T doClassifierRequest(Class<T> classifierType, String url) {
-        try {
-            Response response = Request.Get(url)
-                    .execute();
-            Serializer serializer = new Persister();
-            HttpResponse httpResponse = response.returnResponse();
-            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
-                return serializer.read(classifierType, httpResponse.getEntity().getContent());
-            } else {
-                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
-                return null;
-            }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return null;
-    }
-
-    /**
-     * Метод получения списка справочников.
-     *
-     * @return объект справочников.
-     */
-    Classifiers getClassifiers();
-
-    /**
-     * Метод получения списка остановок.
-     *
-     * @return список остановок.
-     */
-    Stops getStops();
-
-    /**
-     * Метод получения списка остановок с расширенной информацией.
-     *
-     * @return список остановок с расширенной информацией.
-     */
-    FullStops getFullStops();
-
-    /**
-     * Метод получения списка маршрутов.
-     *
-     * @return список маршрутов.
-     */
-    Routes getRoutes();
-
-    /**
-     * Метод получения списка связей маршрутов и остановок.
-     *
-     * @return список связей маршрутов и остановок.
-     */
-    RoutesWithStops getRoutesWithStops();
 
 }

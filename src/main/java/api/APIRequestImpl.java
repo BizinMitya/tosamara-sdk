@@ -1,6 +1,9 @@
 package api;
 
-import api.record.pojo.*;
+import api.record.pojo.Criterion;
+import api.record.pojo.GeoPoint;
+import api.record.pojo.TransportType;
+import api.record.pojo.Vote;
 import api.record.request.FindShortestPathRequest;
 import api.record.request.GetFirstArrivalToStopRequest;
 import api.record.response.FindShortestPathResponse;
@@ -89,31 +92,6 @@ public class APIRequestImpl implements APIRequest {
 
     public void sendUserMessage(String text, String textEn, String link, GeoPoint geoPoint, Integer radius, Integer ksId, Integer transportHullNo, Integer expireTime, String deviceId) {
 
-    }
-
-    @Override
-    public Classifiers getClassifiers() {
-        return doClassifierRequest(Classifiers.class, CLASSIFIERS_URL);
-    }
-
-    @Override
-    public Stops getStops() {
-        return doClassifierRequest(Stops.class, STOPS_URL);
-    }
-
-    @Override
-    public FullStops getFullStops() {
-        return doClassifierRequest(FullStops.class, STOPS_FULL_URL);
-    }
-
-    @Override
-    public Routes getRoutes() {
-        return doClassifierRequest(Routes.class, ROUTES_URL);
-    }
-
-    @Override
-    public RoutesWithStops getRoutesWithStops() {
-        return doClassifierRequest(RoutesWithStops.class, ROUTES_AND_STOPS_CORRESPONDENCE_URL);
     }
 
 }

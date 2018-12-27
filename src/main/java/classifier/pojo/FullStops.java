@@ -1,12 +1,12 @@
-package api.record.pojo;
+package classifier.pojo;
 
 import org.simpleframework.xml.ElementList;
 
 import java.util.List;
 
-public class Stops {
+public class FullStops {
 
     @ElementList(entry = "stop", inline = true)
-    public List<Stop> stops;
+    public List<FullStop> stops;
 
 }

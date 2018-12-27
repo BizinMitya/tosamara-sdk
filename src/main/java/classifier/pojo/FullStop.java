@@ -1,4 +1,4 @@
-package api.record.pojo;
+package classifier.pojo;
 
 import org.simpleframework.xml.Element;
 

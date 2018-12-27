@@ -1,7 +1,13 @@
 import api.APIRequest;
 import api.APIRequestImpl;
-import api.record.pojo.*;
+import api.record.pojo.Action;
+import api.record.pojo.ActionType;
+import api.record.pojo.GeoPoint;
 import api.record.response.FindShortestPathResponse;
+import classifier.ClassifierRequest;
+import classifier.ClassifierRequestImpl;
+import classifier.pojo.FullStop;
+import classifier.pojo.FullStops;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +21,12 @@ import static api.record.pojo.TransportType.*;
 class FindShortestPathTest {
 
     private static final APIRequest API_REQUEST = new APIRequestImpl();
+    private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
 
     @Test
     void singleRandomTest() {
         Random random = new Random();
-        FullStops fullStops = API_REQUEST.getFullStops();
+        FullStops fullStops = CLASSIFIER_REQUEST.getFullStops();
         FullStop firstStop = fullStops.stops.get(random.nextInt(fullStops.stops.size()));
         FullStop secondStop = fullStops.stops.get(random.nextInt(fullStops.stops.size()));
         GeoPoint firstPoint = new GeoPoint(firstStop.latitude, firstStop.longitude);

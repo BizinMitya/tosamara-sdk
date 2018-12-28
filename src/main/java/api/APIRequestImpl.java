@@ -6,10 +6,14 @@ import api.record.pojo.TransportType;
 import api.record.pojo.Vote;
 import api.record.request.FindShortestPathRequest;
 import api.record.request.GetFirstArrivalToStopRequest;
+import api.record.request.GetRouteArrivalToStopRequest;
 import api.record.response.FindShortestPathResponse;
 import api.record.response.GetFirstArrivalToStopResponse;
+import api.record.response.GetRouteArrivalToStopResponse;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -19,10 +23,12 @@ import java.util.List;
 public class APIRequestImpl implements APIRequest {
 
     private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-            .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+            .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+            .enable(SerializationFeature.INDENT_OUTPUT)
+            .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     @Nullable
-    public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, Integer count) {
+    public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count) {
         try {
             GetFirstArrivalToStopRequest request = new GetFirstArrivalToStopRequest(ksIds, count);
             String result = doAPIRequest(OBJECT_MAPPER.writeValueAsString(request));
@@ -40,8 +46,17 @@ public class APIRequestImpl implements APIRequest {
         return getFirstArrivalToStop(Collections.singletonList(ksId), count);
     }
 
-    public void getRouteArrivalToStop(Integer ksId, Integer krId) {
-
+    public GetRouteArrivalToStopResponse getRouteArrivalToStop(Integer ksId, Integer krId) {
+        try {
+            GetRouteArrivalToStopRequest request = new GetRouteArrivalToStopRequest(ksId, krId);
+            String result = doAPIRequest(OBJECT_MAPPER.writeValueAsString(request));
+            if (result != null) {
+                return OBJECT_MAPPER.readValue(result, GetRouteArrivalToStopResponse.class);
+            }
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     public void getRouteSchedule(Integer krId, String day) {

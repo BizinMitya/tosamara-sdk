@@ -6,6 +6,7 @@ import api.record.pojo.TransportType;
 import api.record.pojo.Vote;
 import api.record.response.FindShortestPathResponse;
 import api.record.response.GetFirstArrivalToStopResponse;
+import api.record.response.GetRouteArrivalToStopResponse;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
@@ -61,7 +62,7 @@ public interface APIRequest {
      * @param ksId классификаторный номер остановки.
      * @param krId классификаторный номер маршрута.
      */
-    void getRouteArrivalToStop(Integer ksId, Integer krId);
+    GetRouteArrivalToStopResponse getRouteArrivalToStop(Integer ksId, Integer krId);
 
     /**
      * Метод получения плановых расписаний движения маршрута на текущий день.

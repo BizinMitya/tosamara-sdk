@@ -7,6 +7,6 @@ import java.util.List;
 public class FullStops {
 
     @ElementList(entry = "stop", inline = true)
-    public List<FullStop> stops;
+    public List<FullStop> fullStops;
 
 }

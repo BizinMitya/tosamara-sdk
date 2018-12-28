@@ -53,7 +53,7 @@ public class Message {
      * Геопривязка сообщения, возможно, множественная.
      */
     @JsonProperty(value = "linking")
-    public List<GeoPoint> geoPoints;
+    public List<Link> links;
 
     /**
      * Уникальный идентификатор пользовательского устройства (UDID или DeviceID).
@@ -96,5 +96,39 @@ public class Message {
      */
     @JsonProperty(value = "selfVote")
     public Vote selfVote;
+
+    public enum AuthorStatus {
+
+        passenger,
+        massmedia,
+        official
+
+    }
+
+    public enum Vote {
+
+        confirm,
+        refute
+
+    }
+
+    public static class Link {
+
+        @JsonProperty(value = "latitude")
+        public Double latitude;
+
+        @JsonProperty(value = "longitude")
+        public Double longitude;
+
+        @JsonProperty(value = "radius")
+        public Double radius;
+
+        @JsonProperty(value = "KS_ID")
+        public Integer ksId;
+
+        @JsonProperty(value = "transportHullno")
+        public Integer transportHullNo;
+
+    }
 
 }

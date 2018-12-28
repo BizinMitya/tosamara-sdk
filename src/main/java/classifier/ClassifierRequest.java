@@ -1,6 +1,7 @@
 package classifier;
 
 import classifier.pojo.*;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
@@ -32,7 +33,12 @@ public interface ClassifierRequest {
             Serializer serializer = new Persister();
             HttpResponse httpResponse = response.returnResponse();
             if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
-                return serializer.read(classifierType, httpResponse.getEntity().getContent());
+                String content = IOUtils.toString(httpResponse.getEntity().getContent());
+                if (serializer.validate(classifierType, content)) {
+                    return serializer.read(classifierType, content);
+                } else {
+                    LOGGER.error(String.format("content %s can't be deserialized", content));
+                }
             } else {
                 LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
                 return null;

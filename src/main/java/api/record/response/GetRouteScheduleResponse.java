@@ -1,8 +1,5 @@
 package api.record.response;
 
-import api.record.pojo.FirstRace;
-import api.record.pojo.LastRace;
-import api.record.pojo.Schedule;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -63,5 +60,44 @@ public class GetRouteScheduleResponse {
      */
     @JsonProperty(value = "stops")
     public List<String> stops;
+
+    public static class FirstRace {
+
+        @JsonProperty(value = "time")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Samara")
+        public Date time;
+        @JsonProperty(value = "controlPoint")
+        private String controlPoint;
+
+    }
+
+    public static class LastRace {
+
+        @JsonProperty(value = "endControlPoint")
+        public String endControlPoint;
+
+        @JsonProperty(value = "endTime")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Samara")
+        public Date endTime;
+
+        @JsonProperty(value = "startControlPoint")
+        public String startControlPoint;
+
+        @JsonProperty(value = "startTime")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Samara")
+        public Date startTime;
+
+    }
+
+    public static class Schedule {
+
+        @JsonProperty(value = "stopName")
+        public String stopName;
+
+        @JsonProperty(value = "time")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Europe/Samara")
+        public List<Date> time;
+
+    }
 
 }

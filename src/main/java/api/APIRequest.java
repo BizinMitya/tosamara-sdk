@@ -1,13 +1,9 @@
 package api;
 
-import api.record.pojo.Criterion;
 import api.record.pojo.GeoPoint;
-import api.record.pojo.TransportType;
-import api.record.pojo.Vote;
-import api.record.response.FindShortestPathResponse;
-import api.record.response.GetFirstArrivalToStopResponse;
-import api.record.response.GetRouteArrivalToStopResponse;
-import api.record.response.GetRouteScheduleResponse;
+import api.record.pojo.Message;
+import api.record.request.FindShortestPathRequest;
+import api.record.response.*;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
@@ -85,14 +81,17 @@ public interface APIRequest {
      * @return объект ответа.
      */
     FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2,
-                                              Criterion criterion, TransportType... transports);
+                                              FindShortestPathRequest.Criterion criterion, FindShortestPathRequest.TransportType... transports);
 
     /**
      * Метод дает информацию, на каком маршруте находится указанное транспортное средство, и сколько времени оно будет двигаться до последующих остановок.
      *
-     * @param hullNo идентификатор транспорта, тот же самый, что в ответах {@link #getFirstArrivalToStop(List, Integer)}, {@link #getFirstArrivalToStop(Integer, Integer)} и других методов.
+     * @param hullNo идентификатор транспорта, тот же самый, что в ответах
+     *               {@link #getFirstArrivalToStop(List, Integer)},
+     *               {@link #getFirstArrivalToStop(Integer, Integer)} и других методов.
+     * @return объект ответа.
      */
-    void getTransportPosition(String hullNo);
+    GetTransportPositionResponse getTransportPosition(Integer hullNo);
 
     /**
      * Метод дает информацию о положении транспортов в окрестности пользователя.
@@ -101,7 +100,7 @@ public interface APIRequest {
      * @param radius   радиус поиска в метрах.
      * @param count    максимальное количество возвращаемых результатов.
      */
-    void getSurroundingTransports(GeoPoint geoPoint, Integer radius, Integer count);
+    GetSurroundingTransportsResponse getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count);
 
     /**
      * Метод дает информацию о положении транспортов на указанных маршрутах.
@@ -147,7 +146,7 @@ public interface APIRequest {
      * @param geoPoint координаты пользователя в WGS 84, чтобы убедиться, что голосующий действительно неподалеку от сообщения.
      * @param deviceId уникальный идентификатор пользовательского устройства (UDID или DeviceID).
      */
-    void voteForMessage(Integer id, Vote vote, GeoPoint geoPoint, String deviceId);
+    void voteForMessage(Integer id, Message.Vote vote, GeoPoint geoPoint, String deviceId);
 
     /**
      * Метод отправляет геопривязанное пользовательское сообщение.

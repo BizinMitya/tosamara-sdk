@@ -118,4 +118,14 @@ public class Transport {
     @JsonProperty(value = "delayTime")
     public Double delayTime;
 
+    public enum Quality {
+
+        realtime,
+        schedule,
+        offroute,
+        unattached,
+        damaged
+
+    }
+
 }

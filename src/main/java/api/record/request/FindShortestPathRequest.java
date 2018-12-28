@@ -1,8 +1,6 @@
 package api.record.request;
 
-import api.record.pojo.Criterion;
 import api.record.pojo.GeoPoint;
-import api.record.pojo.TransportType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,4 +40,24 @@ public class FindShortestPathRequest {
         this.criterion = criterion;
         this.transports = transports;
     }
+
+    public enum Criterion {
+
+        time,
+        price,
+        length
+
+    }
+
+    public enum TransportType {
+
+        bus,
+        metro,
+        tram,
+        trolleybus,
+        railway, // пока не поддерживается?
+        riverfleet // пока не поддерживается?
+
+    }
+
 }

@@ -1,17 +1,9 @@
 package api;
 
-import api.record.pojo.Criterion;
 import api.record.pojo.GeoPoint;
-import api.record.pojo.TransportType;
-import api.record.pojo.Vote;
-import api.record.request.FindShortestPathRequest;
-import api.record.request.GetFirstArrivalToStopRequest;
-import api.record.request.GetRouteArrivalToStopRequest;
-import api.record.request.GetRouteScheduleRequest;
-import api.record.response.FindShortestPathResponse;
-import api.record.response.GetFirstArrivalToStopResponse;
-import api.record.response.GetRouteArrivalToStopResponse;
-import api.record.response.GetRouteScheduleResponse;
+import api.record.pojo.Message;
+import api.record.request.*;
+import api.record.response.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,17 +43,19 @@ public class APIRequestImpl implements APIRequest {
     }
 
     public FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2,
-                                                     Criterion criterion, TransportType... transports) {
+                                                     FindShortestPathRequest.Criterion criterion, FindShortestPathRequest.TransportType... transports) {
         FindShortestPathRequest request = new FindShortestPathRequest(geoPoint1, geoPoint2, criterion, transports);
         return doRequest(request, FindShortestPathResponse.class);
     }
 
-    public void getTransportPosition(String hullNo) {
-
+    public GetTransportPositionResponse getTransportPosition(Integer hullNo) {
+        GetTransportPositionRequest request = new GetTransportPositionRequest(hullNo);
+        return doRequest(request, GetTransportPositionResponse.class);
     }
 
-    public void getSurroundingTransports(GeoPoint geoPoint, Integer radius, Integer count) {
-
+    public GetSurroundingTransportsResponse getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count) {
+        GetSurroundingTransportsRequest request = new GetSurroundingTransportsRequest(geoPoint, radius, count);
+        return doRequest(request, GetSurroundingTransportsResponse.class);
     }
 
     public void getTransportsOnRoute(List<Integer> krIds, Integer count) {
@@ -80,7 +74,7 @@ public class APIRequestImpl implements APIRequest {
 
     }
 
-    public void voteForMessage(Integer id, Vote vote, GeoPoint geoPoint, String deviceId) {
+    public void voteForMessage(Integer id, Message.Vote vote, GeoPoint geoPoint, String deviceId) {
 
     }
 

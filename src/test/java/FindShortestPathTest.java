@@ -1,7 +1,5 @@
 import api.APIRequest;
 import api.APIRequestImpl;
-import api.record.pojo.Action;
-import api.record.pojo.ActionType;
 import api.record.pojo.GeoPoint;
 import api.record.response.FindShortestPathResponse;
 import classifier.ClassifierRequest;
@@ -15,8 +13,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static api.record.pojo.Criterion.time;
-import static api.record.pojo.TransportType.*;
+import static api.record.request.FindShortestPathRequest.Criterion.time;
+import static api.record.request.FindShortestPathRequest.TransportType.*;
 
 class FindShortestPathTest {
 
@@ -27,11 +25,11 @@ class FindShortestPathTest {
     void singleRandomTest() {
         Random random = new Random();
         FullStops fullStops = CLASSIFIER_REQUEST.getFullStops();
-        FullStop firstStop = fullStops.stops.get(random.nextInt(fullStops.stops.size()));
-        FullStop secondStop = fullStops.stops.get(random.nextInt(fullStops.stops.size()));
+        FullStop firstStop = fullStops.fullStops.get(random.nextInt(fullStops.fullStops.size()));
+        FullStop secondStop = fullStops.fullStops.get(random.nextInt(fullStops.fullStops.size()));
         GeoPoint firstPoint = new GeoPoint(firstStop.latitude, firstStop.longitude);
         GeoPoint secondPoint = new GeoPoint(secondStop.latitude, secondStop.longitude);
-        Map<Integer, FullStop> fullStopMap = fullStops.stops.stream()
+        Map<Integer, FullStop> fullStopMap = fullStops.fullStops.stream()
                 .collect(Collectors.toMap(fullStop -> fullStop.ksId, fullStop -> fullStop));
         try {
             FindShortestPathResponse shortestPath =
@@ -44,8 +42,8 @@ class FindShortestPathTest {
             }
             System.out.println("Общее время: " + shortestPath.time + " сек., цена: " + shortestPath.price + " руб.");
             int order = 1;
-            for (Action action : shortestPath.actions) {
-                if (action.action.equals(ActionType.walk)) {
+            for (FindShortestPathResponse.Action action : shortestPath.actions) {
+                if (action.action.equals(FindShortestPathResponse.Action.ActionType.walk)) {
                     System.out.println(order + ") " + action.comment + ", время: " + action.time + " сек.");
                 } else {
                     System.out.println(order + ") " +

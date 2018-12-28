@@ -18,14 +18,14 @@ public class Message {
      * Дата и время добавления сообщения.
      */
     @JsonProperty(value = "creationTimestamp")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss", timezone = "SAMT")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
     public Date creationTimestamp;
 
     /**
      * Дата и время потери актуальности сообщения.
      */
     @JsonProperty(value = "expireTimestamp")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss", timezone = "SAMT")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
     public Date expireTimestamp;
 
     /**

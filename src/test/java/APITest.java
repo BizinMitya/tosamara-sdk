@@ -6,12 +6,15 @@ import api.record.pojo.TransportType;
 import classifier.ClassifierRequest;
 import classifier.ClassifierRequestImpl;
 import classifier.pojo.FullStop;
+import classifier.pojo.Route;
 import classifier.pojo.RouteWithStops;
 import classifier.pojo.Stop;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +29,7 @@ class APITest {
         getFirstArrivalToStopRandomTest();
         findShortestPathRandomTest();
         getRouteArrivalToStopRandomTest();
+        getRouteScheduleRandomTest();
     }
 
     @Test
@@ -33,6 +37,7 @@ class APITest {
         getFirstArrivalToStopFullTest();
         findShortestPathFullTest();
         getRouteArrivalToStopFullTest();
+        getRouteScheduleAllTest();
     }
 
     @Test
@@ -123,6 +128,30 @@ class APITest {
             RouteWithStops routeWithStops = routesWithStops.get(random.nextInt(routesWithStops.size()));
             RouteWithStops.Stop stop = routeWithStops.stops.get(random.nextInt(routeWithStops.stops.size()));
             API_REQUEST.getRouteArrivalToStop(stop.ksId, routeWithStops.krId);
+        } catch (Throwable t) {
+            Assertions.fail(t);
+        }
+    }
+
+    @Test
+    void getRouteScheduleAllTest() {
+        try {
+            List<Route> routes = CLASSIFIER_REQUEST.getRoutes().routes;
+            String day = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            routes.forEach(route -> API_REQUEST.getRouteSchedule(route.krId, day));
+        } catch (Throwable t) {
+            Assertions.fail(t);
+        }
+    }
+
+    @Test
+    void getRouteScheduleRandomTest() {
+        try {
+            Random random = new Random();
+            List<Route> routes = CLASSIFIER_REQUEST.getRoutes().routes;
+            Route route = routes.get(random.nextInt(routes.size()));
+            String day = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            API_REQUEST.getRouteSchedule(route.krId, day);
         } catch (Throwable t) {
             Assertions.fail(t);
         }

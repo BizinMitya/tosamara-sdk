@@ -7,9 +7,11 @@ import api.record.pojo.Vote;
 import api.record.request.FindShortestPathRequest;
 import api.record.request.GetFirstArrivalToStopRequest;
 import api.record.request.GetRouteArrivalToStopRequest;
+import api.record.request.GetRouteScheduleRequest;
 import api.record.response.FindShortestPathResponse;
 import api.record.response.GetFirstArrivalToStopResponse;
 import api.record.response.GetRouteArrivalToStopResponse;
+import api.record.response.GetRouteScheduleResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,16 +31,8 @@ public class APIRequestImpl implements APIRequest {
 
     @Nullable
     public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count) {
-        try {
-            GetFirstArrivalToStopRequest request = new GetFirstArrivalToStopRequest(ksIds, count);
-            String result = doAPIRequest(OBJECT_MAPPER.writeValueAsString(request));
-            if (result != null) {
-                return OBJECT_MAPPER.readValue(result, GetFirstArrivalToStopResponse.class);
-            }
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return null;
+        GetFirstArrivalToStopRequest request = new GetFirstArrivalToStopRequest(ksIds, count);
+        return doRequest(request, GetFirstArrivalToStopResponse.class);
     }
 
     @Override
@@ -47,34 +41,19 @@ public class APIRequestImpl implements APIRequest {
     }
 
     public GetRouteArrivalToStopResponse getRouteArrivalToStop(Integer ksId, Integer krId) {
-        try {
-            GetRouteArrivalToStopRequest request = new GetRouteArrivalToStopRequest(ksId, krId);
-            String result = doAPIRequest(OBJECT_MAPPER.writeValueAsString(request));
-            if (result != null) {
-                return OBJECT_MAPPER.readValue(result, GetRouteArrivalToStopResponse.class);
-            }
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return null;
+        GetRouteArrivalToStopRequest request = new GetRouteArrivalToStopRequest(ksId, krId);
+        return doRequest(request, GetRouteArrivalToStopResponse.class);
     }
 
-    public void getRouteSchedule(Integer krId, String day) {
-
+    public GetRouteScheduleResponse getRouteSchedule(Integer krId, String day) {
+        GetRouteScheduleRequest request = new GetRouteScheduleRequest(krId, day);
+        return doRequest(request, GetRouteScheduleResponse.class);
     }
 
     public FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2,
                                                      Criterion criterion, TransportType... transports) {
-        try {
-            FindShortestPathRequest request = new FindShortestPathRequest(geoPoint1, geoPoint2, criterion, transports);
-            String rawData = doAPIRequest(OBJECT_MAPPER.writeValueAsString(request));
-            if (rawData != null) {
-                return OBJECT_MAPPER.readValue(rawData, FindShortestPathResponse.class);
-            }
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return null;
+        FindShortestPathRequest request = new FindShortestPathRequest(geoPoint1, geoPoint2, criterion, transports);
+        return doRequest(request, FindShortestPathResponse.class);
     }
 
     public void getTransportPosition(String hullNo) {
@@ -105,8 +84,22 @@ public class APIRequestImpl implements APIRequest {
 
     }
 
-    public void sendUserMessage(String text, String textEn, String link, GeoPoint geoPoint, Integer radius, Integer ksId, Integer transportHullNo, Integer expireTime, String deviceId) {
+    public void sendUserMessage(String text, String textEn, String link,
+                                GeoPoint geoPoint, Integer radius, Integer ksId,
+                                Integer transportHullNo, Integer expireTime, String deviceId) {
 
+    }
+
+    private <T> T doRequest(Object request, Class<T> responseType) {
+        try {
+            String rawData = doAPIRequest(OBJECT_MAPPER.writeValueAsString(request));
+            if (rawData != null) {
+                return OBJECT_MAPPER.readValue(rawData, responseType);
+            }
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
     }
 
 }

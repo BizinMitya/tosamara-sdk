@@ -18,4 +18,12 @@ public class GetRouteArrivalToStopRequest {
         this.krId = krId;
     }
 
+    public Integer getKsId() {
+        return ksId;
+    }
+
+    public Integer getKrId() {
+        return krId;
+    }
+
 }

@@ -7,6 +7,7 @@ import api.record.pojo.Vote;
 import api.record.response.FindShortestPathResponse;
 import api.record.response.GetFirstArrivalToStopResponse;
 import api.record.response.GetRouteArrivalToStopResponse;
+import api.record.response.GetRouteScheduleResponse;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
@@ -61,6 +62,7 @@ public interface APIRequest {
      *
      * @param ksId классификаторный номер остановки.
      * @param krId классификаторный номер маршрута.
+     * @return объект ответа.
      */
     GetRouteArrivalToStopResponse getRouteArrivalToStop(Integer ksId, Integer krId);
 
@@ -69,8 +71,9 @@ public interface APIRequest {
      *
      * @param krId классификаторный номер маршрута.
      * @param day  дата, на которую нужно получить расписание, в формате ДД.ММ.ГГГГ.
+     * @return объект ответа.
      */
-    void getRouteSchedule(Integer krId, String day);
+    GetRouteScheduleResponse getRouteSchedule(Integer krId, String day);
 
     /**
      * Метод поиска лучшего маршрута проезда на общественном транспорте.
@@ -81,7 +84,8 @@ public interface APIRequest {
      * @param transports допустимые типы транспорта, набор значений через запятую.
      * @return объект ответа.
      */
-    FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2, Criterion criterion, TransportType... transports);
+    FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2,
+                                              Criterion criterion, TransportType... transports);
 
     /**
      * Метод дает информацию, на каком маршруте находится указанное транспортное средство, и сколько времени оно будет двигаться до последующих остановок.
@@ -158,8 +162,9 @@ public interface APIRequest {
      * @param expireTime      время потери актуальности сообщения в часах.
      * @param deviceId        уникальный идентификатор пользовательского устройства (UDID или DeviceID).
      */
-    void sendUserMessage(String text, @Nullable String textEn, String link, GeoPoint geoPoint,
-                         Integer radius, Integer ksId, Integer transportHullNo, Integer expireTime, String deviceId);
+    void sendUserMessage(String text, @Nullable String textEn, String link,
+                         GeoPoint geoPoint, Integer radius, Integer ksId,
+                         Integer transportHullNo, Integer expireTime, String deviceId);
 
     @Nullable
     default String doAPIRequest(String message) throws IOException {

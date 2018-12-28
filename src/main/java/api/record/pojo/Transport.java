@@ -109,7 +109,7 @@ public class Transport {
      * Абсолютное время выхода в настоящий рейс (не на эту остановку!) по расписанию в формате "12:37:15".
      */
     @JsonProperty(value = "scheduleDepartureTime")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm:ss", timezone = "SAMT")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone = "Europe/Samara")
     public Date scheduleDepartureTime;
 
     /**

@@ -1,12 +1,11 @@
 package classifier;
 
 import classifier.pojo.*;
+import exception.APIResponseException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
-import org.apache.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
@@ -14,8 +13,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 
 public interface ClassifierRequest {
 
-    String BASE_URL = "http://tosamara.ru/api";
-    String CLASSIFIERS_URL = BASE_URL + "/classifiers";
+    String CLASSIFIERS_URL = "http://tosamara.ru/api/classifiers";
     String STOPS_URL = CLASSIFIERS_URL + "/stops.xml";
     String STOPS_FULL_URL = CLASSIFIERS_URL + "/stopsFullDB.xml";
     String ROUTES_URL = CLASSIFIERS_URL + "/routes.xml";
@@ -23,73 +21,71 @@ public interface ClassifierRequest {
     String GEOPORTAL_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/GeoportalStopsCorrespondence.xml";
     String GEOPORTAL_ROUTES_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/GeoportalRoutesCorrespondence.xml";
 
-    Logger LOGGER = Logger.getLogger(ClassifierRequest.class);
-
-    @Nullable
-    default <T> T doClassifierRequest(Class<T> classifierType, String url) {
-        try {
-            Response response = Request.Get(url)
-                    .execute();
-            Serializer serializer = new Persister();
-            HttpResponse httpResponse = response.returnResponse();
-            if (httpResponse.getStatusLine().getStatusCode() == SC_OK) {
-                String content = IOUtils.toString(httpResponse.getEntity().getContent());
-                if (serializer.validate(classifierType, content)) {
-                    return serializer.read(classifierType, content);
-                } else {
-                    LOGGER.error(String.format("content %s can't be deserialized", content));
-                }
+    default <T> T doClassifierRequest(Class<T> classifierType, String url) throws Exception {
+        Response response = Request.Get(url)
+                .execute();
+        Serializer serializer = new Persister();
+        HttpResponse httpResponse = response.returnResponse();
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
+        if (statusCode == SC_OK) {
+            String content = IOUtils.toString(httpResponse.getEntity().getContent());
+            if (serializer.validate(classifierType, content)) {
+                return serializer.read(classifierType, content);
             } else {
-                LOGGER.error("response code: " + httpResponse.getStatusLine().getStatusCode());
-                return null;
+                throw new Exception(String.format("content %s can't be deserialized", content));
             }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+        } else {
+            throw new APIResponseException(statusCode);
         }
-        return null;
     }
 
     /**
      * Метод получения списка справочников.
      *
      * @return объект справочников.
+     * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    Classifiers getClassifiers();
+    Classifiers getClassifiers() throws Exception;
 
     /**
      * Метод получения списка остановок.
      *
      * @return список остановок.
+     * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    Stops getStops();
+    Stops getStops() throws Exception;
 
     /**
      * Метод получения списка остановок с расширенной информацией.
      *
      * @return список остановок с расширенной информацией.
+     * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    FullStops getFullStops();
+    FullStops getFullStops() throws Exception;
 
     /**
      * Метод получения списка маршрутов.
      *
      * @return список маршрутов.
+     * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    Routes getRoutes();
+    Routes getRoutes() throws Exception;
 
     /**
      * Метод получения списка связей маршрутов и остановок.
      *
      * @return список связей маршрутов и остановок.
+     * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    RoutesWithStops getRoutesWithStops();
+    RoutesWithStops getRoutesWithStops() throws Exception;
 
     /**
      * Метод получения остановок на карте {@see <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>}
      *
      * @return список остановок на карте геопортала.
+     * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    StopsOnMap getStopsOnMap();
+    StopsOnMap getStopsOnMap() throws Exception;
 
     /**
      * Метод получения маршрутов на карте {@see <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>}
@@ -97,7 +93,8 @@ public interface ClassifierRequest {
      * В каждом слое обыкновенно находятся два линейных объекта - прямое и обратное направление одного маршрута, и несколько объектов транспорта, которые движутся в реальном времени.
      *
      * @return список маршрутов на карте геопортала.
+     * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    RoutesOnMap getRoutesOnMap();
+    RoutesOnMap getRoutesOnMap() throws Exception;
 
 }

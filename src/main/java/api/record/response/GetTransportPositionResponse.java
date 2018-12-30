@@ -64,4 +64,11 @@ public class GetTransportPositionResponse {
 
     }
 
+    @JsonProperty(value = "ExceptionReport")
+    public ExceptionReport exceptionReport;
+
+    public boolean isValid() {
+        return exceptionReport == null;
+    }
+
 }

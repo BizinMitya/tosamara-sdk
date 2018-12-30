@@ -15,12 +15,12 @@ class GetFirstArrivalToStopTest {
 
     @Test
     void forAllStopsTest() {
-        Stops stops = CLASSIFIER_REQUEST.getStops();
-        for (Stop stop : stops.stops) {
-            try {
+        try {
+            Stops stops = CLASSIFIER_REQUEST.getStops();
+            for (Stop stop : stops.stops) {
                 GetFirstArrivalToStopResponse getFirstArrivalToStopResponse = API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
-                if (!getFirstArrivalToStopResponse.transports.isEmpty()) {
-                    getFirstArrivalToStopResponse.transports.forEach(transport ->
+                if (!getFirstArrivalToStopResponse.arrivalTransports.isEmpty()) {
+                    getFirstArrivalToStopResponse.arrivalTransports.forEach(transport ->
                             System.out.println(
                                     "Остановка: " + stop.title + ", " +
                                             transport.number +
@@ -30,9 +30,9 @@ class GetFirstArrivalToStopTest {
                             )
                     );
                 }
-            } catch (Throwable t) {
-                Assertions.fail(t);
             }
+        } catch (Exception e) {
+            Assertions.fail(e);
         }
     }
 

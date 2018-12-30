@@ -8,6 +8,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import exception.APIResponseException;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.client.fluent.Response;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -21,45 +28,61 @@ public class APIRequestImpl implements APIRequest {
             .enable(SerializationFeature.INDENT_OUTPUT)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-    @Nullable
-    public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count) {
+    private static final String CLIENT_ID = "";
+    private static final String KEY = "";
+    private static final Logger LOGGER = Logger.getLogger(APIRequestImpl.class);
+
+    @Override
+    public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count) throws APIResponseException, IOException {
         GetFirstArrivalToStopRequest request = new GetFirstArrivalToStopRequest(ksIds, count);
         return doRequest(request, GetFirstArrivalToStopResponse.class);
     }
 
     @Override
-    public GetFirstArrivalToStopResponse getFirstArrivalToStop(Integer ksId, @Nullable Integer count) {
+    public GetFirstArrivalToStopResponse getFirstArrivalToStop(Integer ksId, @Nullable Integer count) throws APIResponseException, IOException {
         return getFirstArrivalToStop(Collections.singletonList(ksId), count);
     }
 
-    public GetRouteArrivalToStopResponse getRouteArrivalToStop(Integer ksId, Integer krId) {
+    @Override
+    public GetRouteArrivalToStopResponse getRouteArrivalToStop(Integer ksId, Integer krId) throws APIResponseException, IOException {
         GetRouteArrivalToStopRequest request = new GetRouteArrivalToStopRequest(ksId, krId);
         return doRequest(request, GetRouteArrivalToStopResponse.class);
     }
 
-    public GetRouteScheduleResponse getRouteSchedule(Integer krId, String day) {
+    @Override
+    public GetRouteScheduleResponse getRouteSchedule(Integer krId, String day) throws APIResponseException, IOException {
         GetRouteScheduleRequest request = new GetRouteScheduleRequest(krId, day);
         return doRequest(request, GetRouteScheduleResponse.class);
     }
 
+    @Override
     public FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2,
-                                                     FindShortestPathRequest.Criterion criterion, FindShortestPathRequest.TransportType... transports) {
+                                                     FindShortestPathRequest.Criterion criterion, FindShortestPathRequest.TransportType... transports) throws APIResponseException, IOException {
         FindShortestPathRequest request = new FindShortestPathRequest(geoPoint1, geoPoint2, criterion, transports);
         return doRequest(request, FindShortestPathResponse.class);
     }
 
-    public GetTransportPositionResponse getTransportPosition(Integer hullNo) {
+    @Override
+    public GetTransportPositionResponse getTransportPosition(Integer hullNo) throws APIResponseException, IOException {
         GetTransportPositionRequest request = new GetTransportPositionRequest(hullNo);
         return doRequest(request, GetTransportPositionResponse.class);
     }
 
-    public GetSurroundingTransportsResponse getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count) {
+    @Override
+    public GetSurroundingTransportsResponse getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count) throws APIResponseException, IOException {
         GetSurroundingTransportsRequest request = new GetSurroundingTransportsRequest(geoPoint, radius, count);
         return doRequest(request, GetSurroundingTransportsResponse.class);
     }
 
-    public void getTransportsOnRoute(List<Integer> krIds, Integer count) {
+    @Override
+    public GetTransportsOnRouteResponse getTransportsOnRoute(List<Integer> krIds, Integer count) throws APIResponseException, IOException {
+        GetTransportsOnRouteRequest request = new GetTransportsOnRouteRequest(krIds, count);
+        return doRequest(request, GetTransportsOnRouteResponse.class);
+    }
 
+    @Override
+    public GetTransportsOnRouteResponse getTransportsOnRoute(Integer krId, Integer count) throws APIResponseException, IOException {
+        return getTransportsOnRoute(Collections.singletonList(krId), count);
     }
 
     public void getNearestBuilding(GeoPoint geoPoint, Integer radius, Integer count) {
@@ -84,16 +107,60 @@ public class APIRequestImpl implements APIRequest {
 
     }
 
-    private <T> T doRequest(Object request, Class<T> responseType) {
+    private <T> T doRequest(Object request, Class<T> responseType) throws APIResponseException, IOException {
+        String rawData = doAPIRequest(getFormParamsForTest(OBJECT_MAPPER.writeValueAsString(request)));
+        return OBJECT_MAPPER.readValue(rawData, responseType);
+    }
+
+    /**
+     * Метод создает параметры формы с использованием тестового ключа.
+     *
+     * @param message сообщение серверу.
+     * @return массив параметров формы.
+     */
+    private NameValuePair[] getFormParamsForTest(String message) {
         try {
-            String rawData = doAPIRequest(OBJECT_MAPPER.writeValueAsString(request));
-            if (rawData != null) {
-                return OBJECT_MAPPER.readValue(rawData, responseType);
-            }
-        } catch (IOException e) {
+            String authKey = getTestAuthKey(message);
+            return new NameValuePair[]{
+                    new BasicNameValuePair("clientId", "test"),
+                    new BasicNameValuePair("authKey", authKey),
+                    new BasicNameValuePair("os", "web"),
+                    new BasicNameValuePair("message", message)
+            };
+        } catch (IOException | APIResponseException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    /**
+     * Метод создает параметры формы с использованием выданного ключа.
+     *
+     * @param message сообщение серверу.
+     * @return массив параметров формы.
+     */
+    private NameValuePair[] getFormParams(String message) {
+        return new NameValuePair[]{
+                new BasicNameValuePair("clientId", CLIENT_ID),
+                new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + KEY)),
+                new BasicNameValuePair("os", "android"),
+                new BasicNameValuePair("message", message)
+        };
+    }
+
+    /**
+     * Метод получения тестового ключа.
+     *
+     * @param message сообщение серверу.
+     * @return тестовый ключ.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка запроса.
+     */
+    private String getTestAuthKey(String message) throws IOException, APIResponseException {
+        Response response = Request.Post(TEST_AUTHKEY_URL)
+                .bodyForm(new BasicNameValuePair("msg", message))
+                .execute();
+        return handleResponse(response);
     }
 
 }

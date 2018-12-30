@@ -11,7 +11,6 @@ public class GetSurroundingTransportsRequest {
     @JsonProperty(value = "LATITUDE")
     private final Double latitude;
 
-
     @JsonProperty(value = "LONGITUDE")
     private final Double longitude;
 

@@ -22,8 +22,8 @@ class ClassifiersTest {
     void getClassifiersTest() {
         try {
             CLASSIFIER_REQUEST.getClassifiers();
-        } catch (Throwable t) {
-            Assertions.fail(t);
+        } catch (Exception e) {
+            Assertions.fail(e);
         }
     }
 
@@ -31,8 +31,8 @@ class ClassifiersTest {
     void getStopsTest() {
         try {
             CLASSIFIER_REQUEST.getStops();
-        } catch (Throwable t) {
-            Assertions.fail(t);
+        } catch (Exception e) {
+            Assertions.fail(e);
         }
     }
 
@@ -40,8 +40,8 @@ class ClassifiersTest {
     void getFullStopsTest() {
         try {
             CLASSIFIER_REQUEST.getFullStops();
-        } catch (Throwable t) {
-            Assertions.fail(t);
+        } catch (Exception e) {
+            Assertions.fail(e);
         }
     }
 
@@ -49,8 +49,8 @@ class ClassifiersTest {
     void getRoutesTest() {
         try {
             CLASSIFIER_REQUEST.getRoutes();
-        } catch (Throwable t) {
-            Assertions.fail(t);
+        } catch (Exception e) {
+            Assertions.fail(e);
         }
     }
 
@@ -58,8 +58,8 @@ class ClassifiersTest {
     void getRoutesWithStopsTest() {
         try {
             CLASSIFIER_REQUEST.getRoutesWithStops();
-        } catch (Throwable t) {
-            Assertions.fail(t);
+        } catch (Exception e) {
+            Assertions.fail(e);
         }
     }
 
@@ -67,8 +67,8 @@ class ClassifiersTest {
     void getStopsOnMapTest() {
         try {
             CLASSIFIER_REQUEST.getStopsOnMap();
-        } catch (Throwable t) {
-            Assertions.fail(t);
+        } catch (Exception e) {
+            Assertions.fail(e);
         }
     }
 
@@ -76,8 +76,8 @@ class ClassifiersTest {
     void getRoutesOnMapTest() {
         try {
             CLASSIFIER_REQUEST.getRoutesOnMap();
-        } catch (Throwable t) {
-            Assertions.fail(t);
+        } catch (Exception e) {
+            Assertions.fail(e);
         }
     }
 

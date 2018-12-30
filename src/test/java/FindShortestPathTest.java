@@ -23,15 +23,15 @@ class FindShortestPathTest {
 
     @Test
     void singleRandomTest() {
-        Random random = new Random();
-        FullStops fullStops = CLASSIFIER_REQUEST.getFullStops();
-        FullStop firstStop = fullStops.fullStops.get(random.nextInt(fullStops.fullStops.size()));
-        FullStop secondStop = fullStops.fullStops.get(random.nextInt(fullStops.fullStops.size()));
-        GeoPoint firstPoint = new GeoPoint(firstStop.latitude, firstStop.longitude);
-        GeoPoint secondPoint = new GeoPoint(secondStop.latitude, secondStop.longitude);
-        Map<Integer, FullStop> fullStopMap = fullStops.fullStops.stream()
-                .collect(Collectors.toMap(fullStop -> fullStop.ksId, fullStop -> fullStop));
         try {
+            Random random = new Random();
+            FullStops fullStops = CLASSIFIER_REQUEST.getFullStops();
+            FullStop firstStop = fullStops.fullStops.get(random.nextInt(fullStops.fullStops.size()));
+            FullStop secondStop = fullStops.fullStops.get(random.nextInt(fullStops.fullStops.size()));
+            GeoPoint firstPoint = new GeoPoint(firstStop.latitude, firstStop.longitude);
+            GeoPoint secondPoint = new GeoPoint(secondStop.latitude, secondStop.longitude);
+            Map<Integer, FullStop> fullStopMap = fullStops.fullStops.stream()
+                    .collect(Collectors.toMap(fullStop -> fullStop.ksId, fullStop -> fullStop));
             FindShortestPathResponse shortestPath =
                     API_REQUEST.findShortestPath(firstPoint, secondPoint, time,
                             bus, tram, trolleybus, metro);
@@ -52,8 +52,8 @@ class FindShortestPathTest {
                 }
                 order++;
             }
-        } catch (Throwable t) {
-            Assertions.fail(t);
+        } catch (Exception e) {
+            Assertions.fail(e);
         }
     }
 

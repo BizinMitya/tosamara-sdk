@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class GetSurroundingTransportsResponse {
+public class GetTransportsOnRouteResponse {
 
     @JsonProperty(value = "transports")
     public List<Transport> transports;

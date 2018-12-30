@@ -10,12 +10,4 @@ public class ExceptionReport {
     @JsonProperty(value = "ExceptionCode")
     public String exceptionCode;
 
-    @Override
-    public String toString() {
-        return "ExceptionReport{" +
-                "exceptionText='" + exceptionText + '\'' +
-                ", exceptionCode='" + exceptionCode + '\'' +
-                '}';
-    }
-
 }

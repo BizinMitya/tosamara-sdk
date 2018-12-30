@@ -13,7 +13,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 
 public interface ClassifierRequest {
 
-    String CLASSIFIERS_URL = "http://tosamara.ru/api/classifiers";
+    String CLASSIFIERS_URL = "https://tosamara.ru/api/classifiers";
     String STOPS_URL = CLASSIFIERS_URL + "/stops.xml";
     String STOPS_FULL_URL = CLASSIFIERS_URL + "/stopsFullDB.xml";
     String ROUTES_URL = CLASSIFIERS_URL + "/routes.xml";

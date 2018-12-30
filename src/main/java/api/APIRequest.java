@@ -18,12 +18,12 @@ import java.util.List;
 import static org.apache.http.HttpStatus.SC_OK;
 
 /**
- * http://www.tosamara.ru/api/
+ * https://www.tosamara.ru/api/
  */
 public interface APIRequest {
 
-    String API_URL = "http://tosamara.ru/api/v2/json";
-    String TEST_AUTHKEY_URL = "http://tosamara.ru/test_files/api/handler.php";
+    String API_URL = "https://tosamara.ru/api/v2/json";
+    String TEST_AUTHKEY_URL = "https://tosamara.ru/test_files/api/handler.php";
 
     /**
      * Метод получения прогнозов прибытия транспорта на выбранные остановки.

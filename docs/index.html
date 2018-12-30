@@ -3,6 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="lib/css/bootstrap.css" rel="stylesheet">
+    <script src="lib/js/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="lib/js/bootstrap.js" type="text/javascript"></script>
+    <script>
+        const formData = new FormData();
+        formData.append('message', '{"method":"getFirstArrivalToStop", "KS_ID":9,"COUNT":10}');
+        formData.append('clientId', 'test');
+        formData.append('os', 'web');
+        formData.append('authKey', 'da688597642d9ed09df15c7b0c6a2c56ef1ad0be');
+
+        $.ajax({
+            url: 'http://tosamara.ru/api/json',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    </script>
 </head>
 <body>
 <h1>Hello World!</h1>

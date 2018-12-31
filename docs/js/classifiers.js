@@ -10,6 +10,7 @@ function doClassifierRequest(url, handler, callback) {
     $.ajax({
         url: url,
         dataType: "xml",
+        cache: false,
         success: function (classifiers) {
             let result = handler(classifiers);
             callback(result);

@@ -1,4 +1,4 @@
-const PROXY_CORS = 'http://cors-anywhere.herokuapp.com/';
+const PROXY_CORS = 'https://cors-anywhere.herokuapp.com/';
 const TEST_AUTHKEY_URL = 'https://tosamara.ru/test_files/api/handler.php';
 
 function getTestAuthKey(message) {

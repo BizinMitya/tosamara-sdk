@@ -6,20 +6,15 @@ const ROUTES_AND_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/routesAndStopsCo
 const GEOPORTAL_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/GeoportalStopsCorrespondence.xml";
 const GEOPORTAL_ROUTES_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/GeoportalRoutesCorrespondence.xml";
 
-function doClassifierRequest(url, handler) {
-    let result;
+function doClassifierRequest(url, handler, callback) {
     $.ajax({
         url: url,
-        async: false,
         dataType: "xml",
         success: function (classifiers) {
-            result = handler(classifiers);
-        },
-        error: function (message) {
-            result = message;
+            let result = handler(classifiers);
+            callback(result);
         }
     });
-    return result;
 }
 
 function handleGetClassifiersResponse(classifiers) {
@@ -32,8 +27,8 @@ function handleGetClassifiersResponse(classifiers) {
     return result;
 }
 
-function getClassifiers() {
-    return doClassifierRequest(PROXY_CORS + CLASSIFIERS_URL, handleGetClassifiersResponse);
+function getClassifiers(callback) {
+    doClassifierRequest(PROXY_CORS + CLASSIFIERS_URL, handleGetClassifiersResponse, callback);
 }
 
 function handleGetStopsResponse(stops) {
@@ -65,8 +60,8 @@ function handleGetStopsResponse(stops) {
     return result;
 }
 
-function getStops() {
-    return doClassifierRequest(PROXY_CORS + STOPS_URL, handleGetStopsResponse);
+function getStops(callback) {
+    doClassifierRequest(PROXY_CORS + STOPS_URL, handleGetStopsResponse, callback);
 }
 
 function handleGetFullStopsResponse(fullStops) {
@@ -163,8 +158,8 @@ function handleGetFullStopsResponse(fullStops) {
     return result;
 }
 
-function getFullStops() {
-    return doClassifierRequest(PROXY_CORS + STOPS_FULL_URL, handleGetFullStopsResponse);
+function getFullStops(callback) {
+    doClassifierRequest(PROXY_CORS + STOPS_FULL_URL, handleGetFullStopsResponse, callback);
 }
 
 function handleGetRoutesResponse(routes) {
@@ -196,8 +191,8 @@ function handleGetRoutesResponse(routes) {
     return result;
 }
 
-function getRoutes() {
-    return doClassifierRequest(PROXY_CORS + ROUTES_URL, handleGetRoutesResponse);
+function getRoutes(callback) {
+    doClassifierRequest(PROXY_CORS + ROUTES_URL, handleGetRoutesResponse, callback);
 }
 
 function handleGetRoutesWithStopsResponse(routesWithStops) {
@@ -242,8 +237,8 @@ function handleGetRoutesWithStopsResponse(routesWithStops) {
     return result;
 }
 
-function getRoutesWithStops() {
-    return doClassifierRequest(PROXY_CORS + ROUTES_AND_STOPS_CORRESPONDENCE_URL, handleGetRoutesWithStopsResponse);
+function getRoutesWithStops(callback) {
+    doClassifierRequest(PROXY_CORS + ROUTES_AND_STOPS_CORRESPONDENCE_URL, handleGetRoutesWithStopsResponse, callback);
 }
 
 function handleGetStopsOnMapResponse(stopsOnMap) {
@@ -265,8 +260,8 @@ function handleGetStopsOnMapResponse(stopsOnMap) {
     };
 }
 
-function getStopsOnMap() {
-    return doClassifierRequest(PROXY_CORS + GEOPORTAL_STOPS_CORRESPONDENCE_URL, handleGetStopsOnMapResponse);
+function getStopsOnMap(callback) {
+    doClassifierRequest(PROXY_CORS + GEOPORTAL_STOPS_CORRESPONDENCE_URL, handleGetStopsOnMapResponse, callback);
 }
 
 function handleGetRoutesOnMapResponse(routesOnMap) {
@@ -284,7 +279,7 @@ function handleGetRoutesOnMapResponse(routesOnMap) {
     return result;
 }
 
-function getRoutesOnMap() {
-    return doClassifierRequest(PROXY_CORS + GEOPORTAL_ROUTES_CORRESPONDENCE_URL, handleGetRoutesOnMapResponse);
+function getRoutesOnMap(callback) {
+    doClassifierRequest(PROXY_CORS + GEOPORTAL_ROUTES_CORRESPONDENCE_URL, handleGetRoutesOnMapResponse, callback);
 }
 

@@ -9,10 +9,13 @@
     <script src="js/classifiers.js"></script>
     <script src="js/api.js"></script>
     <script>
-        function createTable() {
-            let stops = getFullStops();
-            $(stops).each(function (i, stop) {
 
+        function createTable() {
+            getFullStops(callBackForGetFullStops);
+        }
+
+        function callBackForGetFullStops(stops) {
+            $(stops).each(function (i, stop) {
                 let content = '<tr>' +
                     '<td>' + (i + 1) + '</td>' +
                     '<td>' + stop.title + '</td>' +
@@ -26,11 +29,12 @@
                 $('#stops').append(content);
             });
         }
+
     </script>
 </head>
 <body onload="createTable()">
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-dark">
     <tr>
         <th scope="col">#</th>
         <th scope="col">Остановка</th>

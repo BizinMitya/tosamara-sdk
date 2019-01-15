@@ -33,6 +33,8 @@ class APITest {
     private static List<FullStop> fullStops;
     private static List<RouteWithStops> routesWithStops;
     private static List<Route> routes;
+    private static final double SAMARA_LATITUDE = 53.215603;
+    private static final double SAMARA_LONGITUDE = 50.148011;
 
     @BeforeAll
     static void initializeClassifiers() {
@@ -55,6 +57,7 @@ class APITest {
         getTransportPositionRandomTest();
         getSurroundingTransportsRandomTest();
         getTransportsOnRouteRandomTest();
+        getNearestBuildingTest();
     }
 
     @Test
@@ -66,6 +69,7 @@ class APITest {
         getTransportPositionFullTest();
         getSurroundingTransportsFullTest();
         getTransportsOnRouteFullTest();
+        getNearestBuildingTest();
     }
 
     @Test
@@ -242,6 +246,16 @@ class APITest {
             for (Route route : routes) {
                 API_REQUEST.getTransportsOnRoute(route.krId, Integer.MAX_VALUE);
             }
+        } catch (Exception e) {
+            Assertions.fail(e);
+        }
+    }
+
+    @Test
+    void getNearestBuildingTest() {
+        try {
+            GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
+            API_REQUEST.getNearestBuilding(samara, 50, 10);
         } catch (Exception e) {
             Assertions.fail(e);
         }

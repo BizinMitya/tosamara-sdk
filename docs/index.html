@@ -34,10 +34,10 @@
     <script>
 
         function createTable() {
-            getFullStops(callBackForGetFullStops);
+            getFullStops(handlerForGetFullStopsResult);
         }
 
-        function callBackForGetFullStops(stops) {
+        function handlerForGetFullStopsResult(stops) {
             $(stops).each(function (i, stop) {
                 let content = '<tr>' +
                     '<td>' + (i + 1) + '</td>' +

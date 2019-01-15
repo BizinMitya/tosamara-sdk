@@ -85,8 +85,9 @@ public class APIRequestImpl implements APIRequest {
         return getTransportsOnRoute(Collections.singletonList(krId), count);
     }
 
-    public void getNearestBuilding(GeoPoint geoPoint, Integer radius, Integer count) {
-
+    public GetNearestBuildingResponse getNearestBuilding(GeoPoint geoPoint, Integer radius, Integer count) throws APIResponseException, IOException {
+        GetNearestBuildingRequest request = new GetNearestBuildingRequest(geoPoint, radius, count);
+        return doRequest(request, GetNearestBuildingResponse.class);
     }
 
     public void findBuildingByAddress(GeoPoint geoPoint, String address, Integer count) {

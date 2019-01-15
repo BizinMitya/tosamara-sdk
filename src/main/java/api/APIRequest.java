@@ -137,13 +137,18 @@ public interface APIRequest {
             throws APIResponseException, IOException;
 
     /**
-     * Метод дает информацию о ближайшех зданиях с адресом в окрестности указанной точки.
+     * Метод дает информацию о ближайших зданиях с адресом в окрестности указанной точки.
+     * При определенных сочетаниях параметров {@param radius} и {@param count} возвращает ошибку 400! Либо это какой-то лимит... (выбрасывается {@link APIResponseException})
      *
      * @param geoPoint координаты пользователя в WGS 84.
      * @param radius   радиус поиска в метрах.
      * @param count    максимальное количество возвращаемых результатов.
+     * @return объект ответа.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    void getNearestBuilding(GeoPoint geoPoint, Integer radius, Integer count);
+    GetNearestBuildingResponse getNearestBuilding(GeoPoint geoPoint, Integer radius, Integer count)
+            throws APIResponseException, IOException;
 
     /**
      * Метод дает информацию о зданиях по строке с нечетким почтовым адресом.

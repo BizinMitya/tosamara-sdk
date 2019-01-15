@@ -1,3 +1,4 @@
+const PROXY_CORS = 'https://cors-anywhere.herokuapp.com/';
 const CLASSIFIERS_URL = "https://tosamara.ru/api/classifiers";
 const STOPS_URL = CLASSIFIERS_URL + "/stops.xml";
 const STOPS_FULL_URL = CLASSIFIERS_URL + "/stopsFullDB.xml";

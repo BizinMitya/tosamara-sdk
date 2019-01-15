@@ -1,11 +1,13 @@
 package api;
 
 import api.record.pojo.GeoPoint;
+import api.record.pojo.Link;
 import api.record.pojo.Message;
 import api.record.request.*;
 import api.record.response.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import exception.APIResponseException;
@@ -26,6 +28,7 @@ public class APIRequestImpl implements APIRequest {
     private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
             .enable(SerializationFeature.INDENT_OUTPUT)
+            .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     private static final String CLIENT_ID = "";
@@ -90,22 +93,25 @@ public class APIRequestImpl implements APIRequest {
         return doRequest(request, GetNearestBuildingResponse.class);
     }
 
-    public void findBuildingByAddress(GeoPoint geoPoint, String address, Integer count) {
-
+    public FindBuildingByAddressResponse findBuildingByAddress(@Nullable GeoPoint geoPoint, String address, Integer count) throws APIResponseException, IOException {
+        FindBuildingByAddressRequest request = new FindBuildingByAddressRequest(geoPoint, address, count);
+        return doRequest(request, FindBuildingByAddressResponse.class);
     }
 
-    public void getUserMessages(GeoPoint geoPoint, Integer radius, String deviceId) {
-
+    public GetUserMessagesResponse getUserMessages(GeoPoint geoPoint, Integer radius, String deviceId) throws APIResponseException, IOException {
+        GetUserMessagesRequest request = new GetUserMessagesRequest(geoPoint, radius, deviceId);
+        return doRequest(request, GetUserMessagesResponse.class);
     }
 
-    public void voteForMessage(Integer id, Message.Vote vote, GeoPoint geoPoint, String deviceId) {
-
+    public VoteForMessageResponse voteForMessage(Integer id, Message.Vote vote, GeoPoint geoPoint, String deviceId) throws APIResponseException, IOException {
+        VoteForMessageRequest request = new VoteForMessageRequest(id, vote, geoPoint, deviceId);
+        return doRequest(request, VoteForMessageResponse.class);
     }
 
-    public void sendUserMessage(String text, String textEn, String link,
-                                GeoPoint geoPoint, Integer radius, Integer ksId,
-                                Integer transportHullNo, Integer expireTime, String deviceId) {
-
+    public SendUserMessageResponse sendUserMessage(String text, String textEn, String link,
+                                                   List<Link> links, Integer expireTime, String deviceId) throws APIResponseException, IOException {
+        SendUserMessageRequest request = new SendUserMessageRequest(text, textEn, link, links, expireTime, deviceId);
+        return doRequest(request, SendUserMessageResponse.class);
     }
 
     private <T> T doRequest(Object request, Class<T> responseType) throws APIResponseException, IOException {

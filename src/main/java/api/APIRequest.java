@@ -1,6 +1,7 @@
 package api;
 
 import api.record.pojo.GeoPoint;
+import api.record.pojo.Link;
 import api.record.pojo.Message;
 import api.record.request.FindShortestPathRequest;
 import api.record.response.*;
@@ -157,8 +158,12 @@ public interface APIRequest {
      * @param geoPoint координаты пользователя в WGS 84.
      * @param address  поисковая строчка с адресом.
      * @param count    максимальное количество возвращаемых результатов.
+     * @return объект ответа.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    void findBuildingByAddress(GeoPoint geoPoint, String address, Integer count);
+    FindBuildingByAddressResponse findBuildingByAddress(@Nullable GeoPoint geoPoint, String address, Integer count)
+            throws APIResponseException, IOException;
 
     /**
      * Метод возвращает список пользовательских сообщений в указанной окрестности.
@@ -166,8 +171,12 @@ public interface APIRequest {
      * @param geoPoint координаты пользователя в WGS 84.
      * @param radius   радиус окрестности, по которой собираются события, в метрах.
      * @param deviceId уникальный идентификатор пользовательского устройства (UDID или DeviceID).
+     * @return объект ответа.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    void getUserMessages(GeoPoint geoPoint, Integer radius, String deviceId);
+    GetUserMessagesResponse getUserMessages(GeoPoint geoPoint, Integer radius, String deviceId)
+            throws APIResponseException, IOException;
 
     /**
      * Метод отправляет мнение пользователя об указанном сообщении - голос подтверждения или опровержения.
@@ -176,25 +185,29 @@ public interface APIRequest {
      * @param vote     мнение пользователя, одно из значений.
      * @param geoPoint координаты пользователя в WGS 84, чтобы убедиться, что голосующий действительно неподалеку от сообщения.
      * @param deviceId уникальный идентификатор пользовательского устройства (UDID или DeviceID).
+     * @return объект ответа.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    void voteForMessage(Integer id, Message.Vote vote, GeoPoint geoPoint, String deviceId);
+    VoteForMessageResponse voteForMessage(Integer id, Message.Vote vote, GeoPoint geoPoint, String deviceId)
+            throws APIResponseException, IOException;
 
     /**
      * Метод отправляет геопривязанное пользовательское сообщение.
      *
-     * @param text            текст сообщения.
-     * @param textEn          текст сообщения на английском (может быть не заполнен).
-     * @param link            гиперссылка на более подробный материал.
-     * @param geoPoint        координаты центра сообщения в WGS 84.
-     * @param radius          радиус окрестности, в которой сообщение стоит показывать, в метрах.
-     * @param ksId            классификаторный номер остановки, с которой связано сообщение.
-     * @param transportHullNo учетный номер транспортного средства, с которым связано сообщение.
-     * @param expireTime      время потери актуальности сообщения в часах.
-     * @param deviceId        уникальный идентификатор пользовательского устройства (UDID или DeviceID).
+     * @param text       текст сообщения.
+     * @param textEn     текст сообщения на английском (может быть не заполнен).
+     * @param link       гиперссылка на более подробный материал.
+     * @param links      список координат с радиусами.
+     * @param expireTime время потери актуальности сообщения в часах.
+     * @param deviceId   уникальный идентификатор пользовательского устройства (UDID или DeviceID).
+     * @return объект ответа.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    void sendUserMessage(String text, @Nullable String textEn, String link,
-                         GeoPoint geoPoint, Integer radius, Integer ksId,
-                         Integer transportHullNo, Integer expireTime, String deviceId);
+    SendUserMessageResponse sendUserMessage(String text, @Nullable String textEn, String link,
+                                            List<Link> links, Integer expireTime, String deviceId)
+            throws APIResponseException, IOException;
 
     default String doAPIRequest(NameValuePair[] nameValuePairs) throws APIResponseException, IOException {
         Response response = Request.Post(API_URL)

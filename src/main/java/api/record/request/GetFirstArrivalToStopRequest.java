@@ -20,4 +20,11 @@ public class GetFirstArrivalToStopRequest {
         this.count = count;
     }
 
+    public List<Integer> getKsIds() {
+        return ksIds;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
 }

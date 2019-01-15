@@ -112,23 +112,4 @@ public class Message {
 
     }
 
-    public static class Link {
-
-        @JsonProperty(value = "latitude")
-        public Double latitude;
-
-        @JsonProperty(value = "longitude")
-        public Double longitude;
-
-        @JsonProperty(value = "radius")
-        public Double radius;
-
-        @JsonProperty(value = "KS_ID")
-        public Integer ksId;
-
-        @JsonProperty(value = "transportHullno")
-        public Integer transportHullNo;
-
-    }
-
 }

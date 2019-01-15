@@ -33,10 +33,10 @@ public class FindShortestPathRequest {
             Criterion criterion,
             TransportType[] transports
     ) {
-        this.longitude1 = firstPoint.getLongitude();
-        this.latitude1 = firstPoint.getLatitude();
-        this.longitude2 = secondPoint.getLongitude();
-        this.latitude2 = secondPoint.getLatitude();
+        this.longitude1 = firstPoint.longitude;
+        this.latitude1 = firstPoint.latitude;
+        this.longitude2 = secondPoint.longitude;
+        this.latitude2 = secondPoint.latitude;
         this.criterion = criterion;
         this.transports = transports;
     }
@@ -60,4 +60,27 @@ public class FindShortestPathRequest {
 
     }
 
+    public Double getLatitude1() {
+        return latitude1;
+    }
+
+    public Double getLongitude1() {
+        return longitude1;
+    }
+
+    public Double getLatitude2() {
+        return latitude2;
+    }
+
+    public Double getLongitude2() {
+        return longitude2;
+    }
+
+    public Criterion getCriterion() {
+        return criterion;
+    }
+
+    public TransportType[] getTransports() {
+        return transports;
+    }
 }

@@ -21,8 +21,8 @@ public class GetSurroundingTransportsRequest {
     private final Integer count;
 
     public GetSurroundingTransportsRequest(GeoPoint geoPoint, Double radius, Integer count) {
-        this.latitude = geoPoint.getLatitude();
-        this.longitude = geoPoint.getLongitude();
+        this.latitude = geoPoint.latitude;
+        this.longitude = geoPoint.longitude;
         this.radius = radius;
         this.count = count;
     }

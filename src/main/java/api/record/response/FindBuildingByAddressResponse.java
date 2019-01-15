@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class GetNearestBuildingResponse {
+public class FindBuildingByAddressResponse {
 
     @JsonProperty(value = "buildings")
     public List<Building> buildings;

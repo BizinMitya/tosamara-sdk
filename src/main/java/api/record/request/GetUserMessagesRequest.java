@@ -3,10 +3,10 @@ package api.record.request;
 import api.record.pojo.GeoPoint;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GetNearestBuildingRequest {
+public class GetUserMessagesRequest {
 
     @JsonProperty(value = "method")
-    private final String method = "getNearestBuilding";
+    private final String method = "getUserMessages";
 
     @JsonProperty(value = "LATITUDE")
     private final Double latitude;
@@ -17,14 +17,14 @@ public class GetNearestBuildingRequest {
     @JsonProperty(value = "RADIUS")
     private final Integer radius;
 
-    @JsonProperty(value = "COUNT")
-    private final Integer count;
+    @JsonProperty(value = "DEVICEID")
+    private final String deviceId;
 
-    public GetNearestBuildingRequest(GeoPoint geoPoint, Integer radius, Integer count) {
+    public GetUserMessagesRequest(GeoPoint geoPoint, Integer radius, String deviceId) {
         this.latitude = geoPoint.latitude;
         this.longitude = geoPoint.longitude;
         this.radius = radius;
-        this.count = count;
+        this.deviceId = deviceId;
     }
 
     public Double getLatitude() {
@@ -39,7 +39,7 @@ public class GetNearestBuildingRequest {
         return radius;
     }
 
-    public Integer getCount() {
-        return count;
+    public String getDeviceId() {
+        return deviceId;
     }
 }

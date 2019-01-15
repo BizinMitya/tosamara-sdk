@@ -2,6 +2,8 @@ import api.APIRequest;
 import api.APIRequestImpl;
 import api.record.pojo.ArrivalTransport;
 import api.record.pojo.GeoPoint;
+import api.record.pojo.Link;
+import api.record.pojo.Message;
 import api.record.request.FindShortestPathRequest;
 import api.record.response.GetFirstArrivalToStopResponse;
 import classifier.ClassifierRequest;
@@ -18,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -58,6 +61,10 @@ class APITest {
         getSurroundingTransportsRandomTest();
         getTransportsOnRouteRandomTest();
         getNearestBuildingTest();
+        findBuildingByAddressTest();
+        getUserMessagesTest();
+        voteForMessageTest();
+        sendUserMessageTest();
     }
 
     @Test
@@ -70,6 +77,10 @@ class APITest {
         getSurroundingTransportsFullTest();
         getTransportsOnRouteFullTest();
         getNearestBuildingTest();
+        findBuildingByAddressTest();
+        getUserMessagesTest();
+        voteForMessageTest();
+        sendUserMessageTest();
     }
 
     @Test
@@ -256,6 +267,45 @@ class APITest {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
             API_REQUEST.getNearestBuilding(samara, 50, 10);
+        } catch (Exception e) {
+            Assertions.fail(e);
+        }
+    }
+
+    @Test
+    void findBuildingByAddressTest() {
+        try {
+            API_REQUEST.findBuildingByAddress(null, "ТЦ Пирамида", 10);
+        } catch (Exception e) {
+            Assertions.fail(e);
+        }
+    }
+
+    @Test
+    void getUserMessagesTest() {
+        try {
+            GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
+            API_REQUEST.getUserMessages(samara, 100_000, "test");
+        } catch (Exception e) {
+            Assertions.fail(e);
+        }
+    }
+
+    @Test
+    void voteForMessageTest() {
+        try {
+            GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
+            API_REQUEST.voteForMessage(2045352, Message.Vote.confirm, samara, "test");
+        } catch (Exception e) {
+            Assertions.fail(e);
+        }
+    }
+
+    @Test
+    void sendUserMessageTest() {
+        try {
+            List<Link> links = Collections.singletonList(new Link(SAMARA_LATITUDE, SAMARA_LONGITUDE, 200D));
+            API_REQUEST.sendUserMessage("Тестовое сообщение.", null, null, links, 1, "test");
         } catch (Exception e) {
             Assertions.fail(e);
         }

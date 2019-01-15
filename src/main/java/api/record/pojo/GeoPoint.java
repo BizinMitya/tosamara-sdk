@@ -1,42 +1,30 @@
 package api.record.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.NotNull;
 
 public class GeoPoint {
 
     @JsonProperty(value = "latitude")
-    private Double latitude;
+    public Double latitude;
 
     @JsonProperty(value = "longitude")
-    private Double longitude;
+    public Double longitude;
 
     @JsonProperty(value = "radius")
-    private Double radius;
+    public Double radius;
 
-    public GeoPoint() {
-    }
-
-    public GeoPoint(Double latitude, Double longitude) {
+    public GeoPoint(@NotNull Double latitude, @NotNull Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public GeoPoint(Double latitude, Double longitude, Double radius) {
+    public GeoPoint(@NotNull Double latitude, @NotNull Double longitude, @NotNull Double radius) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public GeoPoint() {
     }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public Double getRadius() {
-        return radius;
-    }
-
 }

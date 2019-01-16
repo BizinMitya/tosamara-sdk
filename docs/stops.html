@@ -49,10 +49,10 @@
                     '<td>' + stop.adjacentStreet + '</td>' +
                     '<td>' + stop.direction + '</td>' +
                     '<td>' + stop.busesMunicipal + '</td>' +
-                    '<td>' + stop.trams + '</td>' +
                     '<td>' + stop.busesCommercial + '</td>' +
+                    '<td>' + stop.busesPrigorod + '</td>' +
+                    '<td>' + stop.trams + '</td>' +
                     '<td>' + stop.trolleybuses + '</td>' +
-                    '<td>' + stop.metros + '</td>' +
                     '</tr>';
                 $('#stops').append(row);
             });
@@ -94,10 +94,10 @@
         <th scope="col">Улица</th>
         <th scope="col">Направление</th>
         <th scope="col">Муниципальные автобусы</th>
-        <th scope="col">Трамваи</th>
         <th scope="col">Коммерческие автобусы</th>
+        <th scope="col">Пригородные автобусы</th>
+        <th scope="col">Трамваи</th>
         <th scope="col">Троллейбусы</th>
-        <th scope="col">Метро</th>
     </tr>
     </thead>
     <tbody id="stops"></tbody>

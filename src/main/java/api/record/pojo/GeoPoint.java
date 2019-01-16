@@ -11,18 +11,9 @@ public class GeoPoint {
     @JsonProperty(value = "longitude")
     public Double longitude;
 
-    @JsonProperty(value = "radius")
-    public Double radius;
-
     public GeoPoint(@NotNull Double latitude, @NotNull Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-    }
-
-    public GeoPoint(@NotNull Double latitude, @NotNull Double longitude, @NotNull Double radius) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.radius = radius;
     }
 
     public GeoPoint() {

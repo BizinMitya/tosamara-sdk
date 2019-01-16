@@ -15,12 +15,12 @@ public class GetNearestBuildingRequest {
     private final Double longitude;
 
     @JsonProperty(value = "RADIUS")
-    private final Integer radius;
+    private final Double radius;
 
     @JsonProperty(value = "COUNT")
     private final Integer count;
 
-    public GetNearestBuildingRequest(GeoPoint geoPoint, Integer radius, Integer count) {
+    public GetNearestBuildingRequest(GeoPoint geoPoint, Double radius, Integer count) {
         this.latitude = geoPoint.latitude;
         this.longitude = geoPoint.longitude;
         this.radius = radius;
@@ -35,7 +35,7 @@ public class GetNearestBuildingRequest {
         return longitude;
     }
 
-    public Integer getRadius() {
+    public Double getRadius() {
         return radius;
     }
 

@@ -4,9 +4,10 @@ import api.record.response.GetFirstArrivalToStopResponse;
 import classifier.ClassifierRequest;
 import classifier.ClassifierRequestImpl;
 import classifier.pojo.Stop;
-import classifier.pojo.Stops;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 class GetFirstArrivalToStopTest {
 
@@ -16,8 +17,8 @@ class GetFirstArrivalToStopTest {
     @Test
     void forAllStopsTest() {
         try {
-            Stops stops = CLASSIFIER_REQUEST.getStops();
-            for (Stop stop : stops.stops) {
+            List<Stop> stops = CLASSIFIER_REQUEST.getStops();
+            for (Stop stop : stops) {
                 GetFirstArrivalToStopResponse getFirstArrivalToStopResponse = API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
                 if (!getFirstArrivalToStopResponse.arrivalTransports.isEmpty()) {
                     getFirstArrivalToStopResponse.arrivalTransports.forEach(transport ->

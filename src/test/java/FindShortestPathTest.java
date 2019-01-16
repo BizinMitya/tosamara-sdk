@@ -5,10 +5,10 @@ import api.record.response.FindShortestPathResponse;
 import classifier.ClassifierRequest;
 import classifier.ClassifierRequestImpl;
 import classifier.pojo.FullStop;
-import classifier.pojo.FullStops;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -25,12 +25,12 @@ class FindShortestPathTest {
     void singleRandomTest() {
         try {
             Random random = new Random();
-            FullStops fullStops = CLASSIFIER_REQUEST.getFullStops();
-            FullStop firstStop = fullStops.fullStops.get(random.nextInt(fullStops.fullStops.size()));
-            FullStop secondStop = fullStops.fullStops.get(random.nextInt(fullStops.fullStops.size()));
+            List<FullStop> fullStops = CLASSIFIER_REQUEST.getFullStops();
+            FullStop firstStop = fullStops.get(random.nextInt(fullStops.size()));
+            FullStop secondStop = fullStops.get(random.nextInt(fullStops.size()));
             GeoPoint firstPoint = new GeoPoint(firstStop.latitude, firstStop.longitude);
             GeoPoint secondPoint = new GeoPoint(secondStop.latitude, secondStop.longitude);
-            Map<Integer, FullStop> fullStopMap = fullStops.fullStops.stream()
+            Map<Integer, FullStop> fullStopMap = fullStops.stream()
                     .collect(Collectors.toMap(fullStop -> fullStop.ksId, fullStop -> fullStop));
             FindShortestPathResponse shortestPath =
                     API_REQUEST.findShortestPath(firstPoint, secondPoint, time,

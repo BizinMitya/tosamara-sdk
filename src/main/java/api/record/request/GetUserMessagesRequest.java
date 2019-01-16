@@ -15,12 +15,12 @@ public class GetUserMessagesRequest {
     private final Double longitude;
 
     @JsonProperty(value = "RADIUS")
-    private final Integer radius;
+    private final Double radius;
 
     @JsonProperty(value = "DEVICEID")
     private final String deviceId;
 
-    public GetUserMessagesRequest(GeoPoint geoPoint, Integer radius, String deviceId) {
+    public GetUserMessagesRequest(GeoPoint geoPoint, Double radius, String deviceId) {
         this.latitude = geoPoint.latitude;
         this.longitude = geoPoint.longitude;
         this.radius = radius;
@@ -35,7 +35,7 @@ public class GetUserMessagesRequest {
         return longitude;
     }
 
-    public Integer getRadius() {
+    public Double getRadius() {
         return radius;
     }
 

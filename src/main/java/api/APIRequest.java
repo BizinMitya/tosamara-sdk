@@ -148,7 +148,7 @@ public interface APIRequest {
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    GetNearestBuildingResponse getNearestBuilding(GeoPoint geoPoint, Integer radius, Integer count)
+    GetNearestBuildingResponse getNearestBuilding(GeoPoint geoPoint, Double radius, Integer count)
             throws APIResponseException, IOException;
 
     /**
@@ -175,7 +175,7 @@ public interface APIRequest {
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    GetUserMessagesResponse getUserMessages(GeoPoint geoPoint, Integer radius, String deviceId)
+    GetUserMessagesResponse getUserMessages(GeoPoint geoPoint, Double radius, String deviceId)
             throws APIResponseException, IOException;
 
     /**

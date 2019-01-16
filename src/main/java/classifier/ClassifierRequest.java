@@ -9,6 +9,8 @@ import org.apache.http.client.fluent.Response;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
+import java.util.List;
+
 import static org.apache.http.HttpStatus.SC_OK;
 
 public interface ClassifierRequest {
@@ -42,10 +44,10 @@ public interface ClassifierRequest {
     /**
      * Метод получения списка справочников.
      *
-     * @return объект справочников.
+     * @return список справочников.
      * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    Classifiers getClassifiers() throws Exception;
+    List<Classifier> getClassifiers() throws Exception;
 
     /**
      * Метод получения списка остановок.
@@ -53,7 +55,7 @@ public interface ClassifierRequest {
      * @return список остановок.
      * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    Stops getStops() throws Exception;
+    List<Stop> getStops() throws Exception;
 
     /**
      * Метод получения списка остановок с расширенной информацией.
@@ -61,7 +63,7 @@ public interface ClassifierRequest {
      * @return список остановок с расширенной информацией.
      * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    FullStops getFullStops() throws Exception;
+    List<FullStop> getFullStops() throws Exception;
 
     /**
      * Метод получения списка маршрутов.
@@ -69,7 +71,7 @@ public interface ClassifierRequest {
      * @return список маршрутов.
      * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    Routes getRoutes() throws Exception;
+    List<Route> getRoutes() throws Exception;
 
     /**
      * Метод получения списка связей маршрутов и остановок.
@@ -77,7 +79,7 @@ public interface ClassifierRequest {
      * @return список связей маршрутов и остановок.
      * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    RoutesWithStops getRoutesWithStops() throws Exception;
+    List<RouteWithStops> getRoutesWithStops() throws Exception;
 
     /**
      * Метод получения остановок на карте {@see <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>}
@@ -95,6 +97,6 @@ public interface ClassifierRequest {
      * @return список маршрутов на карте геопортала.
      * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    RoutesOnMap getRoutesOnMap() throws Exception;
+    List<RouteOnMap> getRoutesOnMap() throws Exception;
 
 }

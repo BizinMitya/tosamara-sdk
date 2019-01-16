@@ -42,10 +42,10 @@ class APITest {
     @BeforeAll
     static void initializeClassifiers() {
         try {
-            stops = CLASSIFIER_REQUEST.getStops().stops;
-            fullStops = CLASSIFIER_REQUEST.getFullStops().fullStops;
-            routesWithStops = CLASSIFIER_REQUEST.getRoutesWithStops().routeWithStops;
-            routes = CLASSIFIER_REQUEST.getRoutes().routes;
+            stops = CLASSIFIER_REQUEST.getStops();
+            fullStops = CLASSIFIER_REQUEST.getFullStops();
+            routesWithStops = CLASSIFIER_REQUEST.getRoutesWithStops();
+            routes = CLASSIFIER_REQUEST.getRoutes();
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -223,7 +223,7 @@ class APITest {
         try {
             FullStop fullStop = fullStops.get(RANDOM.nextInt(fullStops.size()));
             GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-            API_REQUEST.getSurroundingTransports(geoPoint, 10_000D, Integer.MAX_VALUE);
+            API_REQUEST.getSurroundingTransports(geoPoint, 10_000.5D, Integer.MAX_VALUE);
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -234,7 +234,7 @@ class APITest {
         try {
             for (FullStop fullStop : fullStops) {
                 GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-                API_REQUEST.getSurroundingTransports(geoPoint, 1_000D, Integer.MAX_VALUE);
+                API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE);
             }
         } catch (Exception e) {
             Assertions.fail(e);
@@ -266,7 +266,7 @@ class APITest {
     void getNearestBuildingTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
-            API_REQUEST.getNearestBuilding(samara, 50, 10);
+            API_REQUEST.getNearestBuilding(samara, 50.5D, 10);
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -285,7 +285,7 @@ class APITest {
     void getUserMessagesTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
-            API_REQUEST.getUserMessages(samara, 100_000, "test");
+            API_REQUEST.getUserMessages(samara, 100_000.5D, "test");
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -304,7 +304,7 @@ class APITest {
     @Test
     void sendUserMessageTest() {
         try {
-            List<Link> links = Collections.singletonList(new Link(SAMARA_LATITUDE, SAMARA_LONGITUDE, 200D));
+            List<Link> links = Collections.singletonList(new Link(SAMARA_LATITUDE, SAMARA_LONGITUDE, 200.5D));
             API_REQUEST.sendUserMessage("Тестовое сообщение.", null, null, links, 1, "test");
         } catch (Exception e) {
             Assertions.fail(e);

@@ -1,6 +1,7 @@
 package api.record.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.NotNull;
 
 public class Link {
 
@@ -34,10 +35,18 @@ public class Link {
     @JsonProperty(value = "TRANSPORTHULLNO")
     public Integer transportHullNo;
 
-    public Link(Double latitude, Double longitude, Double radius) {
+    public Link(@NotNull Double latitude, @NotNull Double longitude, @NotNull Double radius) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
+    }
+
+    public Link(@NotNull Integer ksId) {
+        this.ksId = ksId;
+    }
+
+    public Link(@NotNull Long transportHullNo) {
+        this.transportHullNo = transportHullNo.intValue();
     }
 
     public Link() {

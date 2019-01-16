@@ -2,31 +2,38 @@ package classifier;
 
 import classifier.pojo.*;
 
+import java.util.List;
+
 public class ClassifierRequestImpl implements ClassifierRequest {
 
     @Override
-    public Classifiers getClassifiers() throws Exception {
-        return doClassifierRequest(Classifiers.class, CLASSIFIERS_URL);
+    public List<Classifier> getClassifiers() throws Exception {
+        Classifiers classifiers = doClassifierRequest(Classifiers.class, CLASSIFIERS_URL);
+        return classifiers.files;
     }
 
     @Override
-    public Stops getStops() throws Exception {
-        return doClassifierRequest(Stops.class, STOPS_URL);
+    public List<Stop> getStops() throws Exception {
+        Stops stops = doClassifierRequest(Stops.class, STOPS_URL);
+        return stops.stops;
     }
 
     @Override
-    public FullStops getFullStops() throws Exception {
-        return doClassifierRequest(FullStops.class, STOPS_FULL_URL);
+    public List<FullStop> getFullStops() throws Exception {
+        FullStops fullStops = doClassifierRequest(FullStops.class, STOPS_FULL_URL);
+        return fullStops.fullStops;
     }
 
     @Override
-    public Routes getRoutes() throws Exception {
-        return doClassifierRequest(Routes.class, ROUTES_URL);
+    public List<Route> getRoutes() throws Exception {
+        Routes routes = doClassifierRequest(Routes.class, ROUTES_URL);
+        return routes.routes;
     }
 
     @Override
-    public RoutesWithStops getRoutesWithStops() throws Exception {
-        return doClassifierRequest(RoutesWithStops.class, ROUTES_AND_STOPS_CORRESPONDENCE_URL);
+    public List<RouteWithStops> getRoutesWithStops() throws Exception {
+        RoutesWithStops routesWithStops = doClassifierRequest(RoutesWithStops.class, ROUTES_AND_STOPS_CORRESPONDENCE_URL);
+        return routesWithStops.routeWithStops;
     }
 
     @Override
@@ -35,8 +42,9 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     }
 
     @Override
-    public RoutesOnMap getRoutesOnMap() throws Exception {
-        return doClassifierRequest(RoutesOnMap.class, GEOPORTAL_ROUTES_CORRESPONDENCE_URL);
+    public List<RouteOnMap> getRoutesOnMap() throws Exception {
+        RoutesOnMap routesOnMap = doClassifierRequest(RoutesOnMap.class, GEOPORTAL_ROUTES_CORRESPONDENCE_URL);
+        return routesOnMap.routesOnMap;
     }
 
 }

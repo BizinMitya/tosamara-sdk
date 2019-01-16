@@ -88,7 +88,7 @@ public class APIRequestImpl implements APIRequest {
         return getTransportsOnRoute(Collections.singletonList(krId), count);
     }
 
-    public GetNearestBuildingResponse getNearestBuilding(GeoPoint geoPoint, Integer radius, Integer count) throws APIResponseException, IOException {
+    public GetNearestBuildingResponse getNearestBuilding(GeoPoint geoPoint, Double radius, Integer count) throws APIResponseException, IOException {
         GetNearestBuildingRequest request = new GetNearestBuildingRequest(geoPoint, radius, count);
         return doRequest(request, GetNearestBuildingResponse.class);
     }
@@ -98,7 +98,7 @@ public class APIRequestImpl implements APIRequest {
         return doRequest(request, FindBuildingByAddressResponse.class);
     }
 
-    public GetUserMessagesResponse getUserMessages(GeoPoint geoPoint, Integer radius, String deviceId) throws APIResponseException, IOException {
+    public GetUserMessagesResponse getUserMessages(GeoPoint geoPoint, Double radius, String deviceId) throws APIResponseException, IOException {
         GetUserMessagesRequest request = new GetUserMessagesRequest(geoPoint, radius, deviceId);
         return doRequest(request, GetUserMessagesResponse.class);
     }

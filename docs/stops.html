@@ -33,7 +33,12 @@
     <script>
 
         function createTable() {
-            getFullStops(callBackForGetFullStops);
+            let fullStops = JSON.parse(localStorage.getItem('fullStops'));
+            if (fullStops && fullStops.length) {
+                callBackForGetFullStops(fullStops);
+            } else {
+                getFullStops(callBackForGetFullStops);
+            }
         }
 
         function callBackForGetFullStops(stops) {

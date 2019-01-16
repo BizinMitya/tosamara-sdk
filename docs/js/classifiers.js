@@ -26,6 +26,7 @@ function handleGetClassifiersResponse(classifiers) {
         let modified = $(this).find('modified').text();
         result.push({name: name, modified: modified});
     });
+    localStorage.setItem('classifiers', JSON.stringify(result));
     return result;
 }
 
@@ -59,6 +60,7 @@ function handleGetStopsResponse(stops) {
             directionEs: directionEs
         });
     });
+    localStorage.setItem('stops', JSON.stringify(result));
     return result;
 }
 
@@ -157,6 +159,7 @@ function handleGetFullStopsResponse(fullStops) {
             angle: angle
         });
     });
+    localStorage.setItem('fullStops', JSON.stringify(result));
     return result;
 }
 
@@ -190,6 +193,7 @@ function handleGetRoutesResponse(routes) {
             realtimeForecast: realtimeForecast
         });
     });
+    localStorage.setItem('routes', JSON.stringify(result));
     return result;
 }
 
@@ -236,6 +240,7 @@ function handleGetRoutesWithStopsResponse(routesWithStops) {
             stops: stops
         });
     });
+    localStorage.setItem('routesWithStops', JSON.stringify(result));
     return result;
 }
 
@@ -256,10 +261,12 @@ function handleGetStopsOnMapResponse(stopsOnMap) {
             staticDescription: staticDescription
         });
     });
-    return {
+    let result = {
         layerName: layerName,
         stops: stops
     };
+    localStorage.setItem('stopsOnMap', JSON.stringify(result));
+    return result;
 }
 
 function getStopsOnMap(callback) {
@@ -278,6 +285,7 @@ function handleGetRoutesOnMapResponse(routesOnMap) {
             layerName: layerName
         });
     });
+    localStorage.setItem('routesOnMap', JSON.stringify(result));
     return result;
 }
 

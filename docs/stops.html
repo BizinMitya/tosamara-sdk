@@ -43,7 +43,7 @@
 
         function callBackForGetFullStops(stops) {
             $(stops).each(function (i, stop) {
-                let content = '<tr>' +
+                let row = '<tr>' +
                     '<td>' + (i + 1) + '</td>' +
                     '<td>' + stop.title + '</td>' +
                     '<td>' + stop.adjacentStreet + '</td>' +
@@ -52,8 +52,9 @@
                     '<td>' + stop.trams + '</td>' +
                     '<td>' + stop.busesCommercial + '</td>' +
                     '<td>' + stop.trolleybuses + '</td>' +
+                    '<td>' + stop.metros + '</td>' +
                     '</tr>';
-                $('#stops').append(content);
+                $('#stops').append(row);
             });
         }
 
@@ -96,6 +97,7 @@
         <th scope="col">Трамваи</th>
         <th scope="col">Коммерческие автобусы</th>
         <th scope="col">Троллейбусы</th>
+        <th scope="col">Метро</th>
     </tr>
     </thead>
     <tbody id="stops"></tbody>

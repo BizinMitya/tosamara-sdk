@@ -35,16 +35,15 @@
         function createTable() {
             let fullStops = JSON.parse(localStorage.getItem('fullStops'));
             if (fullStops && fullStops.length) {
-                callBackForGetFullStops(fullStops);
+                addStopsInTable(fullStops);
             } else {
-                getFullStops(callBackForGetFullStops);
+                getFullStops(addStopsInTable);
             }
         }
 
-        function callBackForGetFullStops(stops) {
+        function addStopsInTable(stops) {
             $(stops).each(function (i, stop) {
                 let row = '<tr>' +
-                    '<td>' + (i + 1) + '</td>' +
                     '<td>' + stop.title + '</td>' +
                     '<td>' + stop.adjacentStreet + '</td>' +
                     '<td>' + stop.direction + '</td>' +
@@ -56,6 +55,34 @@
                     '</tr>';
                 $('#stops').append(row);
             });
+        }
+
+        function clearTable() {
+            $('#stops').html('');
+        }
+
+        function searchStops() {
+            let searchInput = $('#searchInput');
+            let searchString = searchInput.val().toLowerCase();
+            searchInput.val('');
+            let stops = JSON.parse(localStorage.getItem('fullStops'));
+            if (stops && stops.length) {
+                let searchResult = [];
+                $(stops).each(function (i, stop) {
+                    if (stop.title.toLowerCase().search(searchString) !== -1 ||
+                        stop.adjacentStreet.toLowerCase().search(searchString) !== -1 ||
+                        stop.direction.toLowerCase().search(searchString) !== -1 ||
+                        (stop.busesMunicipal && stop.busesMunicipal.length && stop.busesMunicipal.includes(searchString)) ||
+                        (stop.busesCommercial && stop.busesCommercial.length && stop.busesCommercial.includes(searchString)) ||
+                        (stop.busesPrigorod && stop.busesPrigorod.length && stop.busesPrigorod.includes(searchString)) ||
+                        (stop.trams && stop.trams.length && stop.trams.includes(searchString)) ||
+                        (stop.trolleybuses && stop.trolleybuses.length && stop.trolleybuses.includes(searchString))) {
+                        searchResult.push(stop);
+                    }
+                });
+                clearTable();
+                addStopsInTable(searchResult);
+            }
         }
 
     </script>
@@ -85,11 +112,15 @@
             </li>
         </ul>
     </div>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Поиск остановки" id="searchInput">
+        <button class="btn btn-outline-light my-2 my-sm-0" type="button" onclick="searchStops();$(this).blur()">Поиск
+        </button>
+    </form>
 </nav>
 <table class="table table-striped">
     <thead class="thead-light">
     <tr>
-        <th scope="col">#</th>
         <th scope="col">Остановка</th>
         <th scope="col">Улица</th>
         <th scope="col">Направление</th>

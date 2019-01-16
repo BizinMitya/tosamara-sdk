@@ -35,16 +35,15 @@
         function createTable() {
             let routes = JSON.parse(localStorage.getItem('routes'));
             if (routes && routes.length) {
-                callBackForGetRoutes(routes);
+                addRoutesInTable(routes);
             } else {
-                getRoutes(callBackForGetRoutes);
+                getRoutes(addRoutesInTable);
             }
         }
 
-        function callBackForGetRoutes(routes) {
+        function addRoutesInTable(routes) {
             $(routes).each(function (i, route) {
                 let row = '<tr>' +
-                    '<td>' + (i + 1) + '</td>' +
                     '<td>' + route.number + '</td>' +
                     '<td>' + route.direction + '</td>' +
                     '<td>' + route.transportType + '</td>' +
@@ -52,6 +51,30 @@
                     '</tr>';
                 $('#routes').append(row);
             });
+        }
+
+        function clearTable() {
+            $('#routes').html('');
+        }
+
+        function searchRoutes() {
+            let searchInput = $('#searchInput');
+            let searchString = searchInput.val().toLowerCase();
+            searchInput.val('');
+            let routes = JSON.parse(localStorage.getItem('routes'));
+            if (routes && routes.length) {
+                let searchResult = [];
+                $(routes).each(function (i, route) {
+                    if (route.number.toLowerCase().search(searchString) !== -1 ||
+                        route.direction.toLowerCase().search(searchString) !== -1 ||
+                        route.transportType.toLowerCase().search(searchString) !== -1 ||
+                        route.affiliation.toLowerCase().search(searchString) !== -1) {
+                        searchResult.push(route);
+                    }
+                });
+                clearTable();
+                addRoutesInTable(searchResult);
+            }
         }
 
     </script>
@@ -81,11 +104,15 @@
             </li>
         </ul>
     </div>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Поиск маршрута">
+        <button class="btn btn-outline-light my-2 my-sm-0" type="button" onclick="searchRoutes();$(this).blur()">Поиск
+        </button>
+    </form>
 </nav>
 <table class="table table-striped">
     <thead class="thead-light">
     <tr>
-        <th scope="col">#</th>
         <th scope="col">Номер</th>
         <th scope="col">Направление движения</th>
         <th scope="col">Тип транспорта</th>

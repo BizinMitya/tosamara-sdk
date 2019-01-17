@@ -1,13 +1,19 @@
 package classifier;
 
+import api.record.pojo.GeoPoint;
 import classifier.pojo.*;
+import classifier.transformer.StringToArrayTransform;
+import classifier.transformer.StringToGeoPointArrayTransform;
 import exception.APIResponseException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
 import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
+import org.simpleframework.xml.strategy.Strategy;
+import org.simpleframework.xml.transform.RegistryMatcher;
 
 import java.util.List;
 
@@ -26,7 +32,11 @@ public interface ClassifierRequest {
     default <T> T doClassifierRequest(Class<T> classifierType, String url) throws Exception {
         Response response = Request.Get(url)
                 .execute();
-        Serializer serializer = new Persister();
+        RegistryMatcher matchers = new RegistryMatcher();
+        matchers.bind(GeoPoint[].class, StringToGeoPointArrayTransform.class);
+        matchers.bind(String[].class, StringToArrayTransform.class);
+        Strategy strategy = new AnnotationStrategy();
+        Serializer serializer = new Persister(strategy, matchers);
         HttpResponse httpResponse = response.returnResponse();
         int statusCode = httpResponse.getStatusLine().getStatusCode();
         if (statusCode == SC_OK) {

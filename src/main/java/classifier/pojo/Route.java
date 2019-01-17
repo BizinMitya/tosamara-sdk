@@ -1,6 +1,8 @@
 package classifier.pojo;
 
+import classifier.converter.BooleanConverter;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.convert.Convert;
 
 public class Route {
 
@@ -75,6 +77,7 @@ public class Route {
      * Признак того, что маршрут прогнозируется по мониторингу в реальном времени.
      */
     @Element(name = "realtimeForecast")
-    public Integer realtimeForecast;
+    @Convert(BooleanConverter.class)
+    public Boolean realtimeForecast;
 
 }

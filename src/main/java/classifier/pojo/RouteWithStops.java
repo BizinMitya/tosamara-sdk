@@ -1,8 +1,11 @@
 package classifier.pojo;
 
+import api.record.pojo.GeoPoint;
+import classifier.converter.BooleanConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.convert.Convert;
 
 import java.util.List;
 
@@ -34,19 +37,21 @@ public class RouteWithStops {
      * Признак выполняемости маршрута в настоящее время, 1 — да, 0 — нет.
      */
     @Element(name = "performing")
-    public Integer performing;
+    @Convert(BooleanConverter.class)
+    public Boolean performing;
 
     /**
      * Признак того, что маршрут прогнозируется по мониторингу в реальном времени.
      */
     @Element(name = "realtimeForecast")
-    public Integer realtimeForecast;
+    @Convert(BooleanConverter.class)
+    public Boolean realtimeForecast;
 
     /**
-     * Геометрическая форма маршрута, ломаной линии, заданной последовательностью точек в формате «долгота,широта долгота,широта ...» в системе координат WGS 84.
+     * Геометрическая форма маршрута, ломаной линии, заданной последовательностью точек в формате «широта,долгота широта,долгота ...» в системе координат WGS 84.
      */
     @Element(name = "geometry")
-    public String geometry;
+    public GeoPoint[] geometry;
 
     @ElementList(entry = "stop", inline = true)
     public List<Stop> stops;

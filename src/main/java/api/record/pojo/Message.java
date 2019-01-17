@@ -101,7 +101,8 @@ public class Message {
 
         passenger,
         massmedia,
-        official
+        official,
+        none
 
     }
 

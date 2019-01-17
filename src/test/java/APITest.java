@@ -15,6 +15,7 @@ import classifier.pojo.Stop;
 import exception.APIResponseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static api.record.request.FindShortestPathRequest.Criterion.time;
 import static api.record.request.FindShortestPathRequest.TransportType.bus;
@@ -51,7 +53,7 @@ class APITest {
         }
     }
 
-    @Test
+    @RepeatedTest(10)
     void runAllRandomTests() {
         getFirstArrivalToStopRandomTest();
         findShortestPathRandomTest();
@@ -86,9 +88,13 @@ class APITest {
     @Test
     void getFirstArrivalToStopFullTest() {
         try {
+            int total = stops.size();
+            AtomicInteger current = new AtomicInteger(1);
             stops.forEach(stop -> {
                 try {
+                    System.out.println("getFirstArrivalToStopTest: " + current.get() + "/" + total);
                     API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
+                    current.incrementAndGet();
                 } catch (APIResponseException | IOException e) {
                     Assertions.fail(e);
                 }
@@ -111,11 +117,15 @@ class APITest {
     @Test
     void findShortestPathFullTest() {
         try {
+            long total = fullStops.size() * fullStops.size();
+            int current = 1;
             for (FullStop fullStop1 : fullStops) {
                 for (FullStop fullStop2 : fullStops) {
+                    System.out.println("findShortestPathTest: " + current + "/" + total);
                     GeoPoint geoPoint1 = new GeoPoint(fullStop1.latitude, fullStop1.longitude);
                     GeoPoint geoPoint2 = new GeoPoint(fullStop2.latitude, fullStop2.longitude);
                     API_REQUEST.findShortestPath(geoPoint1, geoPoint2, time, FindShortestPathRequest.TransportType.bus);
+                    current++;
                 }
             }
         } catch (Exception e) {
@@ -139,10 +149,14 @@ class APITest {
     @Test
     void getRouteArrivalToStopFullTest() {
         try {
+            long total = routesWithStops.stream().mapToInt(value -> value.stops.size()).asLongStream().sum();
+            int current = 1;
             for (RouteWithStops routeWithStops : routesWithStops) {
                 List<RouteWithStops.Stop> stops = routeWithStops.stops;
                 for (RouteWithStops.Stop stop : stops) {
+                    System.out.println("getRouteArrivalToStopTest: " + current + "/" + total);
                     API_REQUEST.getRouteArrivalToStop(stop.ksId, routeWithStops.krId);
+                    current++;
                 }
             }
         } catch (Exception e) {
@@ -164,10 +178,14 @@ class APITest {
     @Test
     void getRouteScheduleAllTest() {
         try {
+            int total = routes.size();
+            AtomicInteger current = new AtomicInteger(1);
             String day = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
             routes.forEach(route -> {
                 try {
+                    System.out.println("getRouteScheduleTest: " + current.get() + "/" + total);
                     API_REQUEST.getRouteSchedule(route.krId, day);
+                    current.incrementAndGet();
                 } catch (APIResponseException | IOException e) {
                     Assertions.fail(e);
                 }
@@ -207,10 +225,13 @@ class APITest {
     @Test
     void getTransportPositionFullTest() {
         try {
+            int current = 1;
             for (Stop stop : stops) {
                 GetFirstArrivalToStopResponse response = API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
                 for (ArrivalTransport arrivalTransport : response.arrivalTransports) {
+                    System.out.println("getTransportPositionTest: " + current);
                     API_REQUEST.getTransportPosition(arrivalTransport.hullNo);
+                    current++;
                 }
             }
         } catch (Exception e) {
@@ -232,9 +253,13 @@ class APITest {
     @Test
     void getSurroundingTransportsFullTest() {
         try {
+            int total = fullStops.size();
+            int current = 1;
             for (FullStop fullStop : fullStops) {
+                System.out.println("getSurroundingTransportsTest: " + current + "/" + total);
                 GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
                 API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE);
+                current++;
             }
         } catch (Exception e) {
             Assertions.fail(e);
@@ -254,8 +279,12 @@ class APITest {
     @Test
     void getTransportsOnRouteFullTest() {
         try {
+            int total = routes.size();
+            int current = 1;
             for (Route route : routes) {
+                System.out.println("getTransportsOnRouteTest: " + current + "/" + total);
                 API_REQUEST.getTransportsOnRoute(route.krId, Integer.MAX_VALUE);
+                current++;
             }
         } catch (Exception e) {
             Assertions.fail(e);

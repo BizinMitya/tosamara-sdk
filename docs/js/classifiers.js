@@ -26,7 +26,6 @@ function handleGetClassifiersResponse(classifiers) {
         let modified = $(this).find('modified').text();
         result.push({name: name, modified: modified});
     });
-    localStorage.setItem('classifiers', JSON.stringify(result));
     return result;
 }
 
@@ -292,4 +291,3 @@ function handleGetRoutesOnMapResponse(routesOnMap) {
 function getRoutesOnMap(callback) {
     doClassifierRequest(PROXY_CORS + GEOPORTAL_ROUTES_CORRESPONDENCE_URL, handleGetRoutesOnMapResponse, callback);
 }
-

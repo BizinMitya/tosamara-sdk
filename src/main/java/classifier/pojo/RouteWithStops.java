@@ -53,7 +53,7 @@ public class RouteWithStops {
      * Геометрическая форма маршрута, ломаной линии, заданной последовательностью точек в формате «широта,долгота широта,долгота ...» в системе координат WGS 84.
      */
     @Element(name = "geometry")
-    public GeoPoint[] geometry;
+    public List<GeoPoint> geometry;
 
     @ElementList(entry = "stop", inline = true)
     public List<Stop> stops;

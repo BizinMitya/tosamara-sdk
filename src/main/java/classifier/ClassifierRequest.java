@@ -1,6 +1,5 @@
 package classifier;
 
-import api.record.pojo.GeoPoint;
 import classifier.pojo.*;
 import classifier.transformer.StringToArrayTransform;
 import classifier.transformer.StringToGeoPointArrayTransform;
@@ -33,7 +32,7 @@ public interface ClassifierRequest {
         Response response = Request.Get(url)
                 .execute();
         RegistryMatcher matchers = new RegistryMatcher();
-        matchers.bind(GeoPoint[].class, StringToGeoPointArrayTransform.class);
+        matchers.bind(List.class, StringToGeoPointArrayTransform.class);
         matchers.bind(String[].class, StringToArrayTransform.class);
         Strategy strategy = new AnnotationStrategy();
         Serializer serializer = new Persister(strategy, matchers);

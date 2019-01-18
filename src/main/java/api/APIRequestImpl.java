@@ -24,6 +24,7 @@ import java.util.List;
 
 public class APIRequestImpl implements APIRequest {
 
+    private static final Logger LOGGER = Logger.getLogger(APIRequestImpl.class);
     private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
             .enable(SerializationFeature.INDENT_OUTPUT)
@@ -32,9 +33,25 @@ public class APIRequestImpl implements APIRequest {
             .setSerializationInclusion(JsonInclude.Include.NON_NULL)
             .registerModule(new JavaTimeModule());
 
-    private static final String CLIENT_ID = "";
-    private static final String KEY = "";
-    private static final Logger LOGGER = Logger.getLogger(APIRequestImpl.class);
+    private final String clientId;
+    private final String key;
+
+    public APIRequestImpl(String clientId, String key) {
+        this.clientId = clientId;
+        this.key = key;
+    }
+
+    /**
+     * Запросы к API будут использовать тестовый ключ.
+     */
+    public APIRequestImpl() {
+        clientId = null;
+        key = null;
+    }
+
+    private boolean useTestKey() {
+        return clientId == null || key == null;
+    }
 
     @Override
     public GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count) throws APIResponseException, IOException {
@@ -121,44 +138,38 @@ public class APIRequestImpl implements APIRequest {
     }
 
     private <T> T doRequest(Object request, Class<T> responseType) throws APIResponseException, IOException {
-        String rawData = doAPIRequest(getFormParamsForTest(OBJECT_MAPPER.writeValueAsString(request)));
+        String rawData = doAPIRequest(getFormParams(OBJECT_MAPPER.writeValueAsString(request)));
         return OBJECT_MAPPER.readValue(rawData, responseType);
     }
 
     /**
-     * Метод создает параметры формы с использованием тестового ключа.
+     * Метод создания параметров формы.
      *
-     * @param message сообщение серверу.
+     * @param message сообщение.
      * @return массив параметров формы.
      */
-    private NameValuePair[] getFormParamsForTest(String message) {
+    private NameValuePair[] getFormParams(String message) {
         try {
-            String authKey = getTestAuthKey(message);
-            return new NameValuePair[]{
-                    new BasicNameValuePair("clientId", "test"),
-                    new BasicNameValuePair("authKey", authKey),
-                    new BasicNameValuePair("os", "web"),
-                    new BasicNameValuePair("message", message)
-            };
+            if (useTestKey()) {
+                String authKey = getTestAuthKey(message);
+                return new NameValuePair[]{
+                        new BasicNameValuePair("clientId", "test"),
+                        new BasicNameValuePair("authKey", authKey),
+                        new BasicNameValuePair("os", "web"),
+                        new BasicNameValuePair("message", message)
+                };
+            } else {
+                return new NameValuePair[]{
+                        new BasicNameValuePair("clientId", clientId),
+                        new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + key)),
+                        new BasicNameValuePair("os", "android"),
+                        new BasicNameValuePair("message", message)
+                };
+            }
         } catch (IOException | APIResponseException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return null;
-    }
-
-    /**
-     * Метод создает параметры формы с использованием выданного ключа.
-     *
-     * @param message сообщение серверу.
-     * @return массив параметров формы.
-     */
-    private NameValuePair[] getFormParams(String message) {
-        return new NameValuePair[]{
-                new BasicNameValuePair("clientId", CLIENT_ID),
-                new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + KEY)),
-                new BasicNameValuePair("os", "android"),
-                new BasicNameValuePair("message", message)
-        };
     }
 
     /**

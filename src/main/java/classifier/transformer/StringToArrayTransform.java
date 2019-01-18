@@ -2,16 +2,21 @@ package classifier.transformer;
 
 import org.simpleframework.xml.transform.Transform;
 
-public class StringToArrayTransform implements Transform<String[]> {
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class StringToArrayTransform implements Transform<List<String>> {
 
     @Override
-    public String[] read(String value) {
+    public List<String> read(String value) {
         value = value.replaceAll("\\s", "");
-        return value.split(",");
+        return Stream.of(value.split(","))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public String write(String[] value) {
+    public String write(List<String> value) {
         return null;
     }
 

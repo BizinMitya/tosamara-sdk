@@ -4,6 +4,8 @@ import classifier.converter.InfotabloConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.convert.Convert;
 
+import java.util.List;
+
 public class FullStop {
 
     /**
@@ -67,67 +69,67 @@ public class FullStop {
      * Перечисление маршрутов муниципальных автобусов, проходящих через остановку.
      */
     @Element(name = "busesMunicipal", required = false)
-    public String[] busesMunicipal;
+    public List<String> busesMunicipal;
 
     /**
      * Перечисление маршрутов коммерческих автобусов.
      */
     @Element(name = "busesCommercial", required = false)
-    public String[] busesCommercial;
+    public List<String> busesCommercial;
 
     /**
      * Перечисление маршрутов пригородных автобусов.
      */
     @Element(name = "busesPrigorod", required = false)
-    public String[] busesPrigorod;
+    public List<String> busesPrigorod;
 
     /**
      * Перечисление маршрутов сезонных (дачных) автобусов.
      */
     @Element(name = "busesSeason", required = false)
-    public String[] busesSeason;
+    public List<String> busesSeason;
 
     /**
      * Перечисление маршрутов специальных автобусов.
      */
     @Element(name = "busesSpecial", required = false)
-    public String[] busesSpecial;
+    public List<String> busesSpecial;
 
     /**
      * Перечисление маршрутов междугородных автобусов.
      */
     @Element(name = "busesIntercity", required = false)
-    public String[] busesIntercity;
+    public List<String> busesIntercity;
 
     /**
      * Перечисление маршрутов трамваев.
      */
     @Element(name = "trams", required = false)
-    public String[] trams;
+    public List<String> trams;
 
     /**
      * Перечисление маршрутов троллейбусов.
      */
     @Element(name = "trolleybuses", required = false)
-    public String[] trolleybuses;
+    public List<String> trolleybuses;
 
     /**
      * Перечисление линий метрополитена (на самом деле, линия в Самаре одна).
      */
     @Element(name = "metros", required = false)
-    public String[] metros;
+    public List<String> metros;
 
     /**
      * Перечисление маршрутов электропоездов.
      */
     @Element(name = "electricTrains", required = false)
-    public String[] electricTrains;
+    public List<String> electricTrains;
 
     /**
      * Перечисление маршрутов речных переправ.
      */
     @Element(name = "riverTransports", required = false)
-    public String[] riverTransports;
+    public List<String> riverTransports;
 
     /**
      * Признак наличия на остановке информационного табло.

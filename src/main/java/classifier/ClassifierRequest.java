@@ -33,7 +33,7 @@ public interface ClassifierRequest {
                 .execute();
         RegistryMatcher matchers = new RegistryMatcher();
         matchers.bind(List.class, StringToGeoPointArrayTransform.class);
-        matchers.bind(String[].class, StringToArrayTransform.class);
+        matchers.bind(List.class, StringToArrayTransform.class);
         Strategy strategy = new AnnotationStrategy();
         Serializer serializer = new Persister(strategy, matchers);
         HttpResponse httpResponse = response.returnResponse();

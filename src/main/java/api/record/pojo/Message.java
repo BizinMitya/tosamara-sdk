@@ -3,7 +3,7 @@ package api.record.pojo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class Message {
@@ -19,14 +19,14 @@ public class Message {
      */
     @JsonProperty(value = "creationTimestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
-    public Date creationTimestamp;
+    public ZonedDateTime creationTimestamp;
 
     /**
      * Дата и время потери актуальности сообщения.
      */
     @JsonProperty(value = "expireTimestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
-    public Date expireTimestamp;
+    public ZonedDateTime expireTimestamp;
 
     /**
      * Текст сообщения.

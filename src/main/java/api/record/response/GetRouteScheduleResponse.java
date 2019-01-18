@@ -1,9 +1,12 @@
 package api.record.response;
 
+import api.deserializer.StringToZonedDateTimeDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import java.util.Date;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class GetRouteScheduleResponse {
@@ -15,8 +18,8 @@ public class GetRouteScheduleResponse {
      * Время окончания движения.
      */
     @JsonProperty(value = "endTime")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Samara")
-    public Date endTime;
+    @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+    public ZonedDateTime endTime;
 
     /**
      * Информация о первом маршруте.
@@ -52,8 +55,8 @@ public class GetRouteScheduleResponse {
      * Время начала движения.
      */
     @JsonProperty(value = "startTime")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Samara")
-    public Date startTime;
+    @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+    public ZonedDateTime startTime;
 
     /**
      * Остановки.
@@ -64,8 +67,9 @@ public class GetRouteScheduleResponse {
     public static class FirstRace {
 
         @JsonProperty(value = "time")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Samara")
-        public Date time;
+        @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+        public ZonedDateTime time;
+
         @JsonProperty(value = "controlPoint")
         private String controlPoint;
 
@@ -77,15 +81,15 @@ public class GetRouteScheduleResponse {
         public String endControlPoint;
 
         @JsonProperty(value = "endTime")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Samara")
-        public Date endTime;
+        @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+        public ZonedDateTime endTime;
 
         @JsonProperty(value = "startControlPoint")
         public String startControlPoint;
 
         @JsonProperty(value = "startTime")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Samara")
-        public Date startTime;
+        @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+        public ZonedDateTime startTime;
 
     }
 
@@ -95,8 +99,8 @@ public class GetRouteScheduleResponse {
         public String stopName;
 
         @JsonProperty(value = "time")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Europe/Samara")
-        public List<Date> time;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+        public List<LocalTime> time;
 
     }
 

@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static api.record.pojo.TransportType.*;
 import static api.record.request.FindShortestPathRequest.Criterion.time;
-import static api.record.request.FindShortestPathRequest.TransportType.*;
 
 class FindShortestPathTest {
 

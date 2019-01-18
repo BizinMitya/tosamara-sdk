@@ -4,7 +4,7 @@ import api.record.pojo.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 public class SendUserMessageResponse {
 
@@ -19,7 +19,7 @@ public class SendUserMessageResponse {
      */
     @JsonProperty(value = "creationTimestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
-    public Date creationTimestamp;
+    public ZonedDateTime creationTimestamp;
 
     /**
      * Признак успешности операции, одно из значений: success, failed, accepted.

@@ -1,6 +1,8 @@
 package api.record.pojo;
 
+import api.deserializer.StringToTransportTypeDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class Transport {
 
@@ -68,6 +70,7 @@ public class Transport {
      * Тип транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
     @JsonProperty(value = "type")
-    public String type;
+    @JsonDeserialize(using = StringToTransportTypeDeserializer.class)
+    public TransportType type;
 
 }

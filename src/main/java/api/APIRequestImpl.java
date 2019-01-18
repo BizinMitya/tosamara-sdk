@@ -1,8 +1,6 @@
 package api;
 
-import api.record.pojo.GeoPoint;
-import api.record.pojo.Link;
-import api.record.pojo.Message;
+import api.record.pojo.*;
 import api.record.request.*;
 import api.record.response.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,6 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import exception.APIResponseException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.NameValuePair;
@@ -29,7 +28,9 @@ public class APIRequestImpl implements APIRequest {
             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
             .enable(SerializationFeature.INDENT_OUTPUT)
             .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
-            .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            .configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false)
+            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            .registerModule(new JavaTimeModule());
 
     private static final String CLIENT_ID = "";
     private static final String KEY = "";
@@ -60,7 +61,7 @@ public class APIRequestImpl implements APIRequest {
 
     @Override
     public FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2,
-                                                     FindShortestPathRequest.Criterion criterion, FindShortestPathRequest.TransportType... transports) throws APIResponseException, IOException {
+                                                     FindShortestPathRequest.Criterion criterion, TransportType... transports) throws APIResponseException, IOException {
         FindShortestPathRequest request = new FindShortestPathRequest(geoPoint1, geoPoint2, criterion, transports);
         return doRequest(request, FindShortestPathResponse.class);
     }
@@ -72,35 +73,40 @@ public class APIRequestImpl implements APIRequest {
     }
 
     @Override
-    public GetSurroundingTransportsResponse getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count) throws APIResponseException, IOException {
+    public List<Transport> getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count) throws APIResponseException, IOException {
         GetSurroundingTransportsRequest request = new GetSurroundingTransportsRequest(geoPoint, radius, count);
-        return doRequest(request, GetSurroundingTransportsResponse.class);
+        GetSurroundingTransportsResponse response = doRequest(request, GetSurroundingTransportsResponse.class);
+        return response.transports;
     }
 
     @Override
-    public GetTransportsOnRouteResponse getTransportsOnRoute(List<Integer> krIds, Integer count) throws APIResponseException, IOException {
+    public List<Transport> getTransportsOnRoute(List<Integer> krIds, Integer count) throws APIResponseException, IOException {
         GetTransportsOnRouteRequest request = new GetTransportsOnRouteRequest(krIds, count);
-        return doRequest(request, GetTransportsOnRouteResponse.class);
+        GetTransportsOnRouteResponse response = doRequest(request, GetTransportsOnRouteResponse.class);
+        return response.transports;
     }
 
     @Override
-    public GetTransportsOnRouteResponse getTransportsOnRoute(Integer krId, Integer count) throws APIResponseException, IOException {
+    public List<Transport> getTransportsOnRoute(Integer krId, Integer count) throws APIResponseException, IOException {
         return getTransportsOnRoute(Collections.singletonList(krId), count);
     }
 
-    public GetNearestBuildingResponse getNearestBuilding(GeoPoint geoPoint, Double radius, Integer count) throws APIResponseException, IOException {
+    public List<Building> getNearestBuilding(GeoPoint geoPoint, Double radius, Integer count) throws APIResponseException, IOException {
         GetNearestBuildingRequest request = new GetNearestBuildingRequest(geoPoint, radius, count);
-        return doRequest(request, GetNearestBuildingResponse.class);
+        GetNearestBuildingResponse response = doRequest(request, GetNearestBuildingResponse.class);
+        return response.buildings;
     }
 
-    public FindBuildingByAddressResponse findBuildingByAddress(@Nullable GeoPoint geoPoint, String address, Integer count) throws APIResponseException, IOException {
+    public List<Building> findBuildingByAddress(@Nullable GeoPoint geoPoint, String address, Integer count) throws APIResponseException, IOException {
         FindBuildingByAddressRequest request = new FindBuildingByAddressRequest(geoPoint, address, count);
-        return doRequest(request, FindBuildingByAddressResponse.class);
+        FindBuildingByAddressResponse response = doRequest(request, FindBuildingByAddressResponse.class);
+        return response.buildings;
     }
 
-    public GetUserMessagesResponse getUserMessages(GeoPoint geoPoint, Double radius, String deviceId) throws APIResponseException, IOException {
+    public List<Message> getUserMessages(GeoPoint geoPoint, Double radius, String deviceId) throws APIResponseException, IOException {
         GetUserMessagesRequest request = new GetUserMessagesRequest(geoPoint, radius, deviceId);
-        return doRequest(request, GetUserMessagesResponse.class);
+        GetUserMessagesResponse response = doRequest(request, GetUserMessagesResponse.class);
+        return response.messages;
     }
 
     public VoteForMessageResponse voteForMessage(Integer id, Message.Vote vote, GeoPoint geoPoint, String deviceId) throws APIResponseException, IOException {

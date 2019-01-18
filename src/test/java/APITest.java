@@ -4,7 +4,6 @@ import api.record.pojo.ArrivalTransport;
 import api.record.pojo.GeoPoint;
 import api.record.pojo.Link;
 import api.record.pojo.Message;
-import api.record.request.FindShortestPathRequest;
 import api.record.response.GetFirstArrivalToStopResponse;
 import classifier.ClassifierRequest;
 import classifier.ClassifierRequestImpl;
@@ -26,8 +25,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static api.record.pojo.TransportType.bus;
 import static api.record.request.FindShortestPathRequest.Criterion.time;
-import static api.record.request.FindShortestPathRequest.TransportType.bus;
 
 class APITest {
 
@@ -124,7 +123,7 @@ class APITest {
                     System.out.println("findShortestPathTest: " + current + "/" + total);
                     GeoPoint geoPoint1 = new GeoPoint(fullStop1.latitude, fullStop1.longitude);
                     GeoPoint geoPoint2 = new GeoPoint(fullStop2.latitude, fullStop2.longitude);
-                    API_REQUEST.findShortestPath(geoPoint1, geoPoint2, time, FindShortestPathRequest.TransportType.bus);
+                    API_REQUEST.findShortestPath(geoPoint1, geoPoint2, time, bus);
                     current++;
                 }
             }

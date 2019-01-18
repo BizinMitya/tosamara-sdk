@@ -1,8 +1,6 @@
 package api;
 
-import api.record.pojo.GeoPoint;
-import api.record.pojo.Link;
-import api.record.pojo.Message;
+import api.record.pojo.*;
 import api.record.request.FindShortestPathRequest;
 import api.record.response.*;
 import exception.APIResponseException;
@@ -86,7 +84,8 @@ public interface APIRequest {
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
     FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2,
-                                              FindShortestPathRequest.Criterion criterion, FindShortestPathRequest.TransportType... transports)
+                                              FindShortestPathRequest.Criterion criterion,
+                                              TransportType... transports)
             throws APIResponseException, IOException;
 
     /**
@@ -107,10 +106,11 @@ public interface APIRequest {
      * @param geoPoint координаты пользователя в WGS 84.
      * @param radius   радиус поиска в метрах.
      * @param count    максимальное количество возвращаемых результатов.
+     * @return список транспорта.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    GetSurroundingTransportsResponse getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count)
+    List<Transport> getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count)
             throws APIResponseException, IOException;
 
     /**
@@ -118,11 +118,11 @@ public interface APIRequest {
      *
      * @param krIds классификаторные номера маршрутов.
      * @param count максимальное количество возвращаемых результатов.
-     * @return объект ответа.
+     * @return список транспорта.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    GetTransportsOnRouteResponse getTransportsOnRoute(List<Integer> krIds, Integer count)
+    List<Transport> getTransportsOnRoute(List<Integer> krIds, Integer count)
             throws APIResponseException, IOException;
 
     /**
@@ -130,11 +130,11 @@ public interface APIRequest {
      *
      * @param krId  классификаторный номер маршрута.
      * @param count максимальное количество возвращаемых результатов.
-     * @return объект ответа.
+     * @return список транспорта.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    GetTransportsOnRouteResponse getTransportsOnRoute(Integer krId, Integer count)
+    List<Transport> getTransportsOnRoute(Integer krId, Integer count)
             throws APIResponseException, IOException;
 
     /**
@@ -144,11 +144,11 @@ public interface APIRequest {
      * @param geoPoint координаты пользователя в WGS 84.
      * @param radius   радиус поиска в метрах.
      * @param count    максимальное количество возвращаемых результатов.
-     * @return объект ответа.
+     * @return список зданий.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    GetNearestBuildingResponse getNearestBuilding(GeoPoint geoPoint, Double radius, Integer count)
+    List<Building> getNearestBuilding(GeoPoint geoPoint, Double radius, Integer count)
             throws APIResponseException, IOException;
 
     /**
@@ -158,11 +158,11 @@ public interface APIRequest {
      * @param geoPoint координаты пользователя в WGS 84.
      * @param address  поисковая строчка с адресом.
      * @param count    максимальное количество возвращаемых результатов.
-     * @return объект ответа.
+     * @return список зданий.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    FindBuildingByAddressResponse findBuildingByAddress(@Nullable GeoPoint geoPoint, String address, Integer count)
+    List<Building> findBuildingByAddress(@Nullable GeoPoint geoPoint, String address, Integer count)
             throws APIResponseException, IOException;
 
     /**
@@ -171,11 +171,11 @@ public interface APIRequest {
      * @param geoPoint координаты пользователя в WGS 84.
      * @param radius   радиус окрестности, по которой собираются события, в метрах.
      * @param deviceId уникальный идентификатор пользовательского устройства (UDID или DeviceID).
-     * @return объект ответа.
+     * @return список сообщений.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
      */
-    GetUserMessagesResponse getUserMessages(GeoPoint geoPoint, Double radius, String deviceId)
+    List<Message> getUserMessages(GeoPoint geoPoint, Double radius, String deviceId)
             throws APIResponseException, IOException;
 
     /**

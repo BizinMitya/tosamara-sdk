@@ -1,9 +1,11 @@
 package api.record.pojo;
 
+import api.deserializer.StringToTransportTypeDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import java.util.Date;
+import java.time.LocalTime;
 
 public class ArrivalTransport {
 
@@ -11,7 +13,8 @@ public class ArrivalTransport {
      * Тип транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
     @JsonProperty(value = "type")
-    public String type;
+    @JsonDeserialize(using = StringToTransportTypeDeserializer.class)
+    public TransportType type;
 
     /**
      * Номер маршрута, тот, что пишется на табличках.
@@ -109,8 +112,8 @@ public class ArrivalTransport {
      * Абсолютное время выхода в настоящий рейс (не на эту остановку!) по расписанию в формате "12:37:15".
      */
     @JsonProperty(value = "scheduleDepartureTime")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone = "Europe/Samara")
-    public Date scheduleDepartureTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    public LocalTime scheduleDepartureTime;
 
     /**
      * Время, которое транспорт простоит на остановке по расписанию в секундах (часто будет 0, но для электричек не 0).

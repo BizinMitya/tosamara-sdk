@@ -1,7 +1,9 @@
 package classifier.pojo;
 
 import api.record.pojo.GeoPoint;
+import api.record.pojo.TransportType;
 import classifier.converter.BooleanConverter;
+import classifier.converter.TransportTypeConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -31,7 +33,7 @@ public class RouteWithStops {
     public String direction;
 
     @Element(name = "transportType")
-    public TransportType transportType;
+    public ExtendedTransportType transportType;
 
     /**
      * Признак выполняемости маршрута в настоящее время, 1 — да, 0 — нет.
@@ -56,7 +58,7 @@ public class RouteWithStops {
     @ElementList(entry = "stop", inline = true)
     public List<Stop> stops;
 
-    static public class TransportType {
+    static public class ExtendedTransportType {
 
         /**
          * Числовой код вида транспорта:
@@ -74,7 +76,8 @@ public class RouteWithStops {
          * Вид транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
          */
         @Element(name = "title")
-        public String title;
+        @Convert(TransportTypeConverter.class)
+        public TransportType title;
 
     }
 

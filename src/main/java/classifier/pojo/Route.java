@@ -1,6 +1,9 @@
 package classifier.pojo;
 
+import api.record.pojo.TransportType;
+import classifier.converter.AffiliationConverter;
 import classifier.converter.BooleanConverter;
+import classifier.converter.TransportTypeConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.convert.Convert;
 
@@ -52,7 +55,8 @@ public class Route {
      * Вид транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
     @Element(name = "transportType")
-    public String transportType;
+    @Convert(TransportTypeConverter.class)
+    public TransportType transportType;
 
     /**
      * Числовой код принадлежность маршрута:
@@ -71,7 +75,8 @@ public class Route {
      * Принадлежность маршрута: муниципальный, коммерческий, пригородный, сезонный (дачный), специальный, междугородный.
      */
     @Element(name = "affiliation")
-    public String affiliation;
+    @Convert(AffiliationConverter.class)
+    public Affiliation affiliation;
 
     /**
      * Признак того, что маршрут прогнозируется по мониторингу в реальном времени.

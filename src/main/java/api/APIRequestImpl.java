@@ -15,7 +15,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -24,7 +23,6 @@ import java.util.List;
 
 public class APIRequestImpl implements APIRequest {
 
-    private static final Logger LOGGER = Logger.getLogger(APIRequestImpl.class);
     private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
             .enable(SerializationFeature.INDENT_OUTPUT)
@@ -148,28 +146,23 @@ public class APIRequestImpl implements APIRequest {
      * @param message сообщение.
      * @return массив параметров формы.
      */
-    private NameValuePair[] getFormParams(String message) {
-        try {
-            if (useTestKey()) {
-                String authKey = getTestAuthKey(message);
-                return new NameValuePair[]{
-                        new BasicNameValuePair("clientId", "test"),
-                        new BasicNameValuePair("authKey", authKey),
-                        new BasicNameValuePair("os", "web"),
-                        new BasicNameValuePair("message", message)
-                };
-            } else {
-                return new NameValuePair[]{
-                        new BasicNameValuePair("clientId", clientId),
-                        new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + key)),
-                        new BasicNameValuePair("os", "android"),
-                        new BasicNameValuePair("message", message)
-                };
-            }
-        } catch (IOException | APIResponseException e) {
-            LOGGER.error(e.getMessage(), e);
+    private NameValuePair[] getFormParams(String message) throws IOException, APIResponseException {
+        if (useTestKey()) {
+            String authKey = getTestAuthKey(message);
+            return new NameValuePair[]{
+                    new BasicNameValuePair("clientId", "test"),
+                    new BasicNameValuePair("authKey", authKey),
+                    new BasicNameValuePair("os", "web"),
+                    new BasicNameValuePair("message", message)
+            };
+        } else {
+            return new NameValuePair[]{
+                    new BasicNameValuePair("clientId", clientId),
+                    new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + key)),
+                    new BasicNameValuePair("os", "android"),
+                    new BasicNameValuePair("message", message)
+            };
         }
-        return null;
     }
 
     /**

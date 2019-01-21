@@ -32,6 +32,9 @@
     <script src="js/classifiers.js"></script>
     <script>
 
+        let currentPage;
+        let alphabeticalMap;
+
         function createTable() {
             let fullStops = JSON.parse(localStorage.getItem('fullStops'));
             if (fullStops && fullStops.length) {
@@ -42,7 +45,42 @@
         }
 
         function addStopsInTable(stops) {
+            alphabeticalMap = new Map();
+            stops.sort((stop1, stop2) => {
+                if (stop1.title.trim() < stop2.title.trim()) {
+                    return -1;
+                }
+                if (stop1.title.trim() > stop2.title.trim()) {
+                    return 1;
+                }
+                return 0;
+            });
             $(stops).each(function (i, stop) {
+                let firstLetter = stop.title.trim()[0];
+                if (alphabeticalMap.get(firstLetter) === undefined) {
+                    let value = [];
+                    value.push(stop);
+                    alphabeticalMap.set(firstLetter, value);
+                } else {
+                    alphabeticalMap.get(firstLetter).push(stop);
+                }
+            });
+            clearPages();
+            alphabeticalMap.forEach(function (value, key, map) {
+                let li = '<li class="page-item"><a id="' + key + '" class="page-link"  href="#" onclick="selectPage(this.id);">' + key + '</a></li>';
+                $('#pages').append(li);
+            });
+            currentPage = alphabeticalMap.keys().next().value;
+            selectPage(currentPage);
+        }
+
+        function selectPage(firstLetter) {
+            clearTable();
+            $('#' + currentPage).parent().removeClass('active');
+            currentPage = firstLetter;
+            $('#' + firstLetter).parent().addClass('active');
+            let stops = alphabeticalMap.get(firstLetter);
+            stops.forEach(function (stop, i) {
                 let row = '<tr>' +
                     '<td>' + stop.title + '</td>' +
                     '<td>' + stop.adjacentStreet + '</td>' +
@@ -59,6 +97,10 @@
 
         function clearTable() {
             $('#stops').html('');
+        }
+
+        function clearPages() {
+            $('#pages').html('');
         }
 
         function searchStops() {
@@ -136,5 +178,10 @@
     </thead>
     <tbody id="stops"></tbody>
 </table>
+<nav>
+    <div class="d-flex justify-content-center">
+        <ul class="pagination" id="pages"></ul>
+    </div>
+</nav>
 </body>
 </html>

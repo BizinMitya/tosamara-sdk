@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 class DownloadClassifiersUtil {
 
@@ -66,7 +67,7 @@ class DownloadClassifiersUtil {
                         fullStop.title + "," +
                         fullStop.adjacentStreet + ","
                         + fullStop.direction + "," +
-                        (fullStop.trams == null ? "автобусы" : "трамваи") +
+                        getTypeOfTransport(fullStop) +
                         System.lineSeparator());
             }
         } catch (IOException e) {
@@ -79,6 +80,46 @@ class DownloadClassifiersUtil {
         if (!dir.exists()) {
             dir.mkdir();
         }
+    }
+
+    private String getTypeOfTransport(FullStop fullStop) {
+        List<String> types = new ArrayList<>();
+        if (fullStop.trams != null && !fullStop.trams.isEmpty()) {
+            types.add("трамваи");
+        }
+        if (fullStop.busesCommercial != null && !fullStop.busesCommercial.isEmpty()) {
+            types.add("коммерческие автобусы");
+        }
+        if (fullStop.busesIntercity != null && !fullStop.busesIntercity.isEmpty()) {
+            types.add("междугородние автобусы");
+        }
+        if (fullStop.busesMunicipal != null && !fullStop.busesMunicipal.isEmpty()) {
+            types.add("муниципальные автобусы");
+        }
+        if (fullStop.busesPrigorod != null && !fullStop.busesPrigorod.isEmpty()) {
+            types.add("пригородные автобусы");
+        }
+        if (fullStop.busesSeason != null && !fullStop.busesSeason.isEmpty()) {
+            types.add("сезонные автобусы");
+        }
+        if (fullStop.busesSpecial != null && !fullStop.busesSpecial.isEmpty()) {
+            types.add("специальные автобусы");
+        }
+        if (fullStop.riverTransports != null && !fullStop.riverTransports.isEmpty()) {
+            types.add("речной транспорт");
+        }
+        if (fullStop.trolleybuses != null && !fullStop.trolleybuses.isEmpty()) {
+            types.add("троллейбусы");
+        }
+        if (fullStop.electricTrains != null && !fullStop.electricTrains.isEmpty()) {
+            types.add("электрички");
+        }
+        if (fullStop.metros != null && !fullStop.metros.isEmpty()) {
+            types.add("метро");
+        }
+        StringJoiner stringJoiner = new StringJoiner("/");
+        types.forEach(stringJoiner::add);
+        return stringJoiner.toString();
     }
 
 }

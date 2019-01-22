@@ -26,9 +26,9 @@ public class StringToGeoPointArrayTransform implements Transform<List<GeoPoint>>
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < value.size(); i++) {
             if (i == value.size() - 1) {
-                stringBuilder.append(value.get(i).latitude).append(",").append(value.get(i).latitude).append(" ");
+                stringBuilder.append(value.get(i).latitude).append(",").append(value.get(i).longitude).append(" ");
             } else {
-                stringBuilder.append(value.get(i).latitude).append(",").append(value.get(i).latitude);
+                stringBuilder.append(value.get(i).latitude).append(",").append(value.get(i).longitude);
             }
         }
         return stringBuilder.toString();

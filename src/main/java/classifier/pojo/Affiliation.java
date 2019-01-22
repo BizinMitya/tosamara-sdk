@@ -36,4 +36,24 @@ public enum Affiliation {
         }
     }
 
+    @SuppressWarnings("Duplicates")
+    public static String convert(Affiliation affiliation) {
+        switch (affiliation) {
+            case municipal:
+                return MUNICIPAL;
+            case commercial:
+                return COMMERCIAL;
+            case suburban:
+                return SUBURBAN;
+            case season:
+                return SEASON;
+            case special:
+                return SPECIAL;
+            case interurban:
+                return INTERURBAN;
+            default:
+                return null;
+        }
+    }
+
 }

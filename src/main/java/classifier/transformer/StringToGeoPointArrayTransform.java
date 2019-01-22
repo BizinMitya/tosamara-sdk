@@ -23,7 +23,15 @@ public class StringToGeoPointArrayTransform implements Transform<List<GeoPoint>>
 
     @Override
     public String write(List<GeoPoint> value) {
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < value.size(); i++) {
+            if (i == value.size() - 1) {
+                stringBuilder.append(value.get(i).latitude).append(",").append(value.get(i).latitude).append(" ");
+            } else {
+                stringBuilder.append(value.get(i).latitude).append(",").append(value.get(i).latitude);
+            }
+        }
+        return stringBuilder.toString();
     }
 
 }

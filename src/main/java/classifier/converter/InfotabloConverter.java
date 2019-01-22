@@ -14,7 +14,7 @@ public class InfotabloConverter implements Converter<Boolean> {
 
     @Override
     public void write(OutputNode node, Boolean value) {
-
+        node.setValue(value ? "да" : "нет");
     }
 
 }

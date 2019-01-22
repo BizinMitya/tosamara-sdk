@@ -17,7 +17,15 @@ public class StringToArrayTransform implements Transform<List<String>> {
 
     @Override
     public String write(List<String> value) {
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < value.size(); i++) {
+            if (i == value.size() - 1) {
+                stringBuilder.append(value.get(i));
+            } else {
+                stringBuilder.append(value.get(i)).append(", ");
+            }
+        }
+        return stringBuilder.toString();
     }
 
 }

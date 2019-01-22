@@ -15,7 +15,7 @@ public class TransportTypeConverter implements Converter<TransportType> {
 
     @Override
     public void write(OutputNode node, TransportType value) {
-
+        node.setValue(TransportType.convert(value));
     }
 
 }

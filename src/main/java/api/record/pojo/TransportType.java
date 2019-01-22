@@ -36,4 +36,24 @@ public enum TransportType {
         }
     }
 
+    @SuppressWarnings("Duplicates")
+    public static String convert(TransportType transportType) {
+        switch (transportType) {
+            case bus:
+                return BUS;
+            case tram:
+                return TRAM;
+            case trolleybus:
+                return TROLLEYBUS;
+            case metro:
+                return METRO;
+            case railway:
+                return RAILWAY;
+            case riverfleet:
+                return RIVERFLEET;
+            default:
+                return null;
+        }
+    }
+
 }

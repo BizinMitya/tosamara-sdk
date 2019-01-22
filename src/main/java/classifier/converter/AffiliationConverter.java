@@ -15,7 +15,7 @@ public class AffiliationConverter implements Converter<Affiliation> {
 
     @Override
     public void write(OutputNode node, Affiliation value) {
-
+        node.setValue(Affiliation.convert(value));
     }
 
 }

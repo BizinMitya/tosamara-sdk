@@ -14,7 +14,7 @@ public class BooleanConverter implements Converter<Boolean> {
 
     @Override
     public void write(OutputNode node, Boolean value) {
-
+        node.setValue(value ? "1" : "0");
     }
 
 }

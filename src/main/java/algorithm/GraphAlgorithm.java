@@ -1,10 +1,12 @@
 package algorithm;
 
+import algorithm.pojo.Node;
 import classifier.ClassifierRequest;
 import classifier.ClassifierRequestImpl;
 import classifier.pojo.RouteWithStops;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,8 +17,6 @@ public class GraphAlgorithm {
     private GraphAlgorithm() {
     }
 
-    // https://intellect.ml/algoritm-poiska-putej-v-grafe-4148
-
     /**
      * Метод нахождения всех маршрутов между двумя остановками с одной пересадкой.
      *
@@ -24,22 +24,30 @@ public class GraphAlgorithm {
      * @param ksId2 ksId2 классификаторный номер остановки прибытия.
      * @return список всех маршрутов между {@param ksId1} и {@param ksId2}.
      */
-    public static List<List<RouteWithStops>> getAllRoutesBetweenTwoPoints(Integer ksId1, Integer ksId2) throws Exception {
+    public static List<LinkedList<Node>> getAllRoutesBetweenTwoPoints(Integer ksId1, Integer ksId2) throws Exception {
         List<RouteWithStops> routesWithStops = CLASSIFIER_REQUEST.getRoutesWithStops();
-        List<List<RouteWithStops>> result = new ArrayList<>();
+        List<LinkedList<Node>> result = new ArrayList<>();
         for (RouteWithStops first : routesWithStops) {
-            if (first.stops.stream().map(stop -> stop.ksId).anyMatch(i -> i.equals(ksId1))) {
+            if (first.stops.stream().map(stop -> stop.ksId).anyMatch(ksId1::equals)) {
                 for (RouteWithStops second : routesWithStops) {
-                    if (second.stops.stream().map(stop -> stop.ksId).anyMatch(i -> i.equals(ksId2))) {
-                        if (second.stops.stream()
-                                .map(stop -> stop.ksId)
-                                .anyMatch(first.stops.stream()
+                    List<Integer> secondIds = second.stops.stream()
+                            .map(stop -> stop.ksId)
+                            .collect(Collectors.toList());
+                    if (secondIds.stream().anyMatch(ksId2::equals)) {
+                        List<Integer> transitStops = secondIds.stream()
+                                .filter(first.stops.stream()
                                         .map(stop -> stop.ksId)
-                                        .collect(Collectors.toList())::contains)) {
-                            List<RouteWithStops> route = new ArrayList<>();
-                            route.add(first);
-                            route.add(second);
-                            result.add(route);
+                                        .collect(Collectors.toList())::contains).collect(Collectors.toList());
+                        if (!transitStops.isEmpty()) {
+                            for (Integer transitStop : transitStops) {
+                                LinkedList<Node> chain = new LinkedList<>();
+                                chain.addLast(new Node(ksId1, Node.Type.stop));
+                                chain.addLast(new Node(first.krId, Node.Type.route));
+                                chain.addLast(new Node(transitStop, Node.Type.stop));
+                                chain.addLast(new Node(second.krId, Node.Type.route));
+                                chain.addLast(new Node(ksId2, Node.Type.stop));
+                                result.add(chain);
+                            }
                         }
                     }
                 }

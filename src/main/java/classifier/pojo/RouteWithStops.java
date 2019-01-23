@@ -3,6 +3,7 @@ package classifier.pojo;
 import api.record.pojo.GeoPoint;
 import api.record.pojo.TransportType;
 import classifier.converter.BooleanConverter;
+import classifier.converter.GeoPointsConverter;
 import classifier.converter.TransportTypeConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -53,6 +54,7 @@ public class RouteWithStops {
      * Геометрическая форма маршрута, ломаной линии, заданной последовательностью точек в формате «широта,долгота широта,долгота ...» в системе координат WGS 84.
      */
     @Element(name = "geometry")
+    @Convert(GeoPointsConverter.class)
     public List<GeoPoint> geometry;
 
     @ElementList(entry = "stop", inline = true)

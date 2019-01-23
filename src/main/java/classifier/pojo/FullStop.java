@@ -1,6 +1,7 @@
 package classifier.pojo;
 
 import classifier.converter.InfotabloConverter;
+import classifier.converter.NumberRoutesConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.convert.Convert;
 
@@ -69,66 +70,77 @@ public class FullStop {
      * Перечисление маршрутов муниципальных автобусов, проходящих через остановку.
      */
     @Element(name = "busesMunicipal", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> busesMunicipal;
 
     /**
      * Перечисление маршрутов коммерческих автобусов.
      */
     @Element(name = "busesCommercial", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> busesCommercial;
 
     /**
      * Перечисление маршрутов пригородных автобусов.
      */
     @Element(name = "busesPrigorod", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> busesPrigorod;
 
     /**
      * Перечисление маршрутов сезонных (дачных) автобусов.
      */
     @Element(name = "busesSeason", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> busesSeason;
 
     /**
      * Перечисление маршрутов специальных автобусов.
      */
     @Element(name = "busesSpecial", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> busesSpecial;
 
     /**
      * Перечисление маршрутов междугородных автобусов.
      */
     @Element(name = "busesIntercity", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> busesIntercity;
 
     /**
      * Перечисление маршрутов трамваев.
      */
     @Element(name = "trams", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> trams;
 
     /**
      * Перечисление маршрутов троллейбусов.
      */
     @Element(name = "trolleybuses", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> trolleybuses;
 
     /**
      * Перечисление линий метрополитена (на самом деле, линия в Самаре одна).
      */
     @Element(name = "metros", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> metros;
 
     /**
      * Перечисление маршрутов электропоездов.
      */
     @Element(name = "electricTrains", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> electricTrains;
 
     /**
      * Перечисление маршрутов речных переправ.
      */
     @Element(name = "riverTransports", required = false)
+    @Convert(NumberRoutesConverter.class)
     public List<String> riverTransports;
 
     /**

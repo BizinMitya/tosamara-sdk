@@ -9,12 +9,18 @@ public class InfotabloConverter implements Converter<Boolean> {
     @Override
     public Boolean read(InputNode node) throws Exception {
         String value = node.getValue();
-        return !value.equals("нет");
+        if (value != null) {
+            return !value.equals("нет");
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void write(OutputNode node, Boolean value) {
-        node.setValue(value ? "да" : "нет");
+        if (value != null) {
+            node.setValue(value ? "да" : "нет");
+        }
     }
 
 }

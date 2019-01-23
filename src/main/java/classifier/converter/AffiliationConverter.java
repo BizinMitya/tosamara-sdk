@@ -10,12 +10,18 @@ public class AffiliationConverter implements Converter<Affiliation> {
     @Override
     public Affiliation read(InputNode node) throws Exception {
         String value = node.getValue();
-        return Affiliation.convert(value);
+        if (value != null) {
+            return Affiliation.convert(value);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void write(OutputNode node, Affiliation value) {
-        node.setValue(Affiliation.convert(value));
+        if (value != null) {
+            node.setValue(Affiliation.convert(value));
+        }
     }
 
 }

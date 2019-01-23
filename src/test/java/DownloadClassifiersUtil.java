@@ -1,13 +1,10 @@
 import classifier.ClassifierRequest;
 import classifier.ClassifierRequestImpl;
 import classifier.pojo.*;
-import classifier.transformer.StringToArrayTransform;
-import classifier.transformer.StringToGeoPointArrayTransform;
 import org.junit.jupiter.api.Test;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
-import org.simpleframework.xml.transform.RegistryMatcher;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -27,10 +24,7 @@ class DownloadClassifiersUtil {
     @Test
     void downloadAllClassifiers() {
         try {
-            RegistryMatcher matchers = new RegistryMatcher();
-            matchers.bind(ArrayList.class, StringToGeoPointArrayTransform.class);
-            matchers.bind(ArrayList.class, StringToArrayTransform.class);
-            Serializer serializer = new Persister(new AnnotationStrategy(), matchers);
+            Serializer serializer = new Persister(new AnnotationStrategy());
             createDirIfNeeded();
 
             Stops stops = new Stops();
@@ -63,12 +57,13 @@ class DownloadClassifiersUtil {
     private void createShortDescriptionForStops(List<FullStop> fullStops) {
         try (FileWriter fileWriter = new FileWriter(PATH_TO_DIR + "shortStops.txt")) {
             for (FullStop fullStop : fullStops) {
-                fileWriter.write(fullStop.ksId + "," +
-                        fullStop.title + "," +
-                        fullStop.adjacentStreet + ","
-                        + fullStop.direction + "," +
-                        getTypeOfTransport(fullStop) +
-                        System.lineSeparator());
+                StringJoiner stringJoiner = new StringJoiner(", ", "[", "]");
+                stringJoiner.add(String.valueOf(fullStop.ksId));
+                stringJoiner.add(fullStop.title);
+                stringJoiner.add(fullStop.adjacentStreet);
+                stringJoiner.add(fullStop.direction);
+                stringJoiner.add(getTypeOfTransport(fullStop));
+                fileWriter.write(stringJoiner.toString() + System.lineSeparator());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,7 +112,8 @@ class DownloadClassifiersUtil {
         if (fullStop.metros != null && !fullStop.metros.isEmpty()) {
             types.add("метро");
         }
-        StringJoiner stringJoiner = new StringJoiner("/");
+        StringJoiner stringJoiner = new StringJoiner(", ", "(", ")");
+        stringJoiner.setEmptyValue("-");
         types.forEach(stringJoiner::add);
         return stringJoiner.toString();
     }

@@ -9,12 +9,18 @@ public class BooleanConverter implements Converter<Boolean> {
     @Override
     public Boolean read(InputNode node) throws Exception {
         String value = node.getValue();
-        return value.equals("1");
+        if (value != null) {
+            return value.equals("1");
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void write(OutputNode node, Boolean value) {
-        node.setValue(value ? "1" : "0");
+        if (value != null) {
+            node.setValue(value ? "1" : "0");
+        }
     }
 
 }

@@ -10,12 +10,18 @@ public class TransportTypeConverter implements Converter<TransportType> {
     @Override
     public TransportType read(InputNode node) throws Exception {
         String value = node.getValue();
-        return TransportType.convert(value);
+        if (value != null) {
+            return TransportType.convert(value);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void write(OutputNode node, TransportType value) {
-        node.setValue(TransportType.convert(value));
+        if (value != null) {
+            node.setValue(TransportType.convert(value));
+        }
     }
 
 }

@@ -1,21 +1,25 @@
 package com.github.useful_solutions.api.record.pojo;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public enum TransportType {
 
     bus,
     metro,
     tram,
     trolleybus,
-    railway, // пока не поддерживается?
-    riverfleet; // пока не поддерживается?
+    railway,
+    riverfleet;
 
-    private static final String BUS = "Автобус";// проверено
-    private static final String TRAM = "Трамвай";// проверено
-    private static final String TROLLEYBUS = "Троллейбус";// проверено
-    private static final String METRO = "Метро";// проверено
-    private static final String RAILWAY = "Железная дорога";// проверено
-    private static final String RIVERFLEET = "Речной транспорт";//TODO: проверить
+    private static final String BUS = "Автобус";
+    private static final String TRAM = "Трамвай";
+    private static final String TROLLEYBUS = "Троллейбус";
+    private static final String METRO = "Метро";
+    private static final String RAILWAY = "Железная дорога";
+    private static final String RIVERFLEET = "Речной транспорт";
 
+    @Nullable
     @SuppressWarnings("Duplicates")
     public static TransportType convert(String transportType) {
         switch (transportType) {
@@ -36,6 +40,7 @@ public enum TransportType {
         }
     }
 
+    @NotNull
     @SuppressWarnings("Duplicates")
     public static String convert(TransportType transportType) {
         switch (transportType) {

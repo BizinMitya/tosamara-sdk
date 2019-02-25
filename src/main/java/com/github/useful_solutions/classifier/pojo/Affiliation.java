@@ -1,5 +1,8 @@
 package com.github.useful_solutions.classifier.pojo;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public enum Affiliation {
 
     municipal,
@@ -9,13 +12,14 @@ public enum Affiliation {
     special,
     interurban;
 
-    private static final String MUNICIPAL = "Городской муниципальный маршрут";// проверено
-    private static final String COMMERCIAL = "Городской коммерческий маршрут";// проверено
-    private static final String SUBURBAN = "Пригородный маршрут";// проверено
-    private static final String SEASON = "Сезонный (дачный) маршрут";// проверено
-    private static final String SPECIAL = "Специальный маршрут";// проверено
-    private static final String INTERURBAN = "Междугородний маршрут";//TODO: проверить
+    private static final String MUNICIPAL = "Городской муниципальный маршрут";
+    private static final String COMMERCIAL = "Городской коммерческий маршрут";
+    private static final String SUBURBAN = "Пригородный маршрут";
+    private static final String SEASON = "Сезонный (дачный) маршрут";
+    private static final String SPECIAL = "Специальный маршрут";
+    private static final String INTERURBAN = "Междугородний маршрут";
 
+    @Nullable
     @SuppressWarnings("Duplicates")
     public static Affiliation convert(String affiliation) {
         switch (affiliation) {
@@ -36,6 +40,7 @@ public enum Affiliation {
         }
     }
 
+    @NotNull
     @SuppressWarnings("Duplicates")
     public static String convert(Affiliation affiliation) {
         switch (affiliation) {

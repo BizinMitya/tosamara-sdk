@@ -1,5 +1,2 @@
 .idea/*
-*.jar
-output
 target
-/src/test/resources

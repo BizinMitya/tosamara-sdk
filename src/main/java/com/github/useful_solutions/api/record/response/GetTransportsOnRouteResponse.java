@@ -1,0 +1,13 @@
+package com.github.useful_solutions.api.record.response;
+
+import com.github.useful_solutions.api.record.pojo.Transport;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+
+public class GetTransportsOnRouteResponse {
+
+    @JsonProperty(value = "transports")
+    public List<Transport> transports;
+
+}

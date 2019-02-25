@@ -11,6 +11,8 @@ import com.github.useful_solutions.api.record.request.*;
 import com.github.useful_solutions.api.record.response.*;
 import com.github.useful_solutions.exception.APIResponseException;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
@@ -21,9 +23,14 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import static org.apache.http.HttpStatus.SC_OK;
+
 public class APIRequestImpl implements APIRequest {
 
-    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+    private static final String API_URL = "https://tosamara.ru/api/v2/json";
+    private static final String TEST_AUTH_KEY_URL = "https://tosamara.ru/test_files/api/handler.php";
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
             .enable(SerializationFeature.INDENT_OUTPUT)
             .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
@@ -198,6 +205,23 @@ public class APIRequestImpl implements APIRequest {
                 .bodyForm(new BasicNameValuePair("msg", message))
                 .execute();
         return handleResponse(response);
+    }
+
+    private String doAPIRequest(NameValuePair[] nameValuePairs) throws APIResponseException, IOException {
+        Response response = Request.Post(API_URL)
+                .bodyForm(nameValuePairs)
+                .execute();
+        return handleResponse(response);
+    }
+
+    private String handleResponse(Response response) throws IOException, APIResponseException {
+        HttpResponse httpResponse = response.returnResponse();
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
+        if (statusCode == SC_OK) {
+            return IOUtils.toString(httpResponse.getEntity().getContent());
+        } else {
+            throw new APIResponseException(statusCode);
+        }
     }
 
 }

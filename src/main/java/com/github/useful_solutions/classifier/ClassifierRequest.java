@@ -1,46 +1,10 @@
 package com.github.useful_solutions.classifier;
 
 import com.github.useful_solutions.classifier.pojo.*;
-import com.github.useful_solutions.exception.APIResponseException;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Response;
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.convert.AnnotationStrategy;
-import org.simpleframework.xml.core.Persister;
 
 import java.util.List;
 
-import static org.apache.http.HttpStatus.SC_OK;
-
 public interface ClassifierRequest {
-
-    String CLASSIFIERS_URL = "https://tosamara.ru/api/classifiers";
-    String STOPS_URL = CLASSIFIERS_URL + "/stops.xml";
-    String STOPS_FULL_URL = CLASSIFIERS_URL + "/stopsFullDB.xml";
-    String ROUTES_URL = CLASSIFIERS_URL + "/routes.xml";
-    String ROUTES_AND_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/routesAndStopsCorrespondence.xml";
-    String GEOPORTAL_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/GeoportalStopsCorrespondence.xml";
-    String GEOPORTAL_ROUTES_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/GeoportalRoutesCorrespondence.xml";
-
-    default <T> T doClassifierRequest(Class<T> classifierType, String url) throws Exception {
-        Response response = Request.Get(url)
-                .execute();
-        Serializer serializer = new Persister(new AnnotationStrategy());
-        HttpResponse httpResponse = response.returnResponse();
-        int statusCode = httpResponse.getStatusLine().getStatusCode();
-        if (statusCode == SC_OK) {
-            String content = IOUtils.toString(httpResponse.getEntity().getContent());
-            if (serializer.validate(classifierType, content)) {
-                return serializer.read(classifierType, content);
-            } else {
-                throw new Exception(String.format("Content %s can't be deserialized", content));
-            }
-        } else {
-            throw new APIResponseException(statusCode);
-        }
-    }
 
     /**
      * Метод получения списка справочников.

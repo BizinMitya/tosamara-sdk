@@ -4,25 +4,15 @@ import com.github.useful_solutions.api.record.pojo.*;
 import com.github.useful_solutions.api.record.request.FindShortestPathRequest;
 import com.github.useful_solutions.api.record.response.*;
 import com.github.useful_solutions.exception.APIResponseException;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Response;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.apache.http.HttpStatus.SC_OK;
-
 /**
  * https://www.tosamara.ru/api/
  */
 public interface APIRequest {
-
-    String API_URL = "https://tosamara.ru/api/v2/json";
-    String TEST_AUTH_KEY_URL = "https://tosamara.ru/test_files/api/handler.php";
 
     /**
      * Метод получения прогнозов прибытия транспорта на выбранные остановки.
@@ -207,22 +197,5 @@ public interface APIRequest {
     SendUserMessageResponse sendUserMessage(String text, @Nullable String textEn, String link,
                                             List<Link> links, Integer expireTime, String deviceId)
             throws APIResponseException, IOException;
-
-    default String doAPIRequest(NameValuePair[] nameValuePairs) throws APIResponseException, IOException {
-        Response response = Request.Post(API_URL)
-                .bodyForm(nameValuePairs)
-                .execute();
-        return handleResponse(response);
-    }
-
-    default String handleResponse(Response response) throws IOException, APIResponseException {
-        HttpResponse httpResponse = response.returnResponse();
-        int statusCode = httpResponse.getStatusLine().getStatusCode();
-        if (statusCode == SC_OK) {
-            return IOUtils.toString(httpResponse.getEntity().getContent());
-        } else {
-            throw new APIResponseException(statusCode);
-        }
-    }
 
 }

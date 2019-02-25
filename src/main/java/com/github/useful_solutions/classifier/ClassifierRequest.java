@@ -4,6 +4,9 @@ import com.github.useful_solutions.classifier.pojo.*;
 
 import java.util.List;
 
+/**
+ * <a href="https://tosamara.ru/api">https://tosamara.ru/api</a>
+ */
 public interface ClassifierRequest {
 
     /**
@@ -47,7 +50,7 @@ public interface ClassifierRequest {
     List<RouteWithStops> getRoutesWithStops() throws Exception;
 
     /**
-     * Метод получения остановок на карте {@see <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>}
+     * Метод получения остановок на карте <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>
      *
      * @return список остановок на карте геопортала.
      * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
@@ -55,7 +58,7 @@ public interface ClassifierRequest {
     StopsOnMap getStopsOnMap() throws Exception;
 
     /**
-     * Метод получения маршрутов на карте {@see <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>}
+     * Метод получения маршрутов на карте <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>
      * Связывает маршруты со слоями и объектами на карте.
      * В каждом слое обыкновенно находятся два линейных объекта - прямое и обратное направление одного маршрута, и несколько объектов транспорта, которые движутся в реальном времени.
      *

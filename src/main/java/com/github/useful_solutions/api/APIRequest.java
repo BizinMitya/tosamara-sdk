@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * https://www.tosamara.ru/api/
+ * <a href="https://tosamara.ru/api">https://tosamara.ru/api</a>
  */
 public interface APIRequest {
 

@@ -12,6 +12,7 @@ class ClassifiersTest {
     @Test
     void allClassifiersTest() {
         getClassifiersTest();
+        getAllClassifiersTest();
         getStopsTest();
         getFullStopsTest();
         getRoutesTest();
@@ -24,6 +25,15 @@ class ClassifiersTest {
     void getClassifiersTest() {
         try {
             CLASSIFIER_REQUEST.getClassifiers();
+        } catch (Exception e) {
+            Assertions.fail(e);
+        }
+    }
+
+    @Test
+    void getAllClassifiersTest() {
+        try {
+            CLASSIFIER_REQUEST.getAllClassifiers();
         } catch (Exception e) {
             Assertions.fail(e);
         }

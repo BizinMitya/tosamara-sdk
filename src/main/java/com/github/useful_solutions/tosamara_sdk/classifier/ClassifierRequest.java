@@ -18,6 +18,14 @@ public interface ClassifierRequest {
     List<Classifier> getClassifiers() throws Exception;
 
     /**
+     * Метод получения всех справочников.
+     *
+     * @return объект, содержащий все справочники.
+     * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
+     */
+    AllClassifiers getAllClassifiers() throws Exception;
+
+    /**
      * Метод получения списка остановок.
      *
      * @return список остановок.

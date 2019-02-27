@@ -11,29 +11,41 @@ import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import static org.apache.http.HttpStatus.SC_OK;
 
 public class ClassifierRequestImpl implements ClassifierRequest {
 
     private static final String CLASSIFIERS_URL = "https://tosamara.ru/api/classifiers";
-    private static final String STOPS_URL = CLASSIFIERS_URL + "/stops.xml";
-    private static final String STOPS_FULL_URL = CLASSIFIERS_URL + "/stopsFullDB.xml";
-    private static final String ROUTES_URL = CLASSIFIERS_URL + "/routes.xml";
-    private static final String ROUTES_AND_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/routesAndStopsCorrespondence.xml";
-    private static final String GEOPORTAL_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/GeoportalStopsCorrespondence.xml";
-    private static final String GEOPORTAL_ROUTES_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/GeoportalRoutesCorrespondence.xml";
+
+    private static final String ROUTES = "routes.xml";
+    private static final String STOPS = "stops.xml";
+    private static final String STOPS_FULL_DB = "stopsFullDB.xml";
+    private static final String ROUTES_AND_STOPS = "routesAndStopsCorrespondence.xml";
+    private static final String GEOPORTAL_ROUTES = "GeoportalRoutesCorrespondence.xml";
+    private static final String GEOPORTAL_STOPS = "GeoportalStopsCorrespondence.xml";
+
+    private static final String STOPS_URL = CLASSIFIERS_URL + "/" + STOPS;
+    private static final String STOPS_FULL_URL = CLASSIFIERS_URL + "/" + STOPS_FULL_DB;
+    private static final String ROUTES_URL = CLASSIFIERS_URL + "/" + ROUTES;
+    private static final String ROUTES_AND_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/" + ROUTES_AND_STOPS;
+    private static final String GEOPORTAL_STOPS_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/" + GEOPORTAL_STOPS;
+    private static final String GEOPORTAL_ROUTES_CORRESPONDENCE_URL = CLASSIFIERS_URL + "/" + GEOPORTAL_ROUTES;
+    private static final String ALL_CLASSIFIERS = CLASSIFIERS_URL + "/classifiers.zip";
+
+    private static final Serializer SERIALIZER = new Persister(new AnnotationStrategy());
 
     private <T> T doClassifierRequest(Class<T> classifierType, String url) throws Exception {
         Response response = Request.Get(url)
                 .execute();
-        Serializer serializer = new Persister(new AnnotationStrategy());
         HttpResponse httpResponse = response.returnResponse();
         int statusCode = httpResponse.getStatusLine().getStatusCode();
         if (statusCode == SC_OK) {
             String content = IOUtils.toString(httpResponse.getEntity().getContent());
-            if (serializer.validate(classifierType, content)) {
-                return serializer.read(classifierType, content);
+            if (SERIALIZER.validate(classifierType, content)) {
+                return SERIALIZER.read(classifierType, content);
             } else {
                 throw new Exception(String.format("Content %s can't be deserialized", content));
             }
@@ -46,6 +58,52 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     public List<Classifier> getClassifiers() throws Exception {
         Classifiers classifiers = doClassifierRequest(Classifiers.class, CLASSIFIERS_URL);
         return classifiers.files;
+    }
+
+    @Override
+    public AllClassifiers getAllClassifiers() throws Exception {
+        Response response = Request.Get(ALL_CLASSIFIERS)
+                .execute();
+        HttpResponse httpResponse = response.returnResponse();
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
+        if (statusCode == SC_OK) {
+            AllClassifiers allClassifiers = new AllClassifiers();
+            try (ZipInputStream zipInputStream = new ZipInputStream(httpResponse.getEntity().getContent())) {
+                ZipEntry zipEntry;
+                while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+                    switch (zipEntry.getName()) {
+                        case ROUTES: {
+                            allClassifiers.setRoutes(SERIALIZER.read(Routes.class, zipInputStream));
+                            break;
+                        }
+                        case STOPS: {
+                            allClassifiers.setStops(SERIALIZER.read(Stops.class, zipInputStream));
+                            break;
+                        }
+                        case STOPS_FULL_DB: {
+                            allClassifiers.setFullStops(SERIALIZER.read(FullStops.class, zipInputStream));
+                            break;
+                        }
+                        case ROUTES_AND_STOPS: {
+                            allClassifiers.setRoutesWithStops(SERIALIZER.read(RoutesWithStops.class, zipInputStream));
+                            break;
+                        }
+                        case GEOPORTAL_ROUTES: {
+                            allClassifiers.setRoutesOnMap(SERIALIZER.read(RoutesOnMap.class, zipInputStream));
+                            break;
+                        }
+                        case GEOPORTAL_STOPS: {
+                            allClassifiers.setStopsOnMap(SERIALIZER.read(StopsOnMap.class, zipInputStream));
+                            break;
+                        }
+                    }
+                    zipInputStream.closeEntry();
+                }
+                return allClassifiers;
+            }
+        } else {
+            throw new APIResponseException(statusCode);
+        }
     }
 
     @Override

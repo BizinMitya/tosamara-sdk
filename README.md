@@ -4,3 +4,13 @@
 Для работы с API используются 2 класса: `ClassifierRequestImpl` и `APIRequestImpl`.
 Класс `ClassifierRequestImpl` используется для получения справочников, поэтому не требует _clientId_ и _key_.
 Класс `APIRequestImpl` используется для вызова методов API. Конструктор класса `APIRequestImpl(String clientId, String key, String os)` принимает _clientId_ и _key_, выданные порталом, и _os_ - указание ОС, с которой выполняются запросы.
+
+Для подключения библиотеки через Maven, нужно добавить зависимость:
+
+```xml
+<dependency>
+    <groupId>com.github.useful-solutions</groupId>
+    <artifactId>tosamara-sdk</artifactId>
+    <version>1.0</version>
+</dependency>
+```

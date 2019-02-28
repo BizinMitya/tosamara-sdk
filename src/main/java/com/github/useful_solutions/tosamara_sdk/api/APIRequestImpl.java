@@ -43,9 +43,9 @@ public class APIRequestImpl implements APIRequest {
     private final String os;
 
     /**
-     * @param clientId идентификатор клиента
-     * @param key      ключ
-     * @param os       операционная система, с которой будет отправляться запрос.
+     * @param clientId идентификатор клиента.
+     * @param key      ключ.
+     * @param os       операционная система, с которой будут отправляться запросы.
      */
     public APIRequestImpl(String clientId, String key, String os) {
         this.clientId = clientId;
@@ -54,8 +54,8 @@ public class APIRequestImpl implements APIRequest {
     }
 
     /**
-     * Запросы к API будут использовать тестовый ключ.
-     * Будет использоваться операционная система "android".
+     * Для запросов к API будет использоваться тестовый ключ.
+     * В качестве операционной системы будет использоваться "android".
      */
     public APIRequestImpl() {
         clientId = null;
@@ -64,9 +64,9 @@ public class APIRequestImpl implements APIRequest {
     }
 
     /**
-     * Запросы к API будут использовать тестовый ключ.
+     * Для запросов к API будет использоваться тестовый ключ.
      *
-     * @param os операционная система, с которой будет отправляться запрос.
+     * @param os операционная система, с которой будут отправляться запросы.
      */
     public APIRequestImpl(String os) {
         clientId = null;

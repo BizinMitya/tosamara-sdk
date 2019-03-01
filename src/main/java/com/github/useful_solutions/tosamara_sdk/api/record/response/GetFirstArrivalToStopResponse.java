@@ -11,7 +11,6 @@ public class GetFirstArrivalToStopResponse {
     @JsonProperty(value = "arrival")
     public List<ArrivalTransport> arrivalTransports;
 
-    @JsonProperty
     public List<Message> messages;
 
 }

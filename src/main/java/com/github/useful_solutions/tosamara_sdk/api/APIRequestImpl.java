@@ -169,12 +169,8 @@ public class APIRequestImpl implements APIRequest {
         formEncodingBuilder.add("os", os);
         formEncodingBuilder.add("message", message);
         formEncodingBuilder.add("clientId", clientId);
-        if (key == null) {
-            String authKey = getTestAuthKey(message);
-            formEncodingBuilder.add("authKey", authKey);
-        } else {
-            formEncodingBuilder.add("authKey", DigestUtils.shaHex(message + key));
-        }
+        String authKey = (key == null ? getTestAuthKey(message) : DigestUtils.shaHex(message + key));
+        formEncodingBuilder.add("authKey", authKey);
         return formEncodingBuilder.build();
     }
 
@@ -209,11 +205,10 @@ public class APIRequestImpl implements APIRequest {
 
     private String handleResponse(Response response) throws IOException, APIResponseException {
         int statusCode = response.code();
-        if (statusCode == HTTP_OK) {
-            return response.body().string();
-        } else {
+        if (statusCode != HTTP_OK) {
             throw new APIResponseException(statusCode);
         }
+        return response.body().string();
     }
 
 }

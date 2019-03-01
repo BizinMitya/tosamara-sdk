@@ -42,14 +42,6 @@ public class FindShortestPathRequest {
         this.transports = transports;
     }
 
-    public enum Criterion {
-
-        time,
-        price,
-        length
-
-    }
-
     public Double getLatitude1() {
         return latitude1;
     }
@@ -73,4 +65,13 @@ public class FindShortestPathRequest {
     public TransportType[] getTransports() {
         return transports;
     }
+
+    public enum Criterion {
+
+        time,
+        price,
+        length
+
+    }
+
 }

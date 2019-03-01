@@ -15,61 +15,51 @@ public class Transport {
     /**
      * Направление движения транспорта в точке, где он сейчас находится, в градусах от 0 до 360 по тригонометрическому кругу.
      */
-    @JsonProperty
     public Double direction;
 
     /**
      * Флаг доступности для людей с ограниченными возможностями.
      */
-    @JsonProperty
     public Boolean forInvalid;
 
     /**
      * Идентификатор транспорта.
      */
-    @JsonProperty
     public Integer hullNo;
 
     /**
      * Широта, координаты транспорта в WGS 84.
      */
-    @JsonProperty
     public Double latitude;
 
     /**
      * Долгота, координаты транспорта в WGS 84.
      */
-    @JsonProperty
     public Double longitude;
 
     /**
      * Название модели транспорта.
      */
-    @JsonProperty
     public String modelTitle;
 
     /**
      * Классификаторный номер следующей остановки.
      */
-    @JsonProperty
     public Integer nextStopId;
 
     /**
      * Номер маршрута, тот, что пишется на табличках.
      */
-    @JsonProperty
     public String number;
 
     /**
      * Автомобильный или парковый номер транспорта.
      */
-    @JsonProperty
     public String stateNumber;
 
     /**
      * Тип транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
-    @JsonProperty
     @JsonDeserialize(using = StringToTransportTypeDeserializer.class)
     public TransportType type;
 

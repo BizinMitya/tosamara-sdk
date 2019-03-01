@@ -10,7 +10,6 @@ public class GetRouteScheduleRequest {
     @JsonProperty(value = "KR_ID")
     private final Integer krId;
 
-    @JsonProperty
     private final String day;
 
     public GetRouteScheduleRequest(Integer krId, String day) {

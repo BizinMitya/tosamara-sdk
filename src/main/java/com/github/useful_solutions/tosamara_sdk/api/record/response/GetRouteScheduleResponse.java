@@ -17,32 +17,27 @@ public class GetRouteScheduleResponse {
     /**
      * Время окончания движения.
      */
-    @JsonProperty
     @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
     public ZonedDateTime endTime;
 
     /**
      * Информация о первом маршруте.
      */
-    @JsonProperty
     public FirstRace firstRace;
 
     /**
      * Интервал движения.
      */
-    @JsonProperty
     public Integer interval;
 
     /**
      * Информация о последнем маршруте.
      */
-    @JsonProperty
     public LastRace lastRace;
 
     /**
      * Модели транспортных средств.
      */
-    @JsonProperty
     public List<String> models;
 
     /**
@@ -54,19 +49,16 @@ public class GetRouteScheduleResponse {
     /**
      * Время начала движения.
      */
-    @JsonProperty
     @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
     public ZonedDateTime startTime;
 
     /**
      * Остановки.
      */
-    @JsonProperty
     public List<String> stops;
 
     public static class FirstRace {
 
-        @JsonProperty
         @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
         public ZonedDateTime time;
 
@@ -77,17 +69,13 @@ public class GetRouteScheduleResponse {
 
     public static class LastRace {
 
-        @JsonProperty
         public String endControlPoint;
 
-        @JsonProperty
         @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
         public ZonedDateTime endTime;
 
-        @JsonProperty
         public String startControlPoint;
 
-        @JsonProperty
         @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
         public ZonedDateTime startTime;
 
@@ -95,10 +83,8 @@ public class GetRouteScheduleResponse {
 
     public static class Schedule {
 
-        @JsonProperty
         public String stopName;
 
-        @JsonProperty
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
         public List<LocalTime> time;
 

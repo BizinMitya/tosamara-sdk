@@ -12,40 +12,33 @@ public class GetTransportPositionResponse {
     @JsonProperty(value = "KR_ID")
     public Integer krId;
 
-    @JsonProperty
     public Double latitude;
 
-    @JsonProperty
     public Double longitude;
 
     /**
      * Название модели транспорта.
      */
-    @JsonProperty
     public String modelTitle;
 
     /**
      * Остановки, которые транспорту предстоит пройти, в порядке следования.
      */
-    @JsonProperty
     public List<Stop> nextStops;
 
     /**
      * Оставшаяся часть пути до ближайшей по ходу движения остановки, в метрах.
      */
-    @JsonProperty
     public Double remainingLength;
 
     /**
      * Длина участка между остановками, на котором находится транспорт, в метрах.
      */
-    @JsonProperty
     public Double spanLength;
 
     /**
      * Автомобильный или парковый номер транспорта.
      */
-    @JsonProperty
     public String stateNumber;
 
     static public class Stop {
@@ -59,7 +52,6 @@ public class GetTransportPositionResponse {
         /**
          * Время прибытия на остановку, в секундах.
          */
-        @JsonProperty
         public Double time;
 
     }

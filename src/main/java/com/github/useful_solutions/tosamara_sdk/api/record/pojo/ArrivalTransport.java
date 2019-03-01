@@ -29,64 +29,53 @@ public class ArrivalTransport {
     /**
      * Время до прибытия транспорта на остановку.
      */
-    @JsonProperty
     public Integer time;
 
     /**
      * Идентификатор транспорта.
      */
-    @JsonProperty
     public Integer hullNo;
 
     /**
      * Номер госрегистрации.
      */
-    @JsonProperty
     public String stateNumber;
 
     /**
      * Название модели транспорта.
      */
-    @JsonProperty
     public String modelTitle;
 
     /**
      * Флаг доступности для людей с ограниченными возможностями.
      */
-    @JsonProperty
     public Boolean forInvalid;
 
     /**
      * Классификаторный номер остановки, для которой запрошен прогноз (помогает разобраться при запросе на несколько остановок сразу).
      */
-    @JsonProperty
     public Integer requestedStopId;
 
-    @JsonProperty
     public Integer nextStopId;
 
     /**
      * Время до прибытия транспорта на остановку в секундах.
      */
-    @JsonProperty
     public Double timeInSeconds;
 
     /**
      * Название следующей остановки.
      */
-    @JsonProperty
     public String nextStopName;
 
     /**
      * Расстояние между остановками (в метрах).
      */
-    @JsonProperty
     public Double spanLength;
 
     /**
      * Оставшаяся часть пути (в метрах).
      */
-    @JsonProperty
     public Double remainingLength;
 
     /**
@@ -97,26 +86,22 @@ public class ArrivalTransport {
      * unattached - неуверенно определен маршрут или направление,
      * damaged - транспорт поврежден и может не принимать пассажиров
      */
-    @JsonProperty
     public Quality quality;
 
     /**
      * Время прибытия на остановку в секундах, если бы транспорт не отклонялся от расписания.
      */
-    @JsonProperty
     public Double scheduleTimeTo;
 
     /**
      * Абсолютное время выхода в настоящий рейс (не на эту остановку!) по расписанию в формате "12:37:15".
      */
-    @JsonProperty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     public LocalTime scheduleDepartureTime;
 
     /**
      * Время, которое транспорт простоит на остановке по расписанию в секундах (часто будет 0, но для электричек не 0).
      */
-    @JsonProperty
     public Double delayTime;
 
     public enum Quality {

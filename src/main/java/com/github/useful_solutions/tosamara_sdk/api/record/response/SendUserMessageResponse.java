@@ -11,20 +11,17 @@ public class SendUserMessageResponse {
     /**
      * Идентификатор сообщения.
      */
-    @JsonProperty
     public String id;
 
     /**
      * Дата и время добавления сообщения.
      */
-    @JsonProperty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
     public ZonedDateTime creationTimestamp;
 
     /**
      * Признак успешности операции, одно из значений: success, failed, accepted.
      */
-    @JsonProperty
     public Status status;
 
     /**

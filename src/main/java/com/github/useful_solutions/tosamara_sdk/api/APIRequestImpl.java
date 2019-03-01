@@ -55,9 +55,7 @@ public class APIRequestImpl implements APIRequest {
      * В качестве операционной системы будет использоваться "android".
      */
     public APIRequestImpl() {
-        clientId = null;
-        key = null;
-        os = "android";
+        this("android");
     }
 
     /**
@@ -66,13 +64,9 @@ public class APIRequestImpl implements APIRequest {
      * @param os операционная система, с которой будут отправляться запросы.
      */
     public APIRequestImpl(@NotNull String os) {
-        clientId = null;
+        clientId = "test";
         key = null;
         this.os = os;
-    }
-
-    private boolean useTestKey() {
-        return clientId == null || key == null;
     }
 
     @Override
@@ -172,18 +166,14 @@ public class APIRequestImpl implements APIRequest {
      */
     private RequestBody getFormParams(String message) throws IOException, APIResponseException {
         FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
-        if (useTestKey()) {
+        formEncodingBuilder.add("os", os);
+        formEncodingBuilder.add("message", message);
+        formEncodingBuilder.add("clientId", clientId);
+        if (key == null) {
             String authKey = getTestAuthKey(message);
-            formEncodingBuilder.add("clientId", "test");
             formEncodingBuilder.add("authKey", authKey);
-            formEncodingBuilder.add("os", os);
-            formEncodingBuilder.add("message", message);
-
         } else {
-            formEncodingBuilder.add("clientId", clientId);
             formEncodingBuilder.add("authKey", DigestUtils.shaHex(message + key));
-            formEncodingBuilder.add("os", os);
-            formEncodingBuilder.add("message", message);
         }
         return formEncodingBuilder.build();
     }

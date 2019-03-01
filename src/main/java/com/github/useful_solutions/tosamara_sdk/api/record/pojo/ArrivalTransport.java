@@ -12,14 +12,12 @@ public class ArrivalTransport {
     /**
      * Тип транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
-    @JsonProperty
     @JsonDeserialize(using = StringToTransportTypeDeserializer.class)
     public TransportType type;
 
     /**
      * Номер маршрута, тот, что пишется на табличках.
      */
-    @JsonProperty
     public String number;
 
     /**

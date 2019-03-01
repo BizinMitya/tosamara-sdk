@@ -1,13 +1,13 @@
 package com.github.useful_solutions.tosamara_sdk.api.record.request;
 
-import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Link;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Link;
 
 import java.util.List;
 
 public class SendUserMessageRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "sendUserMessage";
 
     @JsonProperty(value = "TEXT")

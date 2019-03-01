@@ -240,7 +240,7 @@ class APITest {
         try {
             FullStop fullStop = fullStops.get(RANDOM.nextInt(fullStops.size()));
             GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-            API_REQUEST.getSurroundingTransports(geoPoint, 10_000.5D, Integer.MAX_VALUE);
+            API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE);
         } catch (Exception e) {
             Assertions.fail(e);
         }

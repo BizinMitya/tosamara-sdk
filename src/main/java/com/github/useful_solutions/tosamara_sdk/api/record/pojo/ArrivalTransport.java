@@ -12,14 +12,14 @@ public class ArrivalTransport {
     /**
      * Тип транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty
     @JsonDeserialize(using = StringToTransportTypeDeserializer.class)
     public TransportType type;
 
     /**
      * Номер маршрута, тот, что пишется на табличках.
      */
-    @JsonProperty(value = "number")
+    @JsonProperty
     public String number;
 
     /**
@@ -31,64 +31,64 @@ public class ArrivalTransport {
     /**
      * Время до прибытия транспорта на остановку.
      */
-    @JsonProperty(value = "time")
+    @JsonProperty
     public Integer time;
 
     /**
      * Идентификатор транспорта.
      */
-    @JsonProperty(value = "hullNo")
+    @JsonProperty
     public Integer hullNo;
 
     /**
      * Номер госрегистрации.
      */
-    @JsonProperty(value = "stateNumber")
+    @JsonProperty
     public String stateNumber;
 
     /**
      * Название модели транспорта.
      */
-    @JsonProperty(value = "modelTitle")
+    @JsonProperty
     public String modelTitle;
 
     /**
      * Флаг доступности для людей с ограниченными возможностями.
      */
-    @JsonProperty(value = "forInvalid")
+    @JsonProperty
     public Boolean forInvalid;
 
     /**
      * Классификаторный номер остановки, для которой запрошен прогноз (помогает разобраться при запросе на несколько остановок сразу).
      */
-    @JsonProperty(value = "requestedStopId")
+    @JsonProperty
     public Integer requestedStopId;
 
-    @JsonProperty(value = "nextStopId")
+    @JsonProperty
     public Integer nextStopId;
 
     /**
      * Время до прибытия транспорта на остановку в секундах.
      */
-    @JsonProperty(value = "timeInSeconds")
+    @JsonProperty
     public Double timeInSeconds;
 
     /**
      * Название следующей остановки.
      */
-    @JsonProperty(value = "nextStopName")
+    @JsonProperty
     public String nextStopName;
 
     /**
      * Расстояние между остановками (в метрах).
      */
-    @JsonProperty(value = "spanLength")
+    @JsonProperty
     public Double spanLength;
 
     /**
      * Оставшаяся часть пути (в метрах).
      */
-    @JsonProperty(value = "remainingLength")
+    @JsonProperty
     public Double remainingLength;
 
     /**
@@ -99,26 +99,26 @@ public class ArrivalTransport {
      * unattached - неуверенно определен маршрут или направление,
      * damaged - транспорт поврежден и может не принимать пассажиров
      */
-    @JsonProperty(value = "quality")
+    @JsonProperty
     public Quality quality;
 
     /**
      * Время прибытия на остановку в секундах, если бы транспорт не отклонялся от расписания.
      */
-    @JsonProperty(value = "scheduleTimeTo")
+    @JsonProperty
     public Double scheduleTimeTo;
 
     /**
      * Абсолютное время выхода в настоящий рейс (не на эту остановку!) по расписанию в формате "12:37:15".
      */
-    @JsonProperty(value = "scheduleDepartureTime")
+    @JsonProperty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     public LocalTime scheduleDepartureTime;
 
     /**
      * Время, которое транспорт простоит на остановке по расписанию в секундах (часто будет 0, но для электричек не 0).
      */
-    @JsonProperty(value = "delayTime")
+    @JsonProperty
     public Double delayTime;
 
     public enum Quality {

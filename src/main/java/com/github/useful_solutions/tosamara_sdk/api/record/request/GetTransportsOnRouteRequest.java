@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GetTransportsOnRouteRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "getTransportsOnRoute";
 
     @JsonProperty(value = "KR_ID")

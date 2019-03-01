@@ -1,20 +1,20 @@
 package com.github.useful_solutions.tosamara_sdk.api.record.response;
 
-import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Status;
 
 public class VoteForMessageResponse {
 
     /**
      * Признак успешности операции, одно из значений: success, failed.
      */
-    @JsonProperty(value = "status")
+    @JsonProperty
     public Status status;
 
     /**
      * В случае неуспешности содержит описание ошибки.
      */
-    @JsonProperty(value = "text")
+    @JsonProperty
     public String text;
 
 }

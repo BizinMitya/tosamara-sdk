@@ -1,7 +1,7 @@
 package com.github.useful_solutions.tosamara_sdk.api.record.response;
 
-import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 
 import java.util.List;
 
@@ -10,28 +10,28 @@ public class FindShortestPathResponse {
     /**
      * Время выполнения маршрута в секундах.
      */
-    @JsonProperty(value = "time")
+    @JsonProperty
     public Integer time;
 
     /**
      * Стоимость проезда в рублях.
      */
-    @JsonProperty(value = "price")
+    @JsonProperty
     public Integer price;
 
     /**
      * Длина маршрута в метрах.
      */
-    @JsonProperty(value = "length")
-    public Integer lenght;
+    @JsonProperty
+    public Integer length;
 
     /**
      * Количество поездок (значение более 1 означает, что будут пересадки).
      */
-    @JsonProperty(value = "transportTakes")
+    @JsonProperty
     public Integer transportTakes;
 
-    @JsonProperty(value = "actions")
+    @JsonProperty
     public List<Action> actions;
 
     public static class Action {
@@ -40,50 +40,50 @@ public class FindShortestPathResponse {
          * walk - переход пешком.
          * pass - поездка на транспорте.
          */
-        @JsonProperty(value = "action")
+        @JsonProperty
         public ActionType action;
 
         /**
          * Длина в метрах.
          */
-        @JsonProperty(value = "length")
+        @JsonProperty
         public Integer length;
 
         /**
          * Время выполнения в секундах.
          */
-        @JsonProperty(value = "time")
+        @JsonProperty
         public Integer time;
 
         /**
          * Классификаторный номер остановки отправления.
          */
-        @JsonProperty(value = "stopFrom")
+        @JsonProperty
         public Integer stopFrom;
 
         /**
          * Классификаторный номер остановки прибытия.
          */
-        @JsonProperty(value = "stopTo")
+        @JsonProperty
         public Integer stopTo;
 
         /**
          * Классификаторные номера применяемых маршрутов.
          */
-        @JsonProperty(value = "routes")
+        @JsonProperty
         public List<Integer> routes;
 
         /**
          * Текстовое описание действия на русском языке.
          */
-        @JsonProperty(value = "comment")
+        @JsonProperty
         public String comment;
 
         /**
          * Геометрическая форма поездки или перехода пешком, ломаной линии,
          * заданной последовательностью точек в формате «широта,долгота широта,долгота ...» в системе координат WGS 84.
          */
-        @JsonProperty(value = "geometry")
+        @JsonProperty
         public List<GeoPoint> geometry;
 
         public enum ActionType {

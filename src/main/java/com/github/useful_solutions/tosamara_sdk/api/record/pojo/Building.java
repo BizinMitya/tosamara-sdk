@@ -7,31 +7,31 @@ public class Building {
     /**
      * Расстояние от центра здания до пользователя, в метрах.
      */
-    @JsonProperty(value = "distance")
+    @JsonProperty
     public Double distance;
 
     /**
      * Широта центра здания в WGS 84.
      */
-    @JsonProperty(value = "latitude")
+    @JsonProperty
     public Double latitude;
 
     /**
      * Долгота центра здания в WGS 84.
      */
-    @JsonProperty(value = "longitude")
+    @JsonProperty
     public Double longitude;
 
     /**
      * Краткий адрес здания в формате "улица, дом".
      */
-    @JsonProperty(value = "shortAddress")
+    @JsonProperty
     public String shortAddress;
 
     /**
      * Полный адрес здания в формате "город, улица, дом".
      */
-    @JsonProperty(value = "fullAddress")
+    @JsonProperty
     public String fullAddress;
 
 }

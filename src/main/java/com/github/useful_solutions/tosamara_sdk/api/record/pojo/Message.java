@@ -11,42 +11,42 @@ public class Message {
     /**
      * Идентификатор сообщения.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty
     public Integer id;
 
     /**
      * Дата и время добавления сообщения.
      */
-    @JsonProperty(value = "creationTimestamp")
+    @JsonProperty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
     public ZonedDateTime creationTimestamp;
 
     /**
      * Дата и время потери актуальности сообщения.
      */
-    @JsonProperty(value = "expireTimestamp")
+    @JsonProperty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
     public ZonedDateTime expireTimestamp;
 
     /**
      * Текст сообщения.
      */
-    @JsonProperty(value = "text")
+    @JsonProperty
     public String text;
 
     /**
      * Текст сообщения на английском (может быть не заполнен).
      */
-    @JsonProperty(value = "textEn")
+    @JsonProperty
     public String textEn;
 
-    @JsonProperty(value = "textEs")
+    @JsonProperty
     public String textEs;
 
     /**
      * Гиперссылка на более подробный материал.
      */
-    @JsonProperty(value = "link")
+    @JsonProperty
     public String link;
 
     /**
@@ -58,25 +58,25 @@ public class Message {
     /**
      * Уникальный идентификатор пользовательского устройства (UDID или DeviceID).
      */
-    @JsonProperty(value = "authorDeviceId")
+    @JsonProperty
     public String authorDeviceId;
 
     /**
      * Статус важности источника, одно из значений: passenger, massmedia, official.
      */
-    @JsonProperty(value = "authorStatus")
+    @JsonProperty
     public AuthorStatus authorStatus;
 
     /**
      * Количество голосов подтверждения.
      */
-    @JsonProperty(value = "confirms")
+    @JsonProperty
     public Integer confirms;
 
     /**
      * Количество голосов опровержения.
      */
-    @JsonProperty(value = "refutes")
+    @JsonProperty
     public Integer refutes;
 
     /**
@@ -94,7 +94,7 @@ public class Message {
     /**
      * Голос, отданный за данное сообщение самим запрашивающим пользователем, одно из значений: confirm, refute.
      */
-    @JsonProperty(value = "selfVote")
+    @JsonProperty
     public Vote selfVote;
 
     public enum AuthorStatus {

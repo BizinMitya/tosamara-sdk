@@ -1,12 +1,12 @@
 package com.github.useful_solutions.tosamara_sdk.api.record.request;
 
-import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import org.jetbrains.annotations.Nullable;
 
 public class FindBuildingByAddressRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "findBuildingByAddress";
 
     @JsonProperty(value = "LATITUDE")

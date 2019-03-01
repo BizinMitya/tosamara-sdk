@@ -5,10 +5,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class GeoPoint {
 
-    @JsonProperty(value = "latitude")
+    @JsonProperty
     public Double latitude;
 
-    @JsonProperty(value = "longitude")
+    @JsonProperty
     public Double longitude;
 
     public GeoPoint(@NotNull Double latitude, @NotNull Double longitude) {

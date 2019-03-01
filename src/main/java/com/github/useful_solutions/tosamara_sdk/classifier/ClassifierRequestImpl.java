@@ -2,10 +2,9 @@ package com.github.useful_solutions.tosamara_sdk.classifier;
 
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.exception.APIResponseException;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Response;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import static org.apache.http.HttpStatus.SC_OK;
+import static java.net.HttpURLConnection.HTTP_OK;
 
 public class ClassifierRequestImpl implements ClassifierRequest {
 
@@ -36,14 +35,17 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     private static final String ALL_CLASSIFIERS = CLASSIFIERS_URL + "/classifiers.zip";
 
     private static final Serializer SERIALIZER = new Persister(new AnnotationStrategy());
+    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
 
     private <T> T doClassifierRequest(Class<T> classifierType, String url) throws Exception {
-        Response response = Request.Get(url)
-                .execute();
-        HttpResponse httpResponse = response.returnResponse();
-        int statusCode = httpResponse.getStatusLine().getStatusCode();
-        if (statusCode == SC_OK) {
-            String content = IOUtils.toString(httpResponse.getEntity().getContent());
+        Response response = OK_HTTP_CLIENT.newCall(
+                new Request.Builder()
+                        .url(url)
+                        .get().build()
+        ).execute();
+        int statusCode = response.code();
+        if (statusCode == HTTP_OK) {
+            String content = response.body().string();
             if (SERIALIZER.validate(classifierType, content)) {
                 return SERIALIZER.read(classifierType, content);
             } else {
@@ -62,13 +64,16 @@ public class ClassifierRequestImpl implements ClassifierRequest {
 
     @Override
     public AllClassifiers getAllClassifiers() throws Exception {
-        Response response = Request.Get(ALL_CLASSIFIERS)
-                .execute();
-        HttpResponse httpResponse = response.returnResponse();
-        int statusCode = httpResponse.getStatusLine().getStatusCode();
-        if (statusCode == SC_OK) {
+        Response response = OK_HTTP_CLIENT.newCall(
+                new Request.Builder()
+                        .url(ALL_CLASSIFIERS)
+                        .get()
+                        .build()
+        ).execute();
+        int statusCode = response.code();
+        if (statusCode == HTTP_OK) {
             AllClassifiers allClassifiers = new AllClassifiers();
-            try (ZipInputStream zipInputStream = new ZipInputStream(httpResponse.getEntity().getContent())) {
+            try (ZipInputStream zipInputStream = new ZipInputStream(response.body().byteStream())) {
                 ZipEntry zipEntry;
                 while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                     switch (zipEntry.getName()) {

@@ -1,8 +1,8 @@
 package com.github.useful_solutions.tosamara_sdk.api.record.pojo;
 
-import com.github.useful_solutions.tosamara_sdk.api.deserializer.StringToTransportTypeDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.useful_solutions.tosamara_sdk.api.deserializer.StringToTransportTypeDeserializer;
 
 public class Transport {
 
@@ -15,61 +15,61 @@ public class Transport {
     /**
      * Направление движения транспорта в точке, где он сейчас находится, в градусах от 0 до 360 по тригонометрическому кругу.
      */
-    @JsonProperty(value = "direction")
+    @JsonProperty
     public Double direction;
 
     /**
      * Флаг доступности для людей с ограниченными возможностями.
      */
-    @JsonProperty(value = "forInvalid")
+    @JsonProperty
     public Boolean forInvalid;
 
     /**
      * Идентификатор транспорта.
      */
-    @JsonProperty(value = "hullNo")
+    @JsonProperty
     public Integer hullNo;
 
     /**
      * Широта, координаты транспорта в WGS 84.
      */
-    @JsonProperty(value = "latitude")
+    @JsonProperty
     public Double latitude;
 
     /**
      * Долгота, координаты транспорта в WGS 84.
      */
-    @JsonProperty(value = "longitude")
+    @JsonProperty
     public Double longitude;
 
     /**
      * Название модели транспорта.
      */
-    @JsonProperty(value = "modelTitle")
+    @JsonProperty
     public String modelTitle;
 
     /**
      * Классификаторный номер следующей остановки.
      */
-    @JsonProperty(value = "nextStopId")
+    @JsonProperty
     public Integer nextStopId;
 
     /**
      * Номер маршрута, тот, что пишется на табличках.
      */
-    @JsonProperty(value = "number")
+    @JsonProperty
     public String number;
 
     /**
      * Автомобильный или парковый номер транспорта.
      */
-    @JsonProperty(value = "stateNumber")
+    @JsonProperty
     public String stateNumber;
 
     /**
      * Тип транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty
     @JsonDeserialize(using = StringToTransportTypeDeserializer.class)
     public TransportType type;
 

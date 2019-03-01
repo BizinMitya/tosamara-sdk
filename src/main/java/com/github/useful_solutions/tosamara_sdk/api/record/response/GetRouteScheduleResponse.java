@@ -1,9 +1,9 @@
 package com.github.useful_solutions.tosamara_sdk.api.record.response;
 
-import com.github.useful_solutions.tosamara_sdk.api.deserializer.StringToZonedDateTimeDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.useful_solutions.tosamara_sdk.api.deserializer.StringToZonedDateTimeDeserializer;
 
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -17,32 +17,32 @@ public class GetRouteScheduleResponse {
     /**
      * Время окончания движения.
      */
-    @JsonProperty(value = "endTime")
+    @JsonProperty
     @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
     public ZonedDateTime endTime;
 
     /**
      * Информация о первом маршруте.
      */
-    @JsonProperty(value = "firstRace")
+    @JsonProperty
     public FirstRace firstRace;
 
     /**
      * Интервал движения.
      */
-    @JsonProperty(value = "interval")
+    @JsonProperty
     public Integer interval;
 
     /**
      * Информация о последнем маршруте.
      */
-    @JsonProperty(value = "lastRace")
+    @JsonProperty
     public LastRace lastRace;
 
     /**
      * Модели транспортных средств.
      */
-    @JsonProperty(value = "models")
+    @JsonProperty
     public List<String> models;
 
     /**
@@ -54,40 +54,40 @@ public class GetRouteScheduleResponse {
     /**
      * Время начала движения.
      */
-    @JsonProperty(value = "startTime")
+    @JsonProperty
     @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
     public ZonedDateTime startTime;
 
     /**
      * Остановки.
      */
-    @JsonProperty(value = "stops")
+    @JsonProperty
     public List<String> stops;
 
     public static class FirstRace {
 
-        @JsonProperty(value = "time")
+        @JsonProperty
         @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
         public ZonedDateTime time;
 
-        @JsonProperty(value = "controlPoint")
+        @JsonProperty
         private String controlPoint;
 
     }
 
     public static class LastRace {
 
-        @JsonProperty(value = "endControlPoint")
+        @JsonProperty
         public String endControlPoint;
 
-        @JsonProperty(value = "endTime")
+        @JsonProperty
         @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
         public ZonedDateTime endTime;
 
-        @JsonProperty(value = "startControlPoint")
+        @JsonProperty
         public String startControlPoint;
 
-        @JsonProperty(value = "startTime")
+        @JsonProperty
         @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
         public ZonedDateTime startTime;
 
@@ -95,10 +95,10 @@ public class GetRouteScheduleResponse {
 
     public static class Schedule {
 
-        @JsonProperty(value = "stopName")
+        @JsonProperty
         public String stopName;
 
-        @JsonProperty(value = "time")
+        @JsonProperty
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
         public List<LocalTime> time;
 

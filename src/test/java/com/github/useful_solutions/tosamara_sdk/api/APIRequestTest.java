@@ -1,7 +1,5 @@
-package com.github.useful_solutions.tosamara_sdk;
+package com.github.useful_solutions.tosamara_sdk.api;
 
-import com.github.useful_solutions.tosamara_sdk.api.APIRequest;
-import com.github.useful_solutions.tosamara_sdk.api.APIRequestImpl;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.api.record.request.FindShortestPathRequest;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.GetFirstArrivalToStopResponse;
@@ -25,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class APITest {
+class APIRequestTest {
 
     private static final APIRequest API_REQUEST = new APIRequestImpl();
     private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
@@ -60,7 +58,7 @@ class APITest {
         getTransportsOnRouteRandomTest();
         getNearestBuildingTest();
         findBuildingByAddressTest();
-        getUserMessagesTest();
+        userMessagesTest();
         voteForMessageTest();
         sendUserMessageTest();
     }
@@ -76,7 +74,7 @@ class APITest {
         getTransportsOnRouteFullTest();
         getNearestBuildingTest();
         findBuildingByAddressTest();
-        getUserMessagesTest();
+        userMessagesTest();
         voteForMessageTest();
         sendUserMessageTest();
     }
@@ -299,7 +297,7 @@ class APITest {
     }
 
     @Test
-    void getUserMessagesTest() {
+    void userMessagesTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
             API_REQUEST.getUserMessages(samara, 100_000.5D, "test");

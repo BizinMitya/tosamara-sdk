@@ -1,11 +1,9 @@
-package com.github.useful_solutions.tosamara_sdk;
+package com.github.useful_solutions.tosamara_sdk.classifier;
 
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequest;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequestImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class ClassifiersTest {
+class ClassifierRequestTest {
 
     private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
 

@@ -13,13 +13,13 @@ public class StopOnMap {
     /**
      * Идентификатор геопортального объекта остановки.
      */
-    @Element(name = "geoportalId")
+    @Element
     public Integer geoportalId;
 
     /**
      * Постоянная часть описания геопортального объекта.
      */
-    @Element(name = "staticDescription", data = true)
+    @Element(data = true)
     public String staticDescription;
 
 }

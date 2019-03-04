@@ -18,25 +18,25 @@ public class Route {
     /**
      * Номер маршрута, тот, что пишется на табличках.
      */
-    @Element(name = "number")
+    @Element
     public String number;
 
     /**
      * Направление движения, обычно — конечная остановка.
      */
-    @Element(name = "direction")
+    @Element
     public String direction;
 
     /**
      * Направление движения на английском языке.
      */
-    @Element(name = "directionEn")
+    @Element
     public String directionEn;
 
     /**
      *
      */
-    @Element(name = "directionEs", required = false)
+    @Element(required = false)
     public String directionEs;
 
     /**
@@ -48,13 +48,13 @@ public class Route {
      * 5 - электропоезд,
      * 6 - речной транспорт
      */
-    @Element(name = "transportTypeID")
+    @Element
     public Integer transportTypeID;
 
     /**
      * Вид транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
-    @Element(name = "transportType")
+    @Element
     @Convert(TransportTypeConverter.class)
     public TransportType transportType;
 
@@ -68,20 +68,20 @@ public class Route {
      * 6 - междугородный.
      * Маршруты шаттлов включаются в "специальный автобус".
      */
-    @Element(name = "affiliationID")
+    @Element
     public Integer affiliationID;
 
     /**
      * Принадлежность маршрута: муниципальный, коммерческий, пригородный, сезонный (дачный), специальный, междугородный.
      */
-    @Element(name = "affiliation")
+    @Element
     @Convert(AffiliationConverter.class)
     public Affiliation affiliation;
 
     /**
      * Признак того, что маршрут прогнозируется по мониторингу в реальном времени.
      */
-    @Element(name = "realtimeForecast")
+    @Element
     @Convert(BooleanConverter.class)
     public Boolean realtimeForecast;
 

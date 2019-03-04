@@ -5,9 +5,7 @@
 Класс `ClassifierRequestImpl` используется для получения справочников, поэтому не требует _clientId_ и _key_.
 Класс `APIRequestImpl` используется для вызова методов API. Конструктор класса `APIRequestImpl(String clientId, String key, String os)` принимает _clientId_ и _key_, выданные порталом, и _os_ - указание ОС, с которой будут выполняться запросы.
 
-![Maven Central](https://img.shields.io/maven-central/v/com.github.useful-solutions/tosamara-sdk.svg?color=green)
-![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/https/oss.sonatype.org/com.github.useful-solutions/tosamara-sdk.svg)
-![Sonatype Nexus (Releases)](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.github.useful-solutions/tosamara-sdk.svg)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.useful-solutions/tosamara-sdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.useful-solutions/tosamara-sdk/)
 
 Для подключения библиотеки через Maven, нужно добавить зависимость:
 

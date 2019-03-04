@@ -4,13 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GetRouteScheduleRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "getRouteSchedule";
 
     @JsonProperty(value = "KR_ID")
     private final Integer krId;
 
-    @JsonProperty(value = "day")
     private final String day;
 
     public GetRouteScheduleRequest(Integer krId, String day) {

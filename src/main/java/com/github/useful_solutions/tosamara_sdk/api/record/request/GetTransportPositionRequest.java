@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GetTransportPositionRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "getTransportPosition";
 
     /**

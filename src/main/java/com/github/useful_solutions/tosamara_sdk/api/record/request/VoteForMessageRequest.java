@@ -1,12 +1,12 @@
 package com.github.useful_solutions.tosamara_sdk.api.record.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Message;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class VoteForMessageRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "voteForMessage";
 
     @JsonProperty(value = "ID")

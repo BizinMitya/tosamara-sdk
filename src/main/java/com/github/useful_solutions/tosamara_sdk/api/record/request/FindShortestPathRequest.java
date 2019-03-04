@@ -1,13 +1,13 @@
 package com.github.useful_solutions.tosamara_sdk.api.record.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.TransportType;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 public class FindShortestPathRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "findShortestPath";
 
     @JsonProperty(value = "LATITUDE1")
@@ -42,14 +42,6 @@ public class FindShortestPathRequest {
         this.transports = transports;
     }
 
-    public enum Criterion {
-
-        time,
-        price,
-        length
-
-    }
-
     public Double getLatitude1() {
         return latitude1;
     }
@@ -73,4 +65,13 @@ public class FindShortestPathRequest {
     public TransportType[] getTransports() {
         return transports;
     }
+
+    public enum Criterion {
+
+        time,
+        price,
+        length
+
+    }
+
 }

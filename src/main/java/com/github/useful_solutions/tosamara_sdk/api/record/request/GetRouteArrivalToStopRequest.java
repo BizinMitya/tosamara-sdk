@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GetRouteArrivalToStopRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "getRouteArrivalToStop";
 
     @JsonProperty(value = "KS_ID")

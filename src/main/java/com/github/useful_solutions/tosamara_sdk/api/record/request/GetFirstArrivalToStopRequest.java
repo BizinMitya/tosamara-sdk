@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GetFirstArrivalToStopRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "getFirstArrivalToStop";
 
     @JsonProperty(value = "KS_ID")

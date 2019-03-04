@@ -10,26 +10,23 @@ import com.github.useful_solutions.tosamara_sdk.api.record.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.api.record.request.*;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.*;
 import com.github.useful_solutions.tosamara_sdk.exception.APIResponseException;
+import com.squareup.okhttp.*;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Response;
-import org.apache.http.message.BasicNameValuePair;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static org.apache.http.HttpStatus.SC_OK;
+import static java.net.HttpURLConnection.HTTP_OK;
 
 public class APIRequestImpl implements APIRequest {
 
     private static final String API_URL = "https://tosamara.ru/api/v2/json";
     private static final String TEST_AUTH_KEY_URL = "https://tosamara.ru/test_files/api/handler.php";
 
+    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
             .enable(SerializationFeature.INDENT_OUTPUT)
@@ -47,7 +44,7 @@ public class APIRequestImpl implements APIRequest {
      * @param key      ключ.
      * @param os       операционная система, с которой будут отправляться запросы.
      */
-    public APIRequestImpl(String clientId, String key, String os) {
+    public APIRequestImpl(@NotNull String clientId, @NotNull String key, @NotNull String os) {
         this.clientId = clientId;
         this.key = key;
         this.os = os;
@@ -58,9 +55,7 @@ public class APIRequestImpl implements APIRequest {
      * В качестве операционной системы будет использоваться "android".
      */
     public APIRequestImpl() {
-        clientId = null;
-        key = null;
-        os = "android";
+        this("android");
     }
 
     /**
@@ -68,14 +63,10 @@ public class APIRequestImpl implements APIRequest {
      *
      * @param os операционная система, с которой будут отправляться запросы.
      */
-    public APIRequestImpl(String os) {
-        clientId = null;
+    public APIRequestImpl(@NotNull String os) {
+        clientId = "test";
         key = null;
         this.os = os;
-    }
-
-    private boolean useTestKey() {
-        return clientId == null || key == null;
     }
 
     @Override
@@ -168,28 +159,19 @@ public class APIRequestImpl implements APIRequest {
     }
 
     /**
-     * Метод создания параметров формы.
+     * Метод создания тела HTTP-запроса в виде формы.
      *
      * @param message сообщение.
-     * @return массив параметров формы.
+     * @return тело запроса.
      */
-    private NameValuePair[] getFormParams(String message) throws IOException, APIResponseException {
-        if (useTestKey()) {
-            String authKey = getTestAuthKey(message);
-            return new NameValuePair[]{
-                    new BasicNameValuePair("clientId", "test"),
-                    new BasicNameValuePair("authKey", authKey),
-                    new BasicNameValuePair("os", os),
-                    new BasicNameValuePair("message", message)
-            };
-        } else {
-            return new NameValuePair[]{
-                    new BasicNameValuePair("clientId", clientId),
-                    new BasicNameValuePair("authKey", DigestUtils.sha1Hex(message + key)),
-                    new BasicNameValuePair("os", os),
-                    new BasicNameValuePair("message", message)
-            };
-        }
+    private RequestBody getFormParams(String message) throws IOException, APIResponseException {
+        FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
+        formEncodingBuilder.add("os", os);
+        formEncodingBuilder.add("message", message);
+        formEncodingBuilder.add("clientId", clientId);
+        String authKey = (key == null ? getTestAuthKey(message) : DigestUtils.shaHex(message + key));
+        formEncodingBuilder.add("authKey", authKey);
+        return formEncodingBuilder.build();
     }
 
     /**
@@ -201,27 +183,32 @@ public class APIRequestImpl implements APIRequest {
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка запроса.
      */
     private String getTestAuthKey(String message) throws IOException, APIResponseException {
-        Response response = Request.Post(TEST_AUTH_KEY_URL)
-                .bodyForm(new BasicNameValuePair("msg", message))
-                .execute();
+        FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
+        formEncodingBuilder.add("msg", message);
+        Response response = OK_HTTP_CLIENT.newCall(
+                new Request.Builder()
+                        .url(TEST_AUTH_KEY_URL)
+                        .post(formEncodingBuilder.build())
+                        .build()
+        ).execute();
         return handleResponse(response);
     }
 
-    private String doAPIRequest(NameValuePair[] nameValuePairs) throws APIResponseException, IOException {
-        Response response = Request.Post(API_URL)
-                .bodyForm(nameValuePairs)
-                .execute();
+    private String doAPIRequest(RequestBody requestBody) throws APIResponseException, IOException {
+        Response response = OK_HTTP_CLIENT.newCall(
+                new Request.Builder()
+                        .url(API_URL)
+                        .post(requestBody).build()
+        ).execute();
         return handleResponse(response);
     }
 
     private String handleResponse(Response response) throws IOException, APIResponseException {
-        HttpResponse httpResponse = response.returnResponse();
-        int statusCode = httpResponse.getStatusLine().getStatusCode();
-        if (statusCode == SC_OK) {
-            return IOUtils.toString(httpResponse.getEntity().getContent());
-        } else {
+        int statusCode = response.code();
+        if (statusCode != HTTP_OK) {
             throw new APIResponseException(statusCode);
         }
+        return response.body().string();
     }
 
 }

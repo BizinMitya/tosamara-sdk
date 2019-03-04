@@ -30,12 +30,12 @@ class APITest {
     private static final APIRequest API_REQUEST = new APIRequestImpl();
     private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
     private static final Random RANDOM = new Random();
+    private static final double SAMARA_LATITUDE = 53.215603;
+    private static final double SAMARA_LONGITUDE = 50.148011;
     private static List<Stop> stops;
     private static List<FullStop> fullStops;
     private static List<RouteWithStops> routesWithStops;
     private static List<Route> routes;
-    private static final double SAMARA_LATITUDE = 53.215603;
-    private static final double SAMARA_LONGITUDE = 50.148011;
 
     @BeforeAll
     static void initializeClassifiers() {
@@ -83,21 +83,17 @@ class APITest {
 
     @Test
     void getFirstArrivalToStopFullTest() {
-        try {
-            int total = stops.size();
-            AtomicInteger current = new AtomicInteger(1);
-            stops.forEach(stop -> {
-                try {
-                    System.out.println("getFirstArrivalToStopTest: " + current.get() + "/" + total);
-                    API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
-                    current.incrementAndGet();
-                } catch (APIResponseException | IOException e) {
-                    Assertions.fail(e);
-                }
-            });
-        } catch (Exception e) {
-            Assertions.fail(e);
-        }
+        int total = stops.size();
+        AtomicInteger current = new AtomicInteger(1);
+        stops.forEach(stop -> {
+            try {
+                System.out.println("getFirstArrivalToStopTest: " + current.get() + "/" + total);
+                API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
+                current.incrementAndGet();
+            } catch (APIResponseException | IOException e) {
+                Assertions.fail(e);
+            }
+        });
     }
 
     @Test
@@ -173,22 +169,18 @@ class APITest {
 
     @Test
     void getRouteScheduleAllTest() {
-        try {
-            int total = routes.size();
-            AtomicInteger current = new AtomicInteger(1);
-            String day = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-            routes.forEach(route -> {
-                try {
-                    System.out.println("getRouteScheduleTest: " + current.get() + "/" + total);
-                    API_REQUEST.getRouteSchedule(route.krId, day);
-                    current.incrementAndGet();
-                } catch (APIResponseException | IOException e) {
-                    Assertions.fail(e);
-                }
-            });
-        } catch (Exception e) {
-            Assertions.fail(e);
-        }
+        int total = routes.size();
+        AtomicInteger current = new AtomicInteger(1);
+        String day = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        routes.forEach(route -> {
+            try {
+                System.out.println("getRouteScheduleTest: " + current.get() + "/" + total);
+                API_REQUEST.getRouteSchedule(route.krId, day);
+                current.incrementAndGet();
+            } catch (APIResponseException | IOException e) {
+                Assertions.fail(e);
+            }
+        });
     }
 
     @Test
@@ -240,7 +232,7 @@ class APITest {
         try {
             FullStop fullStop = fullStops.get(RANDOM.nextInt(fullStops.size()));
             GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-            API_REQUEST.getSurroundingTransports(geoPoint, 10_000.5D, Integer.MAX_VALUE);
+            API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE);
         } catch (Exception e) {
             Assertions.fail(e);
         }

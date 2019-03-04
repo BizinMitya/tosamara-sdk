@@ -11,42 +11,35 @@ public class Message {
     /**
      * Идентификатор сообщения.
      */
-    @JsonProperty(value = "id")
     public Integer id;
 
     /**
      * Дата и время добавления сообщения.
      */
-    @JsonProperty(value = "creationTimestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
     public ZonedDateTime creationTimestamp;
 
     /**
      * Дата и время потери актуальности сообщения.
      */
-    @JsonProperty(value = "expireTimestamp")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss", timezone = "Europe/Samara")
     public ZonedDateTime expireTimestamp;
 
     /**
      * Текст сообщения.
      */
-    @JsonProperty(value = "text")
     public String text;
 
     /**
      * Текст сообщения на английском (может быть не заполнен).
      */
-    @JsonProperty(value = "textEn")
     public String textEn;
 
-    @JsonProperty(value = "textEs")
     public String textEs;
 
     /**
      * Гиперссылка на более подробный материал.
      */
-    @JsonProperty(value = "link")
     public String link;
 
     /**
@@ -58,25 +51,21 @@ public class Message {
     /**
      * Уникальный идентификатор пользовательского устройства (UDID или DeviceID).
      */
-    @JsonProperty(value = "authorDeviceId")
     public String authorDeviceId;
 
     /**
      * Статус важности источника, одно из значений: passenger, massmedia, official.
      */
-    @JsonProperty(value = "authorStatus")
     public AuthorStatus authorStatus;
 
     /**
      * Количество голосов подтверждения.
      */
-    @JsonProperty(value = "confirms")
     public Integer confirms;
 
     /**
      * Количество голосов опровержения.
      */
-    @JsonProperty(value = "refutes")
     public Integer refutes;
 
     /**
@@ -94,7 +83,6 @@ public class Message {
     /**
      * Голос, отданный за данное сообщение самим запрашивающим пользователем, одно из значений: confirm, refute.
      */
-    @JsonProperty(value = "selfVote")
     public Vote selfVote;
 
     public enum AuthorStatus {

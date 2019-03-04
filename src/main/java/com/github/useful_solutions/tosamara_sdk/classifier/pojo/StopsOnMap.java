@@ -10,7 +10,7 @@ public class StopsOnMap {
     /**
      * Идентификатор геопортального слоя с остановками.
      */
-    @Element(name = "layerName")
+    @Element
     public String layerName;
 
     @ElementList(entry = "stop", inline = true)

@@ -1,11 +1,11 @@
 package com.github.useful_solutions.tosamara_sdk.api.record.request;
 
-import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 
 public class GetNearestBuildingRequest {
 
-    @JsonProperty(value = "method")
+    @JsonProperty
     private final String method = "getNearestBuilding";
 
     @JsonProperty(value = "LATITUDE")

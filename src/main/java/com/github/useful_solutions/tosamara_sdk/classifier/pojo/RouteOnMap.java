@@ -13,13 +13,13 @@ public class RouteOnMap {
     /**
      * Идентификатор геопортального объекта маршрута.
      */
-    @Element(name = "geoportalId")
+    @Element
     public Integer geoportalId;
 
     /**
      * Идентификатор геопортального слоя с маршрутом.
      */
-    @Element(name = "layerName")
+    @Element
     public String layerName;
 
 }

@@ -14,10 +14,10 @@
 <dependency>
     <groupId>com.github.useful-solutions</groupId>
     <artifactId>tosamara-sdk</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 </dependency>
 ```
 
 Для подключения библиотеки через Gradle, нужно добавить зависимость:
 
-```implementation 'com.github.useful-solutions:tosamara-sdk:1.0'```
+```implementation 'com.github.useful-solutions:tosamara-sdk:1.1'```

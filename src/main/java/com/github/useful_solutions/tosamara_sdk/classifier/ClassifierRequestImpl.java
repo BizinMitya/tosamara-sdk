@@ -2,14 +2,16 @@ package com.github.useful_solutions.tosamara_sdk.classifier;
 
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.exception.APIResponseException;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -45,7 +47,9 @@ public class ClassifierRequestImpl implements ClassifierRequest {
         ).execute();
         int statusCode = response.code();
         if (statusCode == HTTP_OK) {
-            String content = response.body().string();
+            String content = Optional.ofNullable(response.body())
+                    .orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL))
+                    .string();
             if (SERIALIZER.validate(classifierType, content)) {
                 return SERIALIZER.read(classifierType, content);
             } else {
@@ -73,7 +77,9 @@ public class ClassifierRequestImpl implements ClassifierRequest {
         int statusCode = response.code();
         if (statusCode == HTTP_OK) {
             AllClassifiers allClassifiers = new AllClassifiers();
-            try (ZipInputStream zipInputStream = new ZipInputStream(response.body().byteStream())) {
+            ResponseBody responseBody = Optional.ofNullable(response.body())
+                    .orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL));
+            try (ZipInputStream zipInputStream = new ZipInputStream(responseBody.byteStream())) {
                 ZipEntry zipEntry;
                 while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                     switch (zipEntry.getName()) {

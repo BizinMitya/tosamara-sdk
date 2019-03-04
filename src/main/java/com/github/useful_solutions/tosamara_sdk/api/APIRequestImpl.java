@@ -10,7 +10,7 @@ import com.github.useful_solutions.tosamara_sdk.api.record.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.api.record.request.*;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.*;
 import com.github.useful_solutions.tosamara_sdk.exception.APIResponseException;
-import com.squareup.okhttp.*;
+import okhttp3.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
@@ -154,7 +155,8 @@ public class APIRequestImpl implements APIRequest {
     }
 
     private <T> T doRequest(Object request, Class<T> responseType) throws APIResponseException, IOException {
-        String rawData = doAPIRequest(getFormParams(OBJECT_MAPPER.writeValueAsString(request)));
+        RequestBody requestBody = getFormParams(OBJECT_MAPPER.writeValueAsString(request));
+        String rawData = doAPIRequest(requestBody);
         return OBJECT_MAPPER.readValue(rawData, responseType);
     }
 
@@ -165,13 +167,13 @@ public class APIRequestImpl implements APIRequest {
      * @return тело запроса.
      */
     private RequestBody getFormParams(String message) throws IOException, APIResponseException {
-        FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
-        formEncodingBuilder.add("os", os);
-        formEncodingBuilder.add("message", message);
-        formEncodingBuilder.add("clientId", clientId);
+        FormBody.Builder form = new FormBody.Builder();
+        form.add("os", os);
+        form.add("message", message);
+        form.add("clientId", clientId);
         String authKey = (key == null ? getTestAuthKey(message) : DigestUtils.shaHex(message + key));
-        formEncodingBuilder.add("authKey", authKey);
-        return formEncodingBuilder.build();
+        form.add("authKey", authKey);
+        return form.build();
     }
 
     /**
@@ -183,12 +185,12 @@ public class APIRequestImpl implements APIRequest {
      * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка запроса.
      */
     private String getTestAuthKey(String message) throws IOException, APIResponseException {
-        FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
-        formEncodingBuilder.add("msg", message);
+        FormBody.Builder form = new FormBody.Builder();
+        form.add("msg", message);
         Response response = OK_HTTP_CLIENT.newCall(
                 new Request.Builder()
                         .url(TEST_AUTH_KEY_URL)
-                        .post(formEncodingBuilder.build())
+                        .post(form.build())
                         .build()
         ).execute();
         return handleResponse(response);
@@ -208,7 +210,9 @@ public class APIRequestImpl implements APIRequest {
         if (statusCode != HTTP_OK) {
             throw new APIResponseException(statusCode);
         }
-        return response.body().string();
+        return Optional.ofNullable(response.body())
+                .orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL))
+                .string();
     }
 
 }

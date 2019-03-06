@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=d2bbfa63-55bb-4820-8846-7aa556d6e3d3&lang=ru_RU"
+            type="text/javascript"></script>
+    <script src="script.js"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+
+        function init() {
+            ymaps.geocode('Самара').then(function (res) {
+                let map = new ymaps.Map('map', {
+                    center: res.geoObjects.get(0).geometry.getCoordinates(),
+                    zoom: 12
+                });
+                addRoute(map);
+            });
+        }
+
+        function addRoute(map) {
+            for (let i = 0; i < ROUTE.length; i++) {
+                let point = ROUTE[i];
+                let pointGeometry = new ymaps.geometry.Point(point);
+                let placemark = new ymaps.GeoObject({geometry: pointGeometry});
+                map.geoObjects.add(placemark);
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div id="map" style="width: 1800px; height: 995px"></div>
+</body>
+</html>

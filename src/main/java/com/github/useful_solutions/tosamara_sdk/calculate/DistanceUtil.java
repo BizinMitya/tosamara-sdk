@@ -78,14 +78,18 @@ public class DistanceUtil {
      * @param points   список точек (геометрия маршрута, задан порядок).
      * @return индекс ближайшей точки из списка.
      */
-    private static int getIndexOfClosestPoint(GeoPoint geoPoint, List<GeoPoint> points) {
-        double minDistance = Double.MAX_VALUE;
+    private static int getIndexOfClosestPoint(GeoPoint geoPoint, List<GeoPoint> points, boolean from) {
         int index = 0;
-        for (int i = 0; i < points.size(); i++) {
-            double distance = distanceBetweenPoints(geoPoint, points.get(i));
-            if (distance < minDistance) {
-                minDistance = distance;
-                index = i;
+        double min = Double.MAX_VALUE;
+        for (int i = 0; i < points.size() - 1; i++) {
+            GeoPoint geoPoint1 = points.get(i);
+            GeoPoint geoPoint2 = points.get(i + 1);
+            double c = distanceBetweenPoints(geoPoint1, geoPoint2);
+            double a = distanceBetweenPoints(geoPoint1, geoPoint);
+            double b = distanceBetweenPoints(geoPoint, geoPoint2);
+            if (a + b - c < min) {
+                min = a + b - c;
+                index = from ? i + 1 : i;
             }
         }
         return index;
@@ -100,12 +104,10 @@ public class DistanceUtil {
      * @return точки маршрута между двумя остановками.
      */
     private static List<GeoPoint> getPointsBetweenStops(List<GeoPoint> points, GeoPoint from, GeoPoint to) {
-        int closestFromIndex = getIndexOfClosestPoint(from, points);
-        int closestToIndex = getIndexOfClosestPoint(to, points);
+        int closestFromIndex = getIndexOfClosestPoint(from, points, true);
+        int closestToIndex = getIndexOfClosestPoint(to, points, false);
         // точки маршрута, не включая ближайшие
-        List<GeoPoint> result = closestFromIndex == closestToIndex ?
-                new ArrayList<>() :
-                new ArrayList<>(points.subList(closestFromIndex + 1, closestToIndex));
+        List<GeoPoint> result = new ArrayList<>(points.subList(closestFromIndex, closestToIndex + 1));
         // обрамляем точки маршрута по краям точками остановок отправления и прибытия
         result.add(0, from);
         result.add(to);

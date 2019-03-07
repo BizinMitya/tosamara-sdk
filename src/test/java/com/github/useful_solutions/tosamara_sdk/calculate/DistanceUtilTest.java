@@ -34,19 +34,9 @@ class DistanceUtilTest {
     void distanceUtilTest() {
         try {
             int krId = 109;
-            RouteWithStops routeWithStops = routesWithStops.stream()
-                    .filter(route -> route.krId == krId)
-                    .findAny()
-                    .orElseThrow(() -> new Exception(String.format("Not found krId = %d", krId)));
-            for (int i = 0; i < routeWithStops.stops.size() - 1; i++) {
-                RouteWithStops.Stop fromStop = routeWithStops.stops.get(i);
-                RouteWithStops.Stop toStop = routeWithStops.stops.get(i + 1);
-                GeoPoint from = getPointOfStop(fullStops, fromStop.ksId);
-                GeoPoint to = getPointOfStop(fullStops, toStop.ksId);
-                System.out.println("Расстояние между " + fromStop.title + " и " + toStop.title + ": " + DistanceUtil.distanceBetweenStops(routeWithStops.geometry, from, to));
-            }
+            calculateDistancesOnRoute(krId);
         } catch (Exception e) {
-            e.printStackTrace();
+            Assertions.fail(e);
         }
     }
 
@@ -58,26 +48,30 @@ class DistanceUtilTest {
                 .orElseThrow(() -> new Exception(String.format("Not found ksId = %d", ksId)));
     }
 
+    private void calculateDistancesOnRoute(int krId) throws Exception {
+        RouteWithStops routeWithStops = routesWithStops.stream()
+                .filter(route -> route.krId == krId)
+                .findAny()
+                .orElseThrow(() -> new Exception(String.format("Not found krId = %d", krId)));
+        for (int i = 0; i < routeWithStops.stops.size() - 1; i++) {
+            RouteWithStops.Stop fromStop = routeWithStops.stops.get(i);
+            RouteWithStops.Stop toStop = routeWithStops.stops.get(i + 1);
+            GeoPoint from = getPointOfStop(fullStops, fromStop.ksId);
+            GeoPoint to = getPointOfStop(fullStops, toStop.ksId);
+            System.out.println("Расстояние между " + fromStop.title + " и " + toStop.title + ": " + DistanceUtil.distanceBetweenStops(routeWithStops.geometry, from, to));
+        }
+    }
+
     @Test
     void distanceUtilAllTest() {
         try {
-            int krId = 109;
-            ClassifierRequest classifierRequest = new ClassifierRequestImpl();
-            List<RouteWithStops> routesWithStops = classifierRequest.getRoutesWithStops();
-            List<FullStop> fullStops = classifierRequest.getFullStops();
-            RouteWithStops routeWithStops = routesWithStops.stream()
-                    .filter(route -> route.krId == krId)
-                    .findAny()
-                    .orElseThrow(() -> new Exception(String.format("Not found krId = %d", krId)));
-            for (int i = 0; i < routeWithStops.stops.size() - 1; i++) {
-                RouteWithStops.Stop fromStop = routeWithStops.stops.get(i);
-                RouteWithStops.Stop toStop = routeWithStops.stops.get(i + 1);
-                GeoPoint from = getPointOfStop(fullStops, fromStop.ksId);
-                GeoPoint to = getPointOfStop(fullStops, toStop.ksId);
-                System.out.println("Расстояние между " + fromStop.title + " и " + toStop.title + ": " + DistanceUtil.distanceBetweenStops(routeWithStops.geometry, from, to));
+            for (Route route : routes) {
+                System.out.println("Маршрут: " + route.number + ", в сторону " + route.direction);
+                calculateDistancesOnRoute(route.krId);
+                System.out.println();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Assertions.fail(e);
         }
     }
 

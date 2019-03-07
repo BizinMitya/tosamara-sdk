@@ -51,7 +51,7 @@ public class DistanceUtil {
      * @param geoPoint2 вторая точка.
      * @return расстояние по прямой между точками.
      */
-    private static double distanceBetweenPoints(GeoPoint geoPoint1, GeoPoint geoPoint2) {
+    public static double distanceBetweenPoints(GeoPoint geoPoint1, GeoPoint geoPoint2) {
         return distanceBetweenPoints(geoPoint1.latitude, geoPoint1.longitude, geoPoint2.latitude, geoPoint2.longitude);
     }
 

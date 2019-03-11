@@ -40,23 +40,19 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
 
     private <T> T doClassifierRequest(Class<T> classifierType, String url) throws Exception {
-        Response response = OK_HTTP_CLIENT.newCall(
-                new Request.Builder()
-                        .url(url)
-                        .get().build()
-        ).execute();
-        int statusCode = response.code();
-        if (statusCode == HTTP_OK) {
-            String content = Optional.ofNullable(response.body())
-                    .orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL))
-                    .string();
-            if (SERIALIZER.validate(classifierType, content)) {
-                return SERIALIZER.read(classifierType, content);
-            } else {
-                throw new Exception(String.format("Content %s can't be deserialized", content));
+        try (Response response = OK_HTTP_CLIENT.newCall(new Request.Builder().url(url).get().build()).execute()) {
+            int statusCode = response.code();
+            if (statusCode != HTTP_OK) {
+                throw new APIResponseException(statusCode);
             }
-        } else {
-            throw new APIResponseException(statusCode);
+            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL))) {
+                String content = responseBody.string();
+                if (SERIALIZER.validate(classifierType, content)) {
+                    return SERIALIZER.read(classifierType, content);
+                } else {
+                    throw new Exception(String.format("Content %s can't be deserialized", content));
+                }
+            }
         }
     }
 
@@ -68,18 +64,14 @@ public class ClassifierRequestImpl implements ClassifierRequest {
 
     @Override
     public AllClassifiers getAllClassifiers() throws Exception {
-        Response response = OK_HTTP_CLIENT.newCall(
-                new Request.Builder()
-                        .url(ALL_CLASSIFIERS)
-                        .get()
-                        .build()
-        ).execute();
-        int statusCode = response.code();
-        if (statusCode == HTTP_OK) {
-            AllClassifiers allClassifiers = new AllClassifiers();
-            ResponseBody responseBody = Optional.ofNullable(response.body())
-                    .orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL));
-            try (ZipInputStream zipInputStream = new ZipInputStream(responseBody.byteStream())) {
+        AllClassifiers allClassifiers = new AllClassifiers();
+        try (Response response = OK_HTTP_CLIENT.newCall(new Request.Builder().url(ALL_CLASSIFIERS).get().build()).execute()) {
+            int statusCode = response.code();
+            if (statusCode != HTTP_OK) {
+                throw new APIResponseException(statusCode);
+            }
+            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL));
+                 ZipInputStream zipInputStream = new ZipInputStream(responseBody.byteStream())) {
                 ZipEntry zipEntry;
                 while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                     switch (zipEntry.getName()) {
@@ -112,8 +104,6 @@ public class ClassifierRequestImpl implements ClassifierRequest {
                 }
                 return allClassifiers;
             }
-        } else {
-            throw new APIResponseException(statusCode);
         }
     }
 

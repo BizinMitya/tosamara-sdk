@@ -66,7 +66,7 @@ public class DistanceUtil {
         for (int i = 0; i < points.size() - 1; i++) {
             GeoPoint from = points.get(i);
             GeoPoint to = points.get(i + 1);
-            sum += distanceBetweenPoints(from.latitude, from.longitude, to.latitude, to.longitude);
+            sum += distanceBetweenPoints(from, to);
         }
         return sum;
     }
@@ -76,9 +76,10 @@ public class DistanceUtil {
      *
      * @param geoPoint точка, к которой нужно найти ближайшую из списка.
      * @param points   список точек (геометрия маршрута, задан порядок).
+     * @param isFrom   флаг, что остановка является остановкой отправления.
      * @return индекс ближайшей точки из списка.
      */
-    private static int getIndexOfClosestPoint(GeoPoint geoPoint, List<GeoPoint> points, boolean from) {
+    private static int getIndexOfClosestPoint(GeoPoint geoPoint, List<GeoPoint> points, boolean isFrom) {
         int index = 0;
         double min = Double.MAX_VALUE;
         for (int i = 0; i < points.size() - 1; i++) {
@@ -89,7 +90,7 @@ public class DistanceUtil {
             double b = distanceBetweenPoints(geoPoint, geoPoint2);
             if (a + b - c < min) {
                 min = a + b - c;
-                index = from ? i + 1 : i;
+                index = isFrom ? i + 1 : i;
             }
         }
         return index;

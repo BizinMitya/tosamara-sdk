@@ -1,60 +1,62 @@
 package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
+import java.util.List;
+
 public class AllClassifiers {
 
-    private Routes routes;
-    private Stops stops;
-    private FullStops fullStops;
-    private RoutesWithStops routesWithStops;
-    private RoutesOnMap routesOnMap;
-    private StopsOnMap stopsOnMap;
+    private List<Route> routes;
+    private List<Stop> stops;
+    private List<FullStop> fullStops;
+    private List<RouteWithStops> routesWithStops;
+    private List<RouteOnMap> routesOnMap;
+    private StopOnMapWrapper stopOnMapWrapper;
 
-    public Routes getRoutes() {
+    public List<Route> getRoutes() {
         return routes;
     }
 
-    public void setRoutes(Routes routes) {
-        this.routes = routes;
+    public void setRoutes(RouteWrapper routeWrapper) {
+        this.routes = routeWrapper.routes;
     }
 
-    public Stops getStops() {
+    public List<Stop> getStops() {
         return stops;
     }
 
-    public void setStops(Stops stops) {
-        this.stops = stops;
+    public void setStops(StopWrapper stopWrapper) {
+        this.stops = stopWrapper.stops;
     }
 
-    public FullStops getFullStops() {
+    public List<FullStop> getFullStops() {
         return fullStops;
     }
 
-    public void setFullStops(FullStops fullStops) {
-        this.fullStops = fullStops;
+    public void setFullStops(FullStopWrapper fullStopWrapper) {
+        this.fullStops = fullStopWrapper.fullStops;
     }
 
-    public RoutesWithStops getRoutesWithStops() {
+    public List<RouteWithStops> getRoutesWithStops() {
         return routesWithStops;
     }
 
-    public void setRoutesWithStops(RoutesWithStops routesWithStops) {
-        this.routesWithStops = routesWithStops;
+    public void setRoutesWithStops(RouteWithStopsWrapper routeWithStopsWrapper) {
+        this.routesWithStops = routeWithStopsWrapper.routeWithStops;
     }
 
-    public RoutesOnMap getRoutesOnMap() {
+    public List<RouteOnMap> getRoutesOnMap() {
         return routesOnMap;
     }
 
-    public void setRoutesOnMap(RoutesOnMap routesOnMap) {
-        this.routesOnMap = routesOnMap;
+    public void setRoutesOnMap(RouteOnMapWrapper routeOnMapWrapper) {
+        this.routesOnMap = routeOnMapWrapper.routesOnMap;
     }
 
-    public StopsOnMap getStopsOnMap() {
-        return stopsOnMap;
+    public StopOnMapWrapper getStopOnMapWrapper() {
+        return stopOnMapWrapper;
     }
 
-    public void setStopsOnMap(StopsOnMap stopsOnMap) {
-        this.stopsOnMap = stopsOnMap;
+    public void setStopOnMapWrapper(StopOnMapWrapper stopOnMapWrapper) {
+        this.stopOnMapWrapper = stopOnMapWrapper;
     }
 
 }

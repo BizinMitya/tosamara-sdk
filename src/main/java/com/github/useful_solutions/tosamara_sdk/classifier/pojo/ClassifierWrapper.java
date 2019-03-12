@@ -5,10 +5,10 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
-@Root(name = "routes")
-public class RoutesWithStops {
+@Root(name = "classifiers")
+public class ClassifierWrapper {
 
-    @ElementList(entry = "route", inline = true)
-    public List<RouteWithStops> routeWithStops;
+    @ElementList(entry = "file", inline = true)
+    public List<Classifier> files;
 
 }

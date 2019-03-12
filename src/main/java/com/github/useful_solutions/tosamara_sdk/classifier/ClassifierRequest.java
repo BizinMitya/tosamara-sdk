@@ -63,7 +63,7 @@ public interface ClassifierRequest {
      * @return список остановок на карте геопортала.
      * @throws Exception выбрасывается в случае ошибок десериализации, ошибок соединения или если код ответа не равен 200.
      */
-    StopsOnMap getStopsOnMap() throws Exception;
+    StopOnMapWrapper getStopsOnMap() throws Exception;
 
     /**
      * Метод получения маршрутов на карте <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>

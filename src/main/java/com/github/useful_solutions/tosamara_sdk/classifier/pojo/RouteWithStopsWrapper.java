@@ -1,12 +1,14 @@
 package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.List;
 
-public class Routes {
+@Root(name = "routes")
+public class RouteWithStopsWrapper {
 
     @ElementList(entry = "route", inline = true)
-    public List<Route> routes;
+    public List<RouteWithStops> routeWithStops;
 
 }

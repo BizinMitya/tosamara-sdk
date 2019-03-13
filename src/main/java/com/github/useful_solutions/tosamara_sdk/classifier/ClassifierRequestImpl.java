@@ -1,11 +1,9 @@
 package com.github.useful_solutions.tosamara_sdk.classifier;
 
+import com.github.useful_solutions.tosamara_sdk.classifier.pojo.Route;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.exception.APIResponseException;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
@@ -39,13 +37,22 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     private static final Serializer SERIALIZER = new Persister(new AnnotationStrategy());
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
 
+    private Call buildCall(String url) {
+        return OK_HTTP_CLIENT.newCall(
+                new Request.Builder()
+                        .url(url)
+                        .get()
+                        .build()
+        );
+    }
+
     private <T> T doClassifierRequest(Class<T> classifierType, String url) throws Exception {
-        try (Response response = OK_HTTP_CLIENT.newCall(new Request.Builder().url(url).get().build()).execute()) {
+        try (Response response = buildCall(url).execute()) {
             int statusCode = response.code();
             if (statusCode != HTTP_OK) {
                 throw new APIResponseException(statusCode);
             }
-            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL))) {
+            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(APIResponseException::new)) {
                 String content = responseBody.string();
                 if (SERIALIZER.validate(classifierType, content)) {
                     return SERIALIZER.read(classifierType, content);
@@ -65,12 +72,12 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     @Override
     public AllClassifiers getAllClassifiers() throws Exception {
         AllClassifiers allClassifiers = new AllClassifiers();
-        try (Response response = OK_HTTP_CLIENT.newCall(new Request.Builder().url(ALL_CLASSIFIERS).get().build()).execute()) {
+        try (Response response = buildCall(ALL_CLASSIFIERS).execute()) {
             int statusCode = response.code();
             if (statusCode != HTTP_OK) {
                 throw new APIResponseException(statusCode);
             }
-            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL));
+            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(APIResponseException::new);
                  ZipInputStream zipInputStream = new ZipInputStream(responseBody.byteStream())) {
                 ZipEntry zipEntry;
                 while ((zipEntry = zipInputStream.getNextEntry()) != null) {

@@ -187,13 +187,13 @@ public class APIRequestImpl implements APIRequest {
     private String getTestAuthKey(String message) throws IOException, APIResponseException {
         FormBody.Builder form = new FormBody.Builder();
         form.add("msg", message);
-        try (Response response = OK_HTTP_CLIENT.newCall(new Request.Builder().url(TEST_AUTH_KEY_URL).post(form.build()).build()).execute()) {
+        try (Response response = buildCall(TEST_AUTH_KEY_URL, form.build()).execute()) {
             return handleResponse(response);
         }
     }
 
     private String doAPIRequest(RequestBody requestBody) throws APIResponseException, IOException {
-        try (Response response = OK_HTTP_CLIENT.newCall(new Request.Builder().url(API_URL).post(requestBody).build()).execute()) {
+        try (Response response = buildCall(API_URL, requestBody).execute()) {
             return handleResponse(response);
         }
     }
@@ -203,9 +203,18 @@ public class APIRequestImpl implements APIRequest {
         if (statusCode != HTTP_OK) {
             throw new APIResponseException(statusCode);
         }
-        try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL))) {
+        try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(APIResponseException::new)) {
             return responseBody.string();
         }
+    }
+
+    private Call buildCall(String url, RequestBody requestBody) {
+        return OK_HTTP_CLIENT.newCall(
+                new Request.Builder()
+                        .url(url)
+                        .post(requestBody)
+                        .build()
+        );
     }
 
 }

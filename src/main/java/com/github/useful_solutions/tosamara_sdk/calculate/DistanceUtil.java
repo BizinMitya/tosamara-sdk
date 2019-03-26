@@ -18,11 +18,11 @@ public class DistanceUtil {
      * @param geometry     геометрия выбранного маршрута ({@link com.github.useful_solutions.tosamara_sdk.classifier.pojo.RouteWithStops#geometry}).
      * @param fromGeoPoint координаты остановки отправления.
      * @param toGeoPoint   координаты остановки прибытия.
-     * @return расстояния между двумя остановками маршрута.
+     * @return информация о расстоянии между двумя остановками маршрута.
      */
-    public static double distanceBetweenStops(List<GeoPoint> geometry,
-                                              GeoPoint fromGeoPoint,
-                                              GeoPoint toGeoPoint) {
+    public static DistanceInfo distanceBetweenStops(List<GeoPoint> geometry,
+                                                    GeoPoint fromGeoPoint,
+                                                    GeoPoint toGeoPoint) {
         List<GeoPoint> pointsBetweenStops = getPointsBetweenStops(geometry, fromGeoPoint, toGeoPoint);
         return totalDistance(pointsBetweenStops);
     }
@@ -59,16 +59,16 @@ public class DistanceUtil {
      * Метод расчета суммарного расстояния маршрута, заданного в виде списка точек (геометрия маршрута).
      *
      * @param points геометрия маршрута.
-     * @return расстояние маршрута.
+     * @return информация о расстоянии маршрута.
      */
-    private static double totalDistance(List<GeoPoint> points) {
+    private static DistanceInfo totalDistance(List<GeoPoint> points) {
         double sum = 0;
         for (int i = 0; i < points.size() - 1; i++) {
             GeoPoint from = points.get(i);
             GeoPoint to = points.get(i + 1);
             sum += distanceBetweenPoints(from, to);
         }
-        return sum;
+        return new DistanceInfo(sum, points.size() == 2);
     }
 
     /**
@@ -107,12 +107,17 @@ public class DistanceUtil {
     private static List<GeoPoint> getPointsBetweenStops(List<GeoPoint> points, GeoPoint from, GeoPoint to) {
         int closestFromIndex = getIndexOfClosestPoint(from, points, true);
         int closestToIndex = getIndexOfClosestPoint(to, points, false);
-        // точки маршрута, не включая ближайшие
-        List<GeoPoint> result = new ArrayList<>(points.subList(closestFromIndex, closestToIndex + 1));
+        List<GeoPoint> pointsBetweenStops = new ArrayList<>();
+        // т.к. пока нет способа определить правильную ближайшую точку из геометрии маршрута,
+        // то расстояние будет считаться по прямой
+        if (closestFromIndex <= closestToIndex) {
+            // точки маршрута, не включая ближайшие
+            pointsBetweenStops = new ArrayList<>(points.subList(closestFromIndex, closestToIndex + 1));
+        }
         // обрамляем точки маршрута по краям точками остановок отправления и прибытия
-        result.add(0, from);
-        result.add(to);
-        return result;
+        pointsBetweenStops.add(0, from);
+        pointsBetweenStops.add(to);
+        return pointsBetweenStops;
     }
 
 }

@@ -5,6 +5,9 @@ import org.simpleframework.xml.Element;
 
 public class Stop {
 
+    /**
+     * Признак, что остановка находится не в г. Самара, а в другом городе области.
+     */
     @Attribute(required = false)
     public Boolean external;
 

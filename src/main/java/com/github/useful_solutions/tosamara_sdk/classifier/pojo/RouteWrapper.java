@@ -4,9 +4,9 @@ import org.simpleframework.xml.ElementList;
 
 import java.util.List;
 
-public class Stops {
+public class RouteWrapper {
 
-    @ElementList(entry = "stop", inline = true)
-    public List<Stop> stops;
+    @ElementList(entry = "route", inline = true)
+    public List<Route> routes;
 
 }

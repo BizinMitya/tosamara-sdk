@@ -1,11 +1,9 @@
 package com.github.useful_solutions.tosamara_sdk.classifier;
 
+import com.github.useful_solutions.tosamara_sdk.classifier.pojo.Route;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.exception.APIResponseException;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
@@ -39,13 +37,22 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     private static final Serializer SERIALIZER = new Persister(new AnnotationStrategy());
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
 
+    private Call buildCall(String url) {
+        return OK_HTTP_CLIENT.newCall(
+                new Request.Builder()
+                        .url(url)
+                        .get()
+                        .build()
+        );
+    }
+
     private <T> T doClassifierRequest(Class<T> classifierType, String url) throws Exception {
-        try (Response response = OK_HTTP_CLIENT.newCall(new Request.Builder().url(url).get().build()).execute()) {
+        try (Response response = buildCall(url).execute()) {
             int statusCode = response.code();
             if (statusCode != HTTP_OK) {
                 throw new APIResponseException(statusCode);
             }
-            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL))) {
+            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(APIResponseException::new)) {
                 String content = responseBody.string();
                 if (SERIALIZER.validate(classifierType, content)) {
                     return SERIALIZER.read(classifierType, content);
@@ -58,45 +65,45 @@ public class ClassifierRequestImpl implements ClassifierRequest {
 
     @Override
     public List<Classifier> getClassifiers() throws Exception {
-        Classifiers classifiers = doClassifierRequest(Classifiers.class, CLASSIFIERS_URL);
-        return classifiers.files;
+        ClassifierWrapper classifierWrapper = doClassifierRequest(ClassifierWrapper.class, CLASSIFIERS_URL);
+        return classifierWrapper.files;
     }
 
     @Override
     public AllClassifiers getAllClassifiers() throws Exception {
         AllClassifiers allClassifiers = new AllClassifiers();
-        try (Response response = OK_HTTP_CLIENT.newCall(new Request.Builder().url(ALL_CLASSIFIERS).get().build()).execute()) {
+        try (Response response = buildCall(ALL_CLASSIFIERS).execute()) {
             int statusCode = response.code();
             if (statusCode != HTTP_OK) {
                 throw new APIResponseException(statusCode);
             }
-            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(() -> new APIResponseException(APIResponseException.RESPONSE_BODY_IS_NULL));
+            try (ResponseBody responseBody = Optional.ofNullable(response.body()).orElseThrow(APIResponseException::new);
                  ZipInputStream zipInputStream = new ZipInputStream(responseBody.byteStream())) {
                 ZipEntry zipEntry;
                 while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                     switch (zipEntry.getName()) {
                         case ROUTES: {
-                            allClassifiers.setRoutes(SERIALIZER.read(Routes.class, zipInputStream));
+                            allClassifiers.setRoutes(SERIALIZER.read(RouteWrapper.class, zipInputStream));
                             break;
                         }
                         case STOPS: {
-                            allClassifiers.setStops(SERIALIZER.read(Stops.class, zipInputStream));
+                            allClassifiers.setStops(SERIALIZER.read(StopWrapper.class, zipInputStream));
                             break;
                         }
                         case STOPS_FULL_DB: {
-                            allClassifiers.setFullStops(SERIALIZER.read(FullStops.class, zipInputStream));
+                            allClassifiers.setFullStops(SERIALIZER.read(FullStopWrapper.class, zipInputStream));
                             break;
                         }
                         case ROUTES_AND_STOPS: {
-                            allClassifiers.setRoutesWithStops(SERIALIZER.read(RoutesWithStops.class, zipInputStream));
+                            allClassifiers.setRoutesWithStops(SERIALIZER.read(RouteWithStopsWrapper.class, zipInputStream));
                             break;
                         }
                         case GEOPORTAL_ROUTES: {
-                            allClassifiers.setRoutesOnMap(SERIALIZER.read(RoutesOnMap.class, zipInputStream));
+                            allClassifiers.setRoutesOnMap(SERIALIZER.read(RouteOnMapWrapper.class, zipInputStream));
                             break;
                         }
                         case GEOPORTAL_STOPS: {
-                            allClassifiers.setStopsOnMap(SERIALIZER.read(StopsOnMap.class, zipInputStream));
+                            allClassifiers.setStopOnMapWrapper(SERIALIZER.read(StopOnMapWrapper.class, zipInputStream));
                             break;
                         }
                     }
@@ -109,37 +116,37 @@ public class ClassifierRequestImpl implements ClassifierRequest {
 
     @Override
     public List<Stop> getStops() throws Exception {
-        Stops stops = doClassifierRequest(Stops.class, STOPS_URL);
-        return stops.stops;
+        StopWrapper stopWrapper = doClassifierRequest(StopWrapper.class, STOPS_URL);
+        return stopWrapper.stops;
     }
 
     @Override
     public List<FullStop> getFullStops() throws Exception {
-        FullStops fullStops = doClassifierRequest(FullStops.class, STOPS_FULL_URL);
-        return fullStops.fullStops;
+        FullStopWrapper fullStopWrapper = doClassifierRequest(FullStopWrapper.class, STOPS_FULL_URL);
+        return fullStopWrapper.fullStops;
     }
 
     @Override
     public List<Route> getRoutes() throws Exception {
-        Routes routes = doClassifierRequest(Routes.class, ROUTES_URL);
-        return routes.routes;
+        RouteWrapper routeWrapper = doClassifierRequest(RouteWrapper.class, ROUTES_URL);
+        return routeWrapper.routes;
     }
 
     @Override
     public List<RouteWithStops> getRoutesWithStops() throws Exception {
-        RoutesWithStops routesWithStops = doClassifierRequest(RoutesWithStops.class, ROUTES_AND_STOPS_CORRESPONDENCE_URL);
-        return routesWithStops.routeWithStops;
+        RouteWithStopsWrapper routeWithStopsWrapper = doClassifierRequest(RouteWithStopsWrapper.class, ROUTES_AND_STOPS_CORRESPONDENCE_URL);
+        return routeWithStopsWrapper.routeWithStops;
     }
 
     @Override
-    public StopsOnMap getStopsOnMap() throws Exception {
-        return doClassifierRequest(StopsOnMap.class, GEOPORTAL_STOPS_CORRESPONDENCE_URL);
+    public StopOnMapWrapper getStopsOnMap() throws Exception {
+        return doClassifierRequest(StopOnMapWrapper.class, GEOPORTAL_STOPS_CORRESPONDENCE_URL);
     }
 
     @Override
     public List<RouteOnMap> getRoutesOnMap() throws Exception {
-        RoutesOnMap routesOnMap = doClassifierRequest(RoutesOnMap.class, GEOPORTAL_ROUTES_CORRESPONDENCE_URL);
-        return routesOnMap.routesOnMap;
+        RouteOnMapWrapper routeOnMapWrapper = doClassifierRequest(RouteOnMapWrapper.class, GEOPORTAL_ROUTES_CORRESPONDENCE_URL);
+        return routeOnMapWrapper.routesOnMap;
     }
 
 }

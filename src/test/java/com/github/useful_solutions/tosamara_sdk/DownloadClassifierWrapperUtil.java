@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-class DownloadClassifiersUtil {
+class DownloadClassifierWrapperUtil {
 
     private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
     private static final String PATH_TO_DIR = "src/test/resources/";
 
-    private DownloadClassifiersUtil() {
+    private DownloadClassifierWrapperUtil() {
     }
 
     @Test
@@ -29,28 +29,28 @@ class DownloadClassifiersUtil {
             Serializer serializer = new Persister(new AnnotationStrategy());
             createDirIfNeeded();
 
-            Stops stops = new Stops();
-            stops.stops = CLASSIFIER_REQUEST.getStops();
-            serializer.write(stops, new File(PATH_TO_DIR + "stops.xml"));
+            StopWrapper stopWrapper = new StopWrapper();
+            stopWrapper.stops = CLASSIFIER_REQUEST.getStops();
+            serializer.write(stopWrapper, new File(PATH_TO_DIR + "stops.xml"));
 
-            FullStops fullStops = new FullStops();
-            fullStops.fullStops = CLASSIFIER_REQUEST.getFullStops();
-            serializer.write(fullStops, new File(PATH_TO_DIR + "fullStops.xml"));
-            createShortDescriptionForStops(fullStops.fullStops);
+            FullStopWrapper fullStopWrapper = new FullStopWrapper();
+            fullStopWrapper.fullStops = CLASSIFIER_REQUEST.getFullStops();
+            serializer.write(fullStopWrapper, new File(PATH_TO_DIR + "fullStops.xml"));
+            createShortDescriptionForStops(fullStopWrapper.fullStops);
 
-            Routes routes = new Routes();
-            routes.routes = CLASSIFIER_REQUEST.getRoutes();
-            serializer.write(routes, new File(PATH_TO_DIR + "routes.xml"));
+            RouteWrapper routeWrapper = new RouteWrapper();
+            routeWrapper.routes = CLASSIFIER_REQUEST.getRoutes();
+            serializer.write(routeWrapper, new File(PATH_TO_DIR + "routes.xml"));
 
-            RoutesWithStops routesWithStops = new RoutesWithStops();
-            routesWithStops.routeWithStops = CLASSIFIER_REQUEST.getRoutesWithStops();
-            serializer.write(routesWithStops, new File(PATH_TO_DIR + "routesWithStops.xml"));
+            RouteWithStopsWrapper routeWithStopsWrapper = new RouteWithStopsWrapper();
+            routeWithStopsWrapper.routeWithStops = CLASSIFIER_REQUEST.getRoutesWithStops();
+            serializer.write(routeWithStopsWrapper, new File(PATH_TO_DIR + "routesWithStops.xml"));
 
             serializer.write(CLASSIFIER_REQUEST.getStopsOnMap(), new File(PATH_TO_DIR + "stopsOnMap.xml"));
 
-            RoutesOnMap routesOnMap = new RoutesOnMap();
-            routesOnMap.routesOnMap = CLASSIFIER_REQUEST.getRoutesOnMap();
-            serializer.write(routesOnMap, new File(PATH_TO_DIR + "routesOnMap.xml"));
+            RouteOnMapWrapper routeOnMapWrapper = new RouteOnMapWrapper();
+            routeOnMapWrapper.routesOnMap = CLASSIFIER_REQUEST.getRoutesOnMap();
+            serializer.write(routeOnMapWrapper, new File(PATH_TO_DIR + "routesOnMap.xml"));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,7 +5,7 @@ import org.simpleframework.xml.ElementList;
 
 import java.util.List;
 
-public class StopsOnMap {
+public class StopOnMapWrapper {
 
     /**
      * Идентификатор геопортального слоя с остановками.

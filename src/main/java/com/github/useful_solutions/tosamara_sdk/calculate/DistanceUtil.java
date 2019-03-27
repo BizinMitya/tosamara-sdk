@@ -40,15 +40,13 @@ public class DistanceUtil {
      * @param krId     классификаторный номер маршрута
      */
     public static void printStepByInfoAboutJourney(int fromKsId, int toKsId, int krId) {
-        FullStop fromStop = FULL_STOP_MAP.get(fromKsId);
-        FullStop toStop = FULL_STOP_MAP.get(toKsId);
         RouteWithStops routeWithStops = ROUTE_WITH_STOPS_MAP.get(krId);
         int fromIndex = 0, toIndex = 0;
         for (int i = 0; i < routeWithStops.stops.size(); i++) {
-            if (routeWithStops.stops.get(i).ksId.equals(fromStop.ksId)) {
+            if (routeWithStops.stops.get(i).ksId.equals(fromKsId)) {
                 fromIndex = i;
             }
-            if (routeWithStops.stops.get(i).ksId.equals(toStop.ksId)) {
+            if (routeWithStops.stops.get(i).ksId.equals(toKsId)) {
                 toIndex = i;
             }
         }

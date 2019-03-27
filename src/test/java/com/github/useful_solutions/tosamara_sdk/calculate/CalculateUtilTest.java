@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-class DistanceUtilTest {
+class CalculateUtilTest {
 
     private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
     private static List<FullStop> fullStops;
@@ -58,8 +58,8 @@ class DistanceUtilTest {
             RouteWithStops.Stop toStop = routeWithStops.stops.get(i + 1);
             GeoPoint from = getPointOfStop(fullStops, fromStop.ksId);
             GeoPoint to = getPointOfStop(fullStops, toStop.ksId);
-            DistanceInfo distanceInfo = DistanceUtil.distanceBetweenStops(routeWithStops.geometry, from, to);
-            String info = distanceInfo.getDistance() + (distanceInfo.isCrowflight() ? "(по прямой)" : "");
+            DistanceInfo distanceInfo = CalculateUtil.distanceBetweenStops(routeWithStops.geometry, from, to);
+            String info = distanceInfo.getDistance() + (distanceInfo.isCrowflight() ? " (по прямой)" : "");
             System.out.println("Расстояние между " + fromStop.title + " и " + toStop.title + ": " + info);
         }
     }

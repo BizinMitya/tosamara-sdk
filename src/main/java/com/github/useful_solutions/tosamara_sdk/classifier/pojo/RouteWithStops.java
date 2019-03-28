@@ -7,12 +7,10 @@ import com.github.useful_solutions.tosamara_sdk.classifier.converter.GeoPointsCo
 import com.github.useful_solutions.tosamara_sdk.classifier.converter.TransportTypeConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
 import org.simpleframework.xml.convert.Convert;
 
 import java.util.List;
 
-@Root(name = "route")
 public class RouteWithStops {
 
     /**

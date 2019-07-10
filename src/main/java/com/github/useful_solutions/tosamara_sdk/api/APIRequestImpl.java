@@ -24,7 +24,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
 
 public class APIRequestImpl implements APIRequest {
 
-    private static final String API_URL = "https://tosamara.ru/api/v2/json";
+    private static final String API_URL = "https://tosamara.ru/api/json";
     private static final String TEST_AUTH_KEY_URL = "https://tosamara.ru/test_files/api/handler.php";
 
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();

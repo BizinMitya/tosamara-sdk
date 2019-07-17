@@ -6,7 +6,6 @@ import org.simpleframework.xml.stream.OutputNode;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
 
 public class NumberRoutesConverter implements Converter<List<String>> {
 
@@ -25,9 +24,7 @@ public class NumberRoutesConverter implements Converter<List<String>> {
     @Override
     public void write(OutputNode node, List<String> value) {
         if (value != null) {
-            StringJoiner stringJoiner = new StringJoiner(", ");
-            value.forEach(stringJoiner::add);
-            node.setValue(stringJoiner.toString());
+            node.setValue(String.join(", ", value));
         }
     }
 

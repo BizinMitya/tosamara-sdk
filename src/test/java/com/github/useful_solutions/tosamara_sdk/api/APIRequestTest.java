@@ -83,7 +83,7 @@ class APIRequestTest {
         stops.forEach(stop -> {
             try {
                 System.out.println("getFirstArrivalToStopTest: " + current.get() + "/" + total);
-                API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
+                APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
                 current.incrementAndGet();
             } catch (APIResponseException | IOException e) {
                 Assertions.fail(e);
@@ -94,7 +94,7 @@ class APIRequestTest {
     void getFirstArrivalToStopRandomTest() {
         try {
             Stop stop = stops.get(RANDOM.nextInt(stops.size()));
-            API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
+            APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -185,10 +185,10 @@ class APIRequestTest {
     void getTransportPositionRandomTest() {
         try {
             Stop stop = stops.get(RANDOM.nextInt(stops.size()));
-            GetFirstArrivalToStopResponse response = API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
+            GetFirstArrivalToStopResponse response = APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
             while (response.arrivalTransports.isEmpty()) {
                 stop = stops.get(RANDOM.nextInt(stops.size()));
-                response = API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
+                response = APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
             }
             ArrivalTransport arrivalTransport = response.arrivalTransports.get(RANDOM.nextInt(response.arrivalTransports.size()));
             API_REQUEST.getTransportPosition(arrivalTransport.hullNo);
@@ -201,7 +201,7 @@ class APIRequestTest {
         try {
             int current = 1;
             for (Stop stop : stops) {
-                GetFirstArrivalToStopResponse response = API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
+                GetFirstArrivalToStopResponse response = APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
                 for (ArrivalTransport arrivalTransport : response.arrivalTransports) {
                     System.out.println("getTransportPositionTest: " + current);
                     API_REQUEST.getTransportPosition(arrivalTransport.hullNo);

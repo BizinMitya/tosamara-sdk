@@ -2,7 +2,7 @@ package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.TransportType;
 import com.github.useful_solutions.tosamara_sdk.classifier.converter.AffiliationConverter;
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.BooleanConverter;
+import com.github.useful_solutions.tosamara_sdk.classifier.converter.BitConverter;
 import com.github.useful_solutions.tosamara_sdk.classifier.converter.TransportTypeConverter;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.convert.Convert;
@@ -82,7 +82,7 @@ public class Route {
      * Признак того, что маршрут прогнозируется по мониторингу в реальном времени.
      */
     @Element
-    @Convert(BooleanConverter.class)
+    @Convert(BitConverter.class)
     public Boolean realtimeForecast;
 
 }

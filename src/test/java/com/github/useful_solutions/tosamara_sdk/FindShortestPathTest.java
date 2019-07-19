@@ -7,8 +7,8 @@ import com.github.useful_solutions.tosamara_sdk.api.record.pojo.TransportType;
 import com.github.useful_solutions.tosamara_sdk.api.record.request.FindShortestPathRequest;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.FindShortestPathResponse;
 import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequest;
-import com.github.useful_solutions.tosamara_sdk.classifier.pojo.FullStop;
 import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequestImpl;
+import com.github.useful_solutions.tosamara_sdk.classifier.pojo.FullStop;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +35,7 @@ class FindShortestPathTest {
                     .collect(Collectors.toMap(fullStop -> fullStop.ksId, fullStop -> fullStop));
             FindShortestPathResponse shortestPath =
                     API_REQUEST.findShortestPath(firstPoint, secondPoint, FindShortestPathRequest.Criterion.time,
-                            TransportType.bus, TransportType.tram, TransportType.trolleybus, TransportType.metro);
+                            TransportType.BUS, TransportType.TRAM, TransportType.TROLLEYBUS, TransportType.METRO);
             System.out.println("Маршрут от " + firstStop.title + " до " + secondStop.title);
             if (shortestPath.price == null) {
                 System.out.println("Маршрута не существует");

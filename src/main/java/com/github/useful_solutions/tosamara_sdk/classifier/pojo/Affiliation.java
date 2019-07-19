@@ -3,62 +3,32 @@ package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.stream.Stream;
+
 public enum Affiliation {
 
-    municipal,
-    commercial,
-    suburban,
-    season,
-    special,
-    interurban;
+    MUNICIPAL("Городской муниципальный маршрут"),
+    COMMERCIAL("Городской коммерческий маршрут"),
+    SUBURBAN("Пригородный маршрут"),
+    SEASON("Сезонный (дачный) маршрут"),
+    SPECIAL("Специальный маршрут"),
+    INTERURBAN("Междугородний маршрут");
 
-    private static final String MUNICIPAL = "Городской муниципальный маршрут";
-    private static final String COMMERCIAL = "Городской коммерческий маршрут";
-    private static final String SUBURBAN = "Пригородный маршрут";
-    private static final String SEASON = "Сезонный (дачный) маршрут";
-    private static final String SPECIAL = "Специальный маршрут";
-    private static final String INTERURBAN = "Междугородний маршрут";
+    private String description;
 
-    @Nullable
-    @SuppressWarnings("Duplicates")
-    public static Affiliation convert(String affiliation) {
-        switch (affiliation) {
-            case MUNICIPAL:
-                return municipal;
-            case COMMERCIAL:
-                return commercial;
-            case SUBURBAN:
-                return suburban;
-            case SEASON:
-                return season;
-            case SPECIAL:
-                return special;
-            case INTERURBAN:
-                return interurban;
-            default:
-                return null;
-        }
+    Affiliation(String description) {
+        this.description = description;
     }
 
-    @NotNull
-    @SuppressWarnings("Duplicates")
-    public static String convert(Affiliation affiliation) {
-        switch (affiliation) {
-            case municipal:
-                return MUNICIPAL;
-            case commercial:
-                return COMMERCIAL;
-            case suburban:
-                return SUBURBAN;
-            case season:
-                return SEASON;
-            case special:
-                return SPECIAL;
-            case interurban:
-                return INTERURBAN;
-            default:
-                return null;
-        }
+    @Nullable
+    public static Affiliation convert(String description) {
+        return Stream.of(Affiliation.values())
+                .filter(tt -> tt.description.equals(description))
+                .findFirst().orElse(null);
+    }
+
+    public static String convert(@NotNull Affiliation affiliation) {
+        return affiliation.description;
     }
 
 }

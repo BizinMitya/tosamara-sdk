@@ -2,7 +2,7 @@ package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.TransportType;
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.BooleanConverter;
+import com.github.useful_solutions.tosamara_sdk.classifier.converter.BitConverter;
 import com.github.useful_solutions.tosamara_sdk.classifier.converter.GeoPointsConverter;
 import com.github.useful_solutions.tosamara_sdk.classifier.converter.TransportTypeConverter;
 import org.simpleframework.xml.Element;
@@ -38,14 +38,14 @@ public class RouteWithStops {
      * Признак выполняемости маршрута в настоящее время, 1 — да, 0 — нет.
      */
     @Element
-    @Convert(BooleanConverter.class)
+    @Convert(BitConverter.class)
     public Boolean performing;
 
     /**
      * Признак того, что маршрут прогнозируется по мониторингу в реальном времени.
      */
     @Element
-    @Convert(BooleanConverter.class)
+    @Convert(BitConverter.class)
     public Boolean realtimeForecast;
 
     /**

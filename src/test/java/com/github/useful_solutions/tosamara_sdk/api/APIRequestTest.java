@@ -109,7 +109,7 @@ class APIRequestTest {
                     System.out.println("findShortestPathTest: " + current + "/" + total);
                     GeoPoint geoPoint1 = new GeoPoint(fullStop1.latitude, fullStop1.longitude);
                     GeoPoint geoPoint2 = new GeoPoint(fullStop2.latitude, fullStop2.longitude);
-                    API_REQUEST.findShortestPath(geoPoint1, geoPoint2, FindShortestPathRequest.Criterion.time, TransportType.bus);
+                    API_REQUEST.findShortestPath(geoPoint1, geoPoint2, FindShortestPathRequest.Criterion.time, TransportType.BUS);
                     current++;
                 }
             }
@@ -124,7 +124,7 @@ class APIRequestTest {
             FullStop fullStop2 = fullStops.get(RANDOM.nextInt(fullStops.size()));
             GeoPoint geoPoint1 = new GeoPoint(fullStop1.latitude, fullStop1.longitude);
             GeoPoint geoPoint2 = new GeoPoint(fullStop2.latitude, fullStop2.longitude);
-            API_REQUEST.findShortestPath(geoPoint1, geoPoint2, FindShortestPathRequest.Criterion.time, TransportType.bus);
+            API_REQUEST.findShortestPath(geoPoint1, geoPoint2, FindShortestPathRequest.Criterion.time, TransportType.BUS);
         } catch (Exception e) {
             Assertions.fail(e);
         }

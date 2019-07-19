@@ -4,7 +4,7 @@ import org.simpleframework.xml.convert.Converter;
 import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
-public class BooleanConverter implements Converter<Boolean> {
+public class BitConverter implements Converter<Boolean> {
 
     @Override
     public Boolean read(InputNode node) throws Exception {

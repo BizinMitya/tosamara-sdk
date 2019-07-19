@@ -7,6 +7,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.useful-solutions/tosamara-sdk.svg?color=green)](https://search.maven.org/artifact/com.github.useful-solutions/tosamara-sdk/1.3/jar)
 ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.github.useful-solutions/tosamara-sdk.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=useful-solutions_tosamara-sdk&metric=alert_status)](https://sonarcloud.io/dashboard?id=useful-solutions_tosamara-sdk)
 
 Для подключения библиотеки через Maven, нужно добавить зависимость:
 

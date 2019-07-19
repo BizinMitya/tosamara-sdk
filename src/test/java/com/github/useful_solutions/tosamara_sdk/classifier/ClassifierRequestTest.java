@@ -8,18 +8,6 @@ class ClassifierRequestTest {
     private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
 
     @Test
-    void allClassifiersTest() {
-        getClassifiersTest();
-        getAllClassifiersTest();
-        getStopsTest();
-        getFullStopsTest();
-        getRoutesTest();
-        getRoutesWithStopsTest();
-        getStopsOnMapTest();
-        getRoutesOnMapTest();
-    }
-
-    @Test
     void getClassifiersTest() {
         try {
             CLASSIFIER_REQUEST.getClassifiers();

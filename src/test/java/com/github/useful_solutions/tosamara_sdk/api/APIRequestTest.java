@@ -13,7 +13,6 @@ import com.github.useful_solutions.tosamara_sdk.exception.APIResponseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -63,7 +62,6 @@ class APIRequestTest {
         sendUserMessageTest();
     }
 
-    @Test
     void runAllFullTests() {
         getFirstArrivalToStopFullTest();
         findShortestPathFullTest();
@@ -79,7 +77,6 @@ class APIRequestTest {
         sendUserMessageTest();
     }
 
-    @Test
     void getFirstArrivalToStopFullTest() {
         int total = stops.size();
         AtomicInteger current = new AtomicInteger(1);
@@ -94,7 +91,6 @@ class APIRequestTest {
         });
     }
 
-    @Test
     void getFirstArrivalToStopRandomTest() {
         try {
             Stop stop = stops.get(RANDOM.nextInt(stops.size()));
@@ -104,7 +100,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void findShortestPathFullTest() {
         try {
             long total = fullStops.size() * fullStops.size();
@@ -123,7 +118,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void findShortestPathRandomTest() {
         try {
             FullStop fullStop1 = fullStops.get(RANDOM.nextInt(fullStops.size()));
@@ -136,7 +130,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getRouteArrivalToStopFullTest() {
         try {
             long total = routesWithStops.stream().mapToInt(value -> value.stops.size()).asLongStream().sum();
@@ -154,7 +147,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getRouteArrivalToStopRandomTest() {
         try {
             RouteWithStops routeWithStops = routesWithStops.get(RANDOM.nextInt(routesWithStops.size()));
@@ -165,7 +157,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getRouteScheduleAllTest() {
         int total = routes.size();
         AtomicInteger current = new AtomicInteger(1);
@@ -181,7 +172,6 @@ class APIRequestTest {
         });
     }
 
-    @Test
     void getRouteScheduleRandomTest() {
         try {
             Route route = routes.get(RANDOM.nextInt(routes.size()));
@@ -192,7 +182,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getTransportPositionRandomTest() {
         try {
             Stop stop = stops.get(RANDOM.nextInt(stops.size()));
@@ -208,7 +197,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getTransportPositionFullTest() {
         try {
             int current = 1;
@@ -225,7 +213,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getSurroundingTransportsRandomTest() {
         try {
             FullStop fullStop = fullStops.get(RANDOM.nextInt(fullStops.size()));
@@ -236,7 +223,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getSurroundingTransportsFullTest() {
         try {
             int total = fullStops.size();
@@ -252,7 +238,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getTransportsOnRouteRandomTest() {
         try {
             Route route = routes.get(RANDOM.nextInt(routes.size()));
@@ -262,7 +247,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getTransportsOnRouteFullTest() {
         try {
             int total = routes.size();
@@ -277,7 +261,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void getNearestBuildingTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
@@ -287,7 +270,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void findBuildingByAddressTest() {
         try {
             API_REQUEST.findBuildingByAddress(null, "ТЦ Пирамида", 10);
@@ -296,7 +278,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void userMessagesTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
@@ -306,7 +287,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void voteForMessageTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
@@ -316,7 +296,6 @@ class APIRequestTest {
         }
     }
 
-    @Test
     void sendUserMessageTest() {
         try {
             List<Link> links = Collections.singletonList(new Link(SAMARA_LATITUDE, SAMARA_LONGITUDE, 200.5D));

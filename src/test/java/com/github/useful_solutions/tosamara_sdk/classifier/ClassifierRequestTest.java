@@ -10,7 +10,7 @@ class ClassifierRequestTest {
     @Test
     void getClassifiersTest() {
         try {
-            CLASSIFIER_REQUEST.getClassifiers();
+            ClassifierAssert.assertClassifiers(CLASSIFIER_REQUEST.getClassifiers());
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -19,7 +19,7 @@ class ClassifierRequestTest {
     @Test
     void getAllClassifiersTest() {
         try {
-            CLASSIFIER_REQUEST.getAllClassifiers();
+            ClassifierAssert.assertAllClassifiers(CLASSIFIER_REQUEST.getAllClassifiers());
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -28,7 +28,7 @@ class ClassifierRequestTest {
     @Test
     void getStopsTest() {
         try {
-            CLASSIFIER_REQUEST.getStops();
+            ClassifierAssert.assertStops(CLASSIFIER_REQUEST.getStops());
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -37,7 +37,7 @@ class ClassifierRequestTest {
     @Test
     void getFullStopsTest() {
         try {
-            CLASSIFIER_REQUEST.getFullStops();
+            ClassifierAssert.assertFullStops(CLASSIFIER_REQUEST.getFullStops());
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -46,7 +46,7 @@ class ClassifierRequestTest {
     @Test
     void getRoutesTest() {
         try {
-            CLASSIFIER_REQUEST.getRoutes();
+            ClassifierAssert.assertRoutes(CLASSIFIER_REQUEST.getRoutes());
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -55,7 +55,7 @@ class ClassifierRequestTest {
     @Test
     void getRoutesWithStopsTest() {
         try {
-            CLASSIFIER_REQUEST.getRoutesWithStops();
+            ClassifierAssert.assertRoutesWithStops(CLASSIFIER_REQUEST.getRoutesWithStops());
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -64,7 +64,7 @@ class ClassifierRequestTest {
     @Test
     void getStopsOnMapTest() {
         try {
-            CLASSIFIER_REQUEST.getStopsOnMap();
+            ClassifierAssert.assertStopsOnMap(CLASSIFIER_REQUEST.getStopsOnMap());
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -73,7 +73,7 @@ class ClassifierRequestTest {
     @Test
     void getRoutesOnMapTest() {
         try {
-            CLASSIFIER_REQUEST.getRoutesOnMap();
+            ClassifierAssert.assertRoutesOnMap(CLASSIFIER_REQUEST.getRoutesOnMap());
         } catch (Exception e) {
             Assertions.fail(e);
         }

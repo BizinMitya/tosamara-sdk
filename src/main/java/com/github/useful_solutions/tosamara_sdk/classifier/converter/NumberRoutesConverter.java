@@ -5,6 +5,7 @@ import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class NumberRoutesConverter implements Converter<List<String>> {
@@ -17,7 +18,7 @@ public class NumberRoutesConverter implements Converter<List<String>> {
                     .replaceAll("\\s", "")
                     .split(","));
         } else {
-            return null;
+            return Collections.emptyList();
         }
     }
 

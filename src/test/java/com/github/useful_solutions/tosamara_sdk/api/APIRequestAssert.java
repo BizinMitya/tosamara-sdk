@@ -1,8 +1,10 @@
 package com.github.useful_solutions.tosamara_sdk.api;
 
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.ArrivalTransport;
+import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Link;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Message;
+import com.github.useful_solutions.tosamara_sdk.api.record.response.FindShortestPathResponse;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.GetFirstArrivalToStopResponse;
 import org.junit.jupiter.api.Assertions;
 
@@ -15,6 +17,37 @@ class APIRequestAssert {
         arrivalTransportsAssert(getFirstArrivalToStopResponse.arrivalTransports);
         messagesAssert(getFirstArrivalToStopResponse.messages);
         return getFirstArrivalToStopResponse;
+    }
+
+    static void findShortestPathResponseAssert(FindShortestPathResponse findShortestPathResponse) {
+        Assertions.assertNotNull(findShortestPathResponse);
+        Assertions.assertNotNull(findShortestPathResponse.price);
+        Assertions.assertNotNull(findShortestPathResponse.time);
+        Assertions.assertNotNull(findShortestPathResponse.length);
+        Assertions.assertNotNull(findShortestPathResponse.transportTakes);
+        actionsAssert(findShortestPathResponse.actions);
+    }
+
+    private static void actionsAssert(List<FindShortestPathResponse.Action> actions) {
+        Assertions.assertNotNull(actions);
+        for (FindShortestPathResponse.Action action : actions) {
+            Assertions.assertNotNull(action.comment);
+            //Assertions.assertNotNull(action.stopFrom);
+            Assertions.assertNotNull(action.time);
+            Assertions.assertNotNull(action.action);
+            //Assertions.assertNotNull(action.stopTo);
+            Assertions.assertNotNull(action.length);
+            //Assertions.assertNotNull(action.routes);
+            geoPointsAssert(action.geometry);
+        }
+    }
+
+    private static void geoPointsAssert(List<GeoPoint> geoPoints) {
+        Assertions.assertNotNull(geoPoints);
+        for (GeoPoint geoPoint : geoPoints) {
+            Assertions.assertNotNull(geoPoint.latitude);
+            Assertions.assertNotNull(geoPoint.longitude);
+        }
     }
 
     private static void arrivalTransportsAssert(List<ArrivalTransport> arrivalTransports) {

@@ -191,7 +191,7 @@ class APIRequestTest {
                 response = APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
             }
             ArrivalTransport arrivalTransport = response.arrivalTransports.get(RANDOM.nextInt(response.arrivalTransports.size()));
-            API_REQUEST.getTransportPosition(arrivalTransport.hullNo);
+            APIRequestAssert.getTransportPositionResponseAssert(API_REQUEST.getTransportPosition(arrivalTransport.hullNo));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -204,7 +204,7 @@ class APIRequestTest {
                 GetFirstArrivalToStopResponse response = APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
                 for (ArrivalTransport arrivalTransport : response.arrivalTransports) {
                     System.out.println("getTransportPositionTest: " + current);
-                    API_REQUEST.getTransportPosition(arrivalTransport.hullNo);
+                    APIRequestAssert.getTransportPositionResponseAssert(API_REQUEST.getTransportPosition(arrivalTransport.hullNo));
                     current++;
                 }
             }

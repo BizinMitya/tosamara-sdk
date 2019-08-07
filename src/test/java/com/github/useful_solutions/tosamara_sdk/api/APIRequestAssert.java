@@ -4,10 +4,7 @@ import com.github.useful_solutions.tosamara_sdk.api.record.pojo.ArrivalTransport
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Link;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Message;
-import com.github.useful_solutions.tosamara_sdk.api.record.response.FindShortestPathResponse;
-import com.github.useful_solutions.tosamara_sdk.api.record.response.GetFirstArrivalToStopResponse;
-import com.github.useful_solutions.tosamara_sdk.api.record.response.GetRouteArrivalToStopResponse;
-import com.github.useful_solutions.tosamara_sdk.api.record.response.GetRouteScheduleResponse;
+import com.github.useful_solutions.tosamara_sdk.api.record.response.*;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
@@ -25,7 +22,7 @@ class APIRequestAssert {
         Assertions.assertNotNull(findShortestPathResponse);
         //Assertions.assertNotNull(findShortestPathResponse.price);
         //Assertions.assertNotNull(findShortestPathResponse.time);
-        Assertions.assertNotNull(findShortestPathResponse.length);
+        //Assertions.assertNotNull(findShortestPathResponse.length);
         Assertions.assertNotNull(findShortestPathResponse.transportTakes);
         actionsAssert(findShortestPathResponse.actions);
     }
@@ -47,6 +44,27 @@ class APIRequestAssert {
         Assertions.assertNotNull(getRouteScheduleResponse.models);
         Assertions.assertNotNull(getRouteScheduleResponse.stops);
         schedulesAssert(getRouteScheduleResponse.schedules);
+    }
+
+    static void getTransportPositionResponseAssert(GetTransportPositionResponse getTransportPositionResponse) {
+        Assertions.assertNotNull(getTransportPositionResponse);
+        Assertions.assertNotNull(getTransportPositionResponse.krId);
+        Assertions.assertNotNull(getTransportPositionResponse.latitude);
+        Assertions.assertNotNull(getTransportPositionResponse.longitude);
+        //Assertions.assertNotNull(getTransportPositionResponse.modelTitle);
+        Assertions.assertNotNull(getTransportPositionResponse.nextStops);
+        Assertions.assertNotNull(getTransportPositionResponse.remainingLength);
+        Assertions.assertNotNull(getTransportPositionResponse.spanLength);
+        Assertions.assertNotNull(getTransportPositionResponse.stateNumber);
+        stopsAssert(getTransportPositionResponse.nextStops);
+    }
+
+    private static void stopsAssert(List<GetTransportPositionResponse.Stop> stops) {
+        Assertions.assertNotNull(stops);
+        for (GetTransportPositionResponse.Stop stop : stops) {
+            Assertions.assertNotNull(stop.ksId);
+            Assertions.assertNotNull(stop.time);
+        }
     }
 
     private static void schedulesAssert(List<GetRouteScheduleResponse.Schedule> schedules) {

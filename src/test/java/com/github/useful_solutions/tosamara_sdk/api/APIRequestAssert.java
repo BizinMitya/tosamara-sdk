@@ -6,6 +6,8 @@ import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Link;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Message;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.FindShortestPathResponse;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.GetFirstArrivalToStopResponse;
+import com.github.useful_solutions.tosamara_sdk.api.record.response.GetRouteArrivalToStopResponse;
+import com.github.useful_solutions.tosamara_sdk.api.record.response.GetRouteScheduleResponse;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
@@ -21,11 +23,53 @@ class APIRequestAssert {
 
     static void findShortestPathResponseAssert(FindShortestPathResponse findShortestPathResponse) {
         Assertions.assertNotNull(findShortestPathResponse);
-        Assertions.assertNotNull(findShortestPathResponse.price);
-        Assertions.assertNotNull(findShortestPathResponse.time);
+        //Assertions.assertNotNull(findShortestPathResponse.price);
+        //Assertions.assertNotNull(findShortestPathResponse.time);
         Assertions.assertNotNull(findShortestPathResponse.length);
         Assertions.assertNotNull(findShortestPathResponse.transportTakes);
         actionsAssert(findShortestPathResponse.actions);
+    }
+
+    static void getRouteArrivalToStopResponseAssert(GetRouteArrivalToStopResponse getRouteArrivalToStopResponse) {
+        Assertions.assertNotNull(getRouteArrivalToStopResponse);
+        arrivalTransportsAssert(getRouteArrivalToStopResponse.arrivalTransports);
+        messagesAssert(getRouteArrivalToStopResponse.messages);
+    }
+
+    static void getRouteScheduleResponseAssert(GetRouteScheduleResponse getRouteScheduleResponse) {
+        Assertions.assertNotNull(getRouteScheduleResponse);
+        //Assertions.assertNotNull(getRouteScheduleResponse.endTime);
+        //Assertions.assertNotNull(getRouteScheduleResponse.startTime);
+        firstRaceAssert(getRouteScheduleResponse.firstRace);
+        lastRaceAssert(getRouteScheduleResponse.lastRace);
+        //Assertions.assertNotNull(getRouteScheduleResponse.interval);
+        Assertions.assertNotNull(getRouteScheduleResponse.krId);
+        Assertions.assertNotNull(getRouteScheduleResponse.models);
+        Assertions.assertNotNull(getRouteScheduleResponse.stops);
+        schedulesAssert(getRouteScheduleResponse.schedules);
+    }
+
+    private static void schedulesAssert(List<GetRouteScheduleResponse.Schedule> schedules) {
+        Assertions.assertNotNull(schedules);
+        for (GetRouteScheduleResponse.Schedule schedule : schedules) {
+            Assertions.assertNotNull(schedule.stopName);
+            Assertions.assertNotNull(schedule.time);
+            Assertions.assertFalse(schedule.time.isEmpty());
+        }
+    }
+
+    private static void firstRaceAssert(GetRouteScheduleResponse.FirstRace firstRace) {
+        Assertions.assertNotNull(firstRace);
+        //Assertions.assertNotNull(firstRace.time);
+        //Assertions.assertNotNull(firstRace.controlPoint);
+    }
+
+    private static void lastRaceAssert(GetRouteScheduleResponse.LastRace lastRace) {
+        Assertions.assertNotNull(lastRace);
+        //Assertions.assertNotNull(lastRace.endControlPoint);
+        //Assertions.assertNotNull(lastRace.endTime);
+        //Assertions.assertNotNull(lastRace.startControlPoint);
+        //Assertions.assertNotNull(lastRace.startTime);
     }
 
     private static void actionsAssert(List<FindShortestPathResponse.Action> actions) {

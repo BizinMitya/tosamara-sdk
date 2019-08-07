@@ -138,7 +138,7 @@ class APIRequestTest {
                 List<RouteWithStops.Stop> stops = routeWithStops.stops;
                 for (RouteWithStops.Stop stop : stops) {
                     System.out.println("getRouteArrivalToStopTest: " + current + "/" + total);
-                    API_REQUEST.getRouteArrivalToStop(stop.ksId, routeWithStops.krId);
+                    APIRequestAssert.getRouteArrivalToStopResponseAssert(API_REQUEST.getRouteArrivalToStop(stop.ksId, routeWithStops.krId));
                     current++;
                 }
             }
@@ -151,7 +151,7 @@ class APIRequestTest {
         try {
             RouteWithStops routeWithStops = routesWithStops.get(RANDOM.nextInt(routesWithStops.size()));
             RouteWithStops.Stop stop = routeWithStops.stops.get(RANDOM.nextInt(routeWithStops.stops.size()));
-            API_REQUEST.getRouteArrivalToStop(stop.ksId, routeWithStops.krId);
+            APIRequestAssert.getRouteArrivalToStopResponseAssert(API_REQUEST.getRouteArrivalToStop(stop.ksId, routeWithStops.krId));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -164,7 +164,7 @@ class APIRequestTest {
         routes.forEach(route -> {
             try {
                 System.out.println("getRouteScheduleTest: " + current.get() + "/" + total);
-                API_REQUEST.getRouteSchedule(route.krId, day);
+                APIRequestAssert.getRouteScheduleResponseAssert(API_REQUEST.getRouteSchedule(route.krId, day));
                 current.incrementAndGet();
             } catch (APIResponseException | IOException e) {
                 Assertions.fail(e);
@@ -176,7 +176,7 @@ class APIRequestTest {
         try {
             Route route = routes.get(RANDOM.nextInt(routes.size()));
             String day = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-            API_REQUEST.getRouteSchedule(route.krId, day);
+            APIRequestAssert.getRouteScheduleResponseAssert(API_REQUEST.getRouteSchedule(route.krId, day));
         } catch (Exception e) {
             Assertions.fail(e);
         }

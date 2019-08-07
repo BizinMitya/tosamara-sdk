@@ -1,9 +1,6 @@
 package com.github.useful_solutions.tosamara_sdk.api;
 
-import com.github.useful_solutions.tosamara_sdk.api.record.pojo.ArrivalTransport;
-import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
-import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Link;
-import com.github.useful_solutions.tosamara_sdk.api.record.pojo.Message;
+import com.github.useful_solutions.tosamara_sdk.api.record.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.*;
 import org.junit.jupiter.api.Assertions;
 
@@ -57,6 +54,23 @@ class APIRequestAssert {
         Assertions.assertNotNull(getTransportPositionResponse.spanLength);
         Assertions.assertNotNull(getTransportPositionResponse.stateNumber);
         stopsAssert(getTransportPositionResponse.nextStops);
+    }
+
+    static void getSurroundingTransportsResponseAssert(List<Transport> transports) {
+        Assertions.assertNotNull(transports);
+        for (Transport transport : transports) {
+            Assertions.assertNotNull(transport.direction);
+            Assertions.assertNotNull(transport.forInvalid);
+            Assertions.assertNotNull(transport.hullNo);
+            Assertions.assertNotNull(transport.krId);
+            Assertions.assertNotNull(transport.latitude);
+            Assertions.assertNotNull(transport.longitude);
+            Assertions.assertNotNull(transport.modelTitle);
+            Assertions.assertNotNull(transport.nextStopId);
+            Assertions.assertNotNull(transport.type);
+            Assertions.assertNotNull(transport.stateNumber);
+            Assertions.assertNotNull(transport.number);
+        }
     }
 
     private static void stopsAssert(List<GetTransportPositionResponse.Stop> stops) {

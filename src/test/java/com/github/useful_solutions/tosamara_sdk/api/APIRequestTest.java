@@ -217,7 +217,7 @@ class APIRequestTest {
         try {
             FullStop fullStop = fullStops.get(RANDOM.nextInt(fullStops.size()));
             GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-            API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE);
+            APIRequestAssert.getSurroundingTransportsResponseAssert(API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -230,7 +230,7 @@ class APIRequestTest {
             for (FullStop fullStop : fullStops) {
                 System.out.println("getSurroundingTransportsTest: " + current + "/" + total);
                 GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-                API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE);
+                APIRequestAssert.getSurroundingTransportsResponseAssert(API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
                 current++;
             }
         } catch (Exception e) {

@@ -56,7 +56,7 @@ class APIRequestAssert {
         stopsAssert(getTransportPositionResponse.nextStops);
     }
 
-    static void getSurroundingTransportsResponseAssert(List<Transport> transports) {
+    static void transportsResponseAssert(List<Transport> transports) {
         Assertions.assertNotNull(transports);
         for (Transport transport : transports) {
             Assertions.assertNotNull(transport.direction);
@@ -71,6 +71,31 @@ class APIRequestAssert {
             Assertions.assertNotNull(transport.stateNumber);
             Assertions.assertNotNull(transport.number);
         }
+    }
+
+    static void buildingsAssert(List<Building> buildings) {
+        Assertions.assertNotNull(buildings);
+        for (Building building : buildings) {
+            Assertions.assertNotNull(building.distance);
+            Assertions.assertNotNull(building.fullAddress);
+            Assertions.assertNotNull(building.latitude);
+            Assertions.assertNotNull(building.longitude);
+            Assertions.assertNotNull(building.shortAddress);
+        }
+    }
+
+    static void voteForMessageResponseAssert(VoteForMessageResponse voteForMessageResponse) {
+        Assertions.assertNotNull(voteForMessageResponse);
+        Assertions.assertNotNull(voteForMessageResponse.status);
+        Assertions.assertNotNull(voteForMessageResponse.text);
+    }
+
+    static void sendUserMessageResponseAssert(SendUserMessageResponse sendUserMessageResponse) {
+        Assertions.assertNotNull(sendUserMessageResponse);
+        //Assertions.assertNotNull(sendUserMessageResponse.creationTimestamp);
+        Assertions.assertNotNull(sendUserMessageResponse.error);
+        //Assertions.assertNotNull(sendUserMessageResponse.id);
+        Assertions.assertNotNull(sendUserMessageResponse.status);
     }
 
     private static void stopsAssert(List<GetTransportPositionResponse.Stop> stops) {
@@ -151,7 +176,7 @@ class APIRequestAssert {
         }
     }
 
-    private static void messagesAssert(List<Message> messages) {
+    static void messagesAssert(List<Message> messages) {
         Assertions.assertNotNull(messages);
         for (Message message : messages) {
             Assertions.assertNotNull(message);

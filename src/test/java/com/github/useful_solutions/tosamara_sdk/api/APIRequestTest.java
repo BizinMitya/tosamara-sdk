@@ -217,7 +217,7 @@ class APIRequestTest {
         try {
             FullStop fullStop = fullStops.get(RANDOM.nextInt(fullStops.size()));
             GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-            APIRequestAssert.getSurroundingTransportsResponseAssert(API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
+            APIRequestAssert.transportsResponseAssert(API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -230,7 +230,7 @@ class APIRequestTest {
             for (FullStop fullStop : fullStops) {
                 System.out.println("getSurroundingTransportsTest: " + current + "/" + total);
                 GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-                APIRequestAssert.getSurroundingTransportsResponseAssert(API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
+                APIRequestAssert.transportsResponseAssert(API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
                 current++;
             }
         } catch (Exception e) {
@@ -241,7 +241,7 @@ class APIRequestTest {
     void getTransportsOnRouteRandomTest() {
         try {
             Route route = routes.get(RANDOM.nextInt(routes.size()));
-            API_REQUEST.getTransportsOnRoute(route.krId, Integer.MAX_VALUE);
+            APIRequestAssert.transportsResponseAssert(API_REQUEST.getTransportsOnRoute(route.krId, Integer.MAX_VALUE));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -253,7 +253,7 @@ class APIRequestTest {
             int current = 1;
             for (Route route : routes) {
                 System.out.println("getTransportsOnRouteTest: " + current + "/" + total);
-                API_REQUEST.getTransportsOnRoute(route.krId, Integer.MAX_VALUE);
+                APIRequestAssert.transportsResponseAssert(API_REQUEST.getTransportsOnRoute(route.krId, Integer.MAX_VALUE));
                 current++;
             }
         } catch (Exception e) {
@@ -264,7 +264,7 @@ class APIRequestTest {
     void getNearestBuildingTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
-            API_REQUEST.getNearestBuilding(samara, 50.5D, 10);
+            APIRequestAssert.buildingsAssert(API_REQUEST.getNearestBuilding(samara, 50.5D, 10));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -272,7 +272,7 @@ class APIRequestTest {
 
     void findBuildingByAddressTest() {
         try {
-            API_REQUEST.findBuildingByAddress(null, "ТЦ Пирамида", 10);
+            APIRequestAssert.buildingsAssert(API_REQUEST.findBuildingByAddress(null, "ТЦ Пирамида", 10));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -281,7 +281,7 @@ class APIRequestTest {
     void userMessagesTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
-            API_REQUEST.getUserMessages(samara, 100_000.5D, "test");
+            APIRequestAssert.messagesAssert(API_REQUEST.getUserMessages(samara, 100_000.5D, "test"));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -290,7 +290,7 @@ class APIRequestTest {
     void voteForMessageTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
-            API_REQUEST.voteForMessage(2045352, Message.Vote.confirm, samara, "test");
+            APIRequestAssert.voteForMessageResponseAssert(API_REQUEST.voteForMessage(2045352, Message.Vote.confirm, samara, "test"));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -299,7 +299,7 @@ class APIRequestTest {
     void sendUserMessageTest() {
         try {
             List<Link> links = Collections.singletonList(new Link(SAMARA_LATITUDE, SAMARA_LONGITUDE, 200.5D));
-            API_REQUEST.sendUserMessage("Тестовое сообщение.", null, null, links, 1, "test");
+            APIRequestAssert.sendUserMessageResponseAssert(API_REQUEST.sendUserMessage("Тестовое сообщение.", null, null, links, 1, "test"));
         } catch (Exception e) {
             Assertions.fail(e);
         }

@@ -22,13 +22,8 @@ public class FindBuildingByAddressRequest {
     private final Integer count;
 
     public FindBuildingByAddressRequest(@Nullable GeoPoint geoPoint, String address, Integer count) {
-        if (geoPoint != null) {
-            this.latitude = geoPoint.latitude;
-            this.longitude = geoPoint.longitude;
-        } else {
-            this.latitude = null;
-            this.longitude = null;
-        }
+        this.latitude = geoPoint != null ? geoPoint.latitude : null;
+        this.longitude = geoPoint != null ? geoPoint.longitude : null;
         this.address = address;
         this.count = count;
     }

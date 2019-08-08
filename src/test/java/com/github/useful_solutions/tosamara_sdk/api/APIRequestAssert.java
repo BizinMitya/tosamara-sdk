@@ -20,7 +20,7 @@ class APIRequestAssert {
         //Assertions.assertNotNull(findShortestPathResponse.price);
         //Assertions.assertNotNull(findShortestPathResponse.time);
         //Assertions.assertNotNull(findShortestPathResponse.length);
-        Assertions.assertNotNull(findShortestPathResponse.transportTakes);
+        //Assertions.assertNotNull(findShortestPathResponse.transportTakes);
         actionsAssert(findShortestPathResponse.actions);
     }
 

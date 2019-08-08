@@ -59,6 +59,7 @@ class APIRequestAssert {
     static void transportsResponseAssert(List<Transport> transports) {
         Assertions.assertNotNull(transports);
         for (Transport transport : transports) {
+            Assertions.assertNotNull(transport);
             Assertions.assertNotNull(transport.direction);
             Assertions.assertNotNull(transport.forInvalid);
             Assertions.assertNotNull(transport.hullNo);
@@ -76,6 +77,7 @@ class APIRequestAssert {
     static void buildingsAssert(List<Building> buildings) {
         Assertions.assertNotNull(buildings);
         for (Building building : buildings) {
+            Assertions.assertNotNull(building);
             Assertions.assertNotNull(building.distance);
             Assertions.assertNotNull(building.fullAddress);
             Assertions.assertNotNull(building.latitude);
@@ -101,6 +103,7 @@ class APIRequestAssert {
     private static void stopsAssert(List<GetTransportPositionResponse.Stop> stops) {
         Assertions.assertNotNull(stops);
         for (GetTransportPositionResponse.Stop stop : stops) {
+            Assertions.assertNotNull(stop);
             Assertions.assertNotNull(stop.ksId);
             Assertions.assertNotNull(stop.time);
         }
@@ -109,6 +112,7 @@ class APIRequestAssert {
     private static void schedulesAssert(List<GetRouteScheduleResponse.Schedule> schedules) {
         Assertions.assertNotNull(schedules);
         for (GetRouteScheduleResponse.Schedule schedule : schedules) {
+            Assertions.assertNotNull(schedule);
             Assertions.assertNotNull(schedule.stopName);
             Assertions.assertNotNull(schedule.time);
             Assertions.assertFalse(schedule.time.isEmpty());
@@ -132,6 +136,7 @@ class APIRequestAssert {
     private static void actionsAssert(List<FindShortestPathResponse.Action> actions) {
         Assertions.assertNotNull(actions);
         for (FindShortestPathResponse.Action action : actions) {
+            Assertions.assertNotNull(action);
             Assertions.assertNotNull(action.comment);
             //Assertions.assertNotNull(action.stopFrom);
             Assertions.assertNotNull(action.time);
@@ -146,6 +151,7 @@ class APIRequestAssert {
     private static void geoPointsAssert(List<GeoPoint> geoPoints) {
         Assertions.assertNotNull(geoPoints);
         for (GeoPoint geoPoint : geoPoints) {
+            Assertions.assertNotNull(geoPoint);
             Assertions.assertNotNull(geoPoint.latitude);
             Assertions.assertNotNull(geoPoint.longitude);
         }

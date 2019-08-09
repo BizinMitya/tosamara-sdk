@@ -134,17 +134,18 @@ class APIRequestAssert {
     }
 
     private static void actionsAssert(List<FindShortestPathResponse.Action> actions) {
-        Assertions.assertNotNull(actions);
-        for (FindShortestPathResponse.Action action : actions) {
-            Assertions.assertNotNull(action);
-            Assertions.assertNotNull(action.comment);
-            //Assertions.assertNotNull(action.stopFrom);
-            Assertions.assertNotNull(action.time);
-            Assertions.assertNotNull(action.action);
-            //Assertions.assertNotNull(action.stopTo);
-            Assertions.assertNotNull(action.length);
-            //Assertions.assertNotNull(action.routes);
-            geoPointsAssert(action.geometry);
+        if (actions != null) {
+            for (FindShortestPathResponse.Action action : actions) {
+                Assertions.assertNotNull(action);
+                Assertions.assertNotNull(action.comment);
+                //Assertions.assertNotNull(action.stopFrom);
+                Assertions.assertNotNull(action.time);
+                Assertions.assertNotNull(action.action);
+                //Assertions.assertNotNull(action.stopTo);
+                Assertions.assertNotNull(action.length);
+                //Assertions.assertNotNull(action.routes);
+                geoPointsAssert(action.geometry);
+            }
         }
     }
 

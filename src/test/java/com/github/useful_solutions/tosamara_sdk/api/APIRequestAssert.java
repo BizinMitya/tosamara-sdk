@@ -211,9 +211,9 @@ class APIRequestAssert {
         for (Link link : links) {
             Assertions.assertNotNull(link);
             //Assertions.assertNotNull(link.ksId);
-            Assertions.assertNotNull(link.latitude);
-            Assertions.assertNotNull(link.longitude);
-            Assertions.assertNotNull(link.radius);
+            //Assertions.assertNotNull(link.latitude);
+            //Assertions.assertNotNull(link.longitude);
+            //Assertions.assertNotNull(link.radius);
             //Assertions.assertNotNull(link.transportHullNo);
         }
     }

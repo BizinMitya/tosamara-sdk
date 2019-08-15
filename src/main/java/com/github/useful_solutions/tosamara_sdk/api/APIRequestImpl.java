@@ -211,4 +211,24 @@ public class APIRequestImpl implements APIRequest {
         }
     }
 
+    private static class GetSurroundingTransportsResponse {
+        public List<Transport> transports;
+    }
+
+    private static class GetTransportsOnRouteResponse {
+        public List<Transport> transports;
+    }
+
+    private static class GetNearestBuildingResponse {
+        public List<Building> buildings;
+    }
+
+    private static class FindBuildingByAddressResponse {
+        public List<Building> buildings;
+    }
+
+    private static class GetUserMessagesResponse {
+        public List<Message> messages;
+    }
+
 }

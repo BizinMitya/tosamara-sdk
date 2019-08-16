@@ -1,9 +1,10 @@
 package com.github.useful_solutions.tosamara_sdk.classifier;
 
-import com.github.useful_solutions.tosamara_sdk.classifier.pojo.Route;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.exception.APIResponseException;
-import okhttp3.*;
+import com.github.useful_solutions.tosamara_sdk.util.HttpConnectionManager;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
@@ -35,19 +36,9 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     private static final String ALL_CLASSIFIERS = CLASSIFIERS_URL + "/classifiers.zip";
 
     private static final Serializer SERIALIZER = new Persister(new AnnotationStrategy());
-    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
-
-    private Call buildCall(String url) {
-        return OK_HTTP_CLIENT.newCall(
-                new Request.Builder()
-                        .url(url)
-                        .get()
-                        .build()
-        );
-    }
 
     private <T> T doClassifierRequest(Class<T> classifierType, String url) throws Exception {
-        try (Response response = buildCall(url).execute()) {
+        try (Response response = HttpConnectionManager.buildGetCall(url).execute()) {
             int statusCode = response.code();
             if (statusCode != HTTP_OK) {
                 throw new APIResponseException(statusCode);
@@ -72,7 +63,7 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     @Override
     public AllClassifiers getAllClassifiers() throws Exception {
         AllClassifiers allClassifiers = new AllClassifiers();
-        try (Response response = buildCall(ALL_CLASSIFIERS).execute()) {
+        try (Response response = HttpConnectionManager.buildGetCall(ALL_CLASSIFIERS).execute()) {
             int statusCode = response.code();
             if (statusCode != HTTP_OK) {
                 throw new APIResponseException(statusCode);

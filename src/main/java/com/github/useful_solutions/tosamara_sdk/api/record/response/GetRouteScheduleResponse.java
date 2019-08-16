@@ -63,7 +63,7 @@ public class GetRouteScheduleResponse {
         public ZonedDateTime time;
 
         @JsonProperty
-        private String controlPoint;
+        public String controlPoint;
 
     }
 

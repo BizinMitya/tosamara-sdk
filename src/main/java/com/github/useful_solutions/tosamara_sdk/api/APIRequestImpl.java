@@ -10,7 +10,11 @@ import com.github.useful_solutions.tosamara_sdk.api.record.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.api.record.request.*;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.*;
 import com.github.useful_solutions.tosamara_sdk.exception.APIResponseException;
-import okhttp3.*;
+import com.github.useful_solutions.tosamara_sdk.util.HttpConnectionManager;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,10 +28,9 @@ import static java.net.HttpURLConnection.HTTP_OK;
 
 public class APIRequestImpl implements APIRequest {
 
-    private static final String API_URL = "https://tosamara.ru/api/v2/json";
+    private static final String API_URL = "https://tosamara.ru/api/json";
     private static final String TEST_AUTH_KEY_URL = "https://tosamara.ru/test_files/api/handler.php";
 
-    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
             .enable(SerializationFeature.INDENT_OUTPUT)
@@ -187,13 +190,13 @@ public class APIRequestImpl implements APIRequest {
     private String getTestAuthKey(String message) throws IOException, APIResponseException {
         FormBody.Builder form = new FormBody.Builder();
         form.add("msg", message);
-        try (Response response = buildCall(TEST_AUTH_KEY_URL, form.build()).execute()) {
+        try (Response response = HttpConnectionManager.buildPostCall(TEST_AUTH_KEY_URL, form.build()).execute()) {
             return handleResponse(response);
         }
     }
 
     private String doAPIRequest(RequestBody requestBody) throws APIResponseException, IOException {
-        try (Response response = buildCall(API_URL, requestBody).execute()) {
+        try (Response response = HttpConnectionManager.buildPostCall(API_URL, requestBody).execute()) {
             return handleResponse(response);
         }
     }
@@ -208,13 +211,24 @@ public class APIRequestImpl implements APIRequest {
         }
     }
 
-    private Call buildCall(String url, RequestBody requestBody) {
-        return OK_HTTP_CLIENT.newCall(
-                new Request.Builder()
-                        .url(url)
-                        .post(requestBody)
-                        .build()
-        );
+    private static class GetSurroundingTransportsResponse {
+        public List<Transport> transports;
+    }
+
+    private static class GetTransportsOnRouteResponse {
+        public List<Transport> transports;
+    }
+
+    private static class GetNearestBuildingResponse {
+        public List<Building> buildings;
+    }
+
+    private static class FindBuildingByAddressResponse {
+        public List<Building> buildings;
+    }
+
+    private static class GetUserMessagesResponse {
+        public List<Message> messages;
     }
 
 }

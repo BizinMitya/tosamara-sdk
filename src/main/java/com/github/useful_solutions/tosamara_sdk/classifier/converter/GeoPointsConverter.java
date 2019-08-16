@@ -7,7 +7,7 @@ import org.simpleframework.xml.stream.OutputNode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class GeoPointsConverter implements Converter<List<GeoPoint>> {
 
@@ -32,9 +32,11 @@ public class GeoPointsConverter implements Converter<List<GeoPoint>> {
     @Override
     public void write(OutputNode node, List<GeoPoint> value) {
         if (value != null) {
-            StringJoiner stringJoiner = new StringJoiner(" ");
-            value.forEach(geoPoint -> stringJoiner.add(geoPoint.latitude + "," + geoPoint.longitude));
-            node.setValue(stringJoiner.toString());
+            node.setValue(
+                    value.stream()
+                            .map(geoPoint -> geoPoint.latitude + "," + geoPoint.longitude)
+                            .collect(Collectors.joining(" "))
+            );
         }
     }
 

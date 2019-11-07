@@ -5,23 +5,22 @@ import org.simpleframework.xml.convert.Converter;
 import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
+import java.util.Optional;
+
 public class TransportTypeConverter implements Converter<TransportType> {
 
     @Override
     public TransportType read(InputNode node) throws Exception {
         String value = node.getValue();
-        if (value != null) {
-            return TransportType.convert(value);
-        } else {
-            return null;
-        }
+        return Optional.ofNullable(value)
+                .map(TransportType::convert)
+                .orElse(null);
     }
 
     @Override
     public void write(OutputNode node, TransportType value) {
-        if (value != null) {
-            node.setValue(TransportType.convert(value));
-        }
+        Optional.ofNullable(value)
+                .ifPresent(transportType -> node.setValue(TransportType.convert(transportType)));
     }
 
 }

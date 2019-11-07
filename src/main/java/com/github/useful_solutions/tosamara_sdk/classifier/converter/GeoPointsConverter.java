@@ -6,6 +6,7 @@ import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class GeoPointsConverter implements Converter<List<GeoPoint>> {
             }
             return points;
         } else {
-            return null;
+            return Collections.emptyList();
         }
     }
 

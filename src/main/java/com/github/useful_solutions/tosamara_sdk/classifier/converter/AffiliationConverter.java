@@ -5,23 +5,22 @@ import org.simpleframework.xml.convert.Converter;
 import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
+import java.util.Optional;
+
 public class AffiliationConverter implements Converter<Affiliation> {
 
     @Override
     public Affiliation read(InputNode node) throws Exception {
         String value = node.getValue();
-        if (value != null) {
-            return Affiliation.convert(value);
-        } else {
-            return null;
-        }
+        return Optional.ofNullable(value)
+                .map(Affiliation::convert)
+                .orElse(null);
     }
 
     @Override
     public void write(OutputNode node, Affiliation value) {
-        if (value != null) {
-            node.setValue(Affiliation.convert(value));
-        }
+        Optional.ofNullable(value)
+                .ifPresent(affiliation -> node.setValue(Affiliation.convert(affiliation)));
     }
 
 }

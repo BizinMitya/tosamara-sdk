@@ -7,6 +7,7 @@ import org.simpleframework.xml.stream.OutputNode;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class NumberRoutesConverter implements Converter<List<String>> {
 
@@ -24,9 +25,8 @@ public class NumberRoutesConverter implements Converter<List<String>> {
 
     @Override
     public void write(OutputNode node, List<String> value) {
-        if (value != null) {
-            node.setValue(String.join(", ", value));
-        }
+        Optional.ofNullable(value)
+                .ifPresent(strings -> node.setValue(String.join(", ", strings)));
     }
 
 }

@@ -9,6 +9,7 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.zip.ZipEntry;
@@ -48,7 +49,7 @@ public class ClassifierRequestImpl implements ClassifierRequest {
                 if (SERIALIZER.validate(classifierType, content)) {
                     return SERIALIZER.read(classifierType, content);
                 } else {
-                    throw new Exception(String.format("Content %s can't be deserialized", content));
+                    throw new IOException(String.format("Content %s can't be deserialized", content));
                 }
             }
         }

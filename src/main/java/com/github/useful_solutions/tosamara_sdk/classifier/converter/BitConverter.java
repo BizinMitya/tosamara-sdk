@@ -4,23 +4,22 @@ import org.simpleframework.xml.convert.Converter;
 import org.simpleframework.xml.stream.InputNode;
 import org.simpleframework.xml.stream.OutputNode;
 
+import java.util.Optional;
+
 public class BitConverter implements Converter<Boolean> {
 
     @Override
     public Boolean read(InputNode node) throws Exception {
         String value = node.getValue();
-        if (value != null) {
-            return value.equals("1");
-        } else {
-            return null;
-        }
+        return Optional.ofNullable(value)
+                .map(s -> s.equals("1"))
+                .orElse(null);
     }
 
     @Override
     public void write(OutputNode node, Boolean value) {
-        if (value != null) {
-            node.setValue(value ? "1" : "0");
-        }
+        Optional.ofNullable(value)
+                .ifPresent(b -> node.setValue(b ? "1" : "0"));
     }
 
 }

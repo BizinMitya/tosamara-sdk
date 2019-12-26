@@ -40,12 +40,6 @@
             <email>bizin.mitya@mail.ru</email>
             <timezone>UTC+4</timezone>
         </developer>
-        <developer>
-            <id>koshelev</id>
-            <name>Aleksey Koshelev</name>
-            <email>widewestware@gmail.com</email>
-            <timezone>UTC+4</timezone>
-        </developer>
     </developers>
 
     <distributionManagement>

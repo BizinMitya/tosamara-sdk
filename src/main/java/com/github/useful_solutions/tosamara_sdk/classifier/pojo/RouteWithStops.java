@@ -58,7 +58,7 @@ public class RouteWithStops {
     @ElementList(entry = "stop", inline = true)
     public List<Stop> stops;
 
-    static public class ExtendedTransportType {
+    public static class ExtendedTransportType {
 
         /**
          * Числовой код вида транспорта:
@@ -81,7 +81,7 @@ public class RouteWithStops {
 
     }
 
-    static public class Stop {
+    public static class Stop {
 
         /**
          * Классификаторный номер остановки.

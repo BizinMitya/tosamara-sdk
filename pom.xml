@@ -54,9 +54,9 @@
     </distributionManagement>
 
     <properties>
-        <jackson-databind.version>2.10.1</jackson-databind.version>
-        <jackson.version>2.10.1</jackson.version>
-        <okhttp.version>3.13.1</okhttp.version>
+        <jackson-databind.version>2.10.3</jackson-databind.version>
+        <jackson.version>2.10.3</jackson.version>
+        <okhttp.version>4.4.1</okhttp.version>
         <commons-codec.version>1.4</commons-codec.version>
         <simpleframework.version>2.7.1</simpleframework.version>
         <jetbrains-annotations.version>16.0.2</jetbrains-annotations.version>

@@ -1,65 +1,64 @@
 package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 public class Stop {
 
     /**
      * Признак, что остановка находится не в г. Самара, а в другом городе области.
      */
-    @Attribute(required = false)
+    @JacksonXmlProperty(isAttribute = true)
     public Boolean external;
 
     /**
      * Классификаторный номер остановки.
      */
-    @Element(name = "KS_ID")
+    @JacksonXmlProperty(localName = "KS_ID")
     public Integer ksId;
 
     /**
      * Собственное название.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String title;
 
     /**
      * Улица, на которой расположена остановка.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String adjacentStreet;
 
     /**
      * Преимущественное направление движения.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String direction;
 
     /**
      * Собственное название на английском языке.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String titleEn;
 
     /**
      * Улица на английском.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String adjacentStreetEn;
 
     /**
      * Преимущественное направление движения на английском.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String directionEn;
 
-    @Element(required = false)
+    @JacksonXmlProperty
     public String titleEs;
 
-    @Element(required = false)
+    @JacksonXmlProperty
     public String adjacentStreetEs;
 
-    @Element(required = false)
+    @JacksonXmlProperty
     public String directionEs;
 
 }

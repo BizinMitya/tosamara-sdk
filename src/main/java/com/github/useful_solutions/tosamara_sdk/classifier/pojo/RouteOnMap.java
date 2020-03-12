@@ -1,25 +1,25 @@
 package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
-import org.simpleframework.xml.Element;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 public class RouteOnMap {
 
     /**
      * Классификаторный номер маршрута.
      */
-    @Element(name = "KR_ID")
+    @JacksonXmlProperty(localName = "KR_ID")
     public Integer krId;
 
     /**
      * Идентификатор геопортального объекта маршрута.
      */
-    @Element
+    @JacksonXmlProperty
     public Integer geoportalId;
 
     /**
      * Идентификатор геопортального слоя с маршрутом.
      */
-    @Element
+    @JacksonXmlProperty
     public String layerName;
 
 }

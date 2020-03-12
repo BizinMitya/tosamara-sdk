@@ -1,14 +1,13 @@
 package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 public class Classifier {
 
-    @Attribute
+    @JacksonXmlProperty(isAttribute = true)
     public String name;
 
-    @Element
+    @JacksonXmlProperty
     public Double modified;
 
 }

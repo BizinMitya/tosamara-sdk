@@ -7,7 +7,7 @@ import com.github.useful_solutions.tosamara_sdk.api.record.pojo.TransportType;
 
 import java.io.IOException;
 
-public class StringToTransportTypeDeserializer extends JsonDeserializer<TransportType> {
+public class TransportTypeDeserializer extends JsonDeserializer<TransportType> {
 
     @Override
     public TransportType deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {

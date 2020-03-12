@@ -3,7 +3,7 @@ package com.github.useful_solutions.tosamara_sdk.api.record.pojo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.useful_solutions.tosamara_sdk.api.deserializer.StringToTransportTypeDeserializer;
+import com.github.useful_solutions.tosamara_sdk.api.deserializer.TransportTypeDeserializer;
 
 import java.time.LocalTime;
 
@@ -12,7 +12,7 @@ public class ArrivalTransport {
     /**
      * Тип транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
-    @JsonDeserialize(using = StringToTransportTypeDeserializer.class)
+    @JsonDeserialize(using = TransportTypeDeserializer.class)
     public TransportType type;
 
     /**

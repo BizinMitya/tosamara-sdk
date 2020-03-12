@@ -54,11 +54,9 @@
     </distributionManagement>
 
     <properties>
-        <jackson-databind.version>2.10.3</jackson-databind.version>
         <jackson.version>2.10.3</jackson.version>
         <okhttp.version>4.4.1</okhttp.version>
         <commons-codec.version>1.4</commons-codec.version>
-        <simpleframework.version>2.7.1</simpleframework.version>
         <jetbrains-annotations.version>16.0.2</jetbrains-annotations.version>
         <junit.version>5.1.0</junit.version>
 
@@ -83,12 +81,18 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind.version}</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
             <version>${jackson.version}</version>
         </dependency>
 
@@ -102,12 +106,6 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${commons-codec.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.simpleframework</groupId>
-            <artifactId>simple-xml</artifactId>
-            <version>${simpleframework.version}</version>
         </dependency>
 
         <dependency>

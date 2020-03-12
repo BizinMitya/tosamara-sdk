@@ -3,7 +3,7 @@ package com.github.useful_solutions.tosamara_sdk.api.record.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.github.useful_solutions.tosamara_sdk.api.deserializer.StringToZonedDateTimeDeserializer;
+import com.github.useful_solutions.tosamara_sdk.api.deserializer.ZonedDateTimeDeserializer;
 
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -17,7 +17,7 @@ public class GetRouteScheduleResponse {
     /**
      * Время окончания движения.
      */
-    @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+    @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
     public ZonedDateTime endTime;
 
     /**
@@ -49,7 +49,7 @@ public class GetRouteScheduleResponse {
     /**
      * Время начала движения.
      */
-    @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+    @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
     public ZonedDateTime startTime;
 
     /**
@@ -59,7 +59,7 @@ public class GetRouteScheduleResponse {
 
     public static class FirstRace {
 
-        @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+        @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
         public ZonedDateTime time;
 
         @JsonProperty
@@ -71,12 +71,12 @@ public class GetRouteScheduleResponse {
 
         public String endControlPoint;
 
-        @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+        @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
         public ZonedDateTime endTime;
 
         public String startControlPoint;
 
-        @JsonDeserialize(using = StringToZonedDateTimeDeserializer.class)
+        @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
         public ZonedDateTime startTime;
 
     }

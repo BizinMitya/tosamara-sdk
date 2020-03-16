@@ -3,8 +3,7 @@ package com.github.useful_solutions.tosamara_sdk.api;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.*;
 import com.github.useful_solutions.tosamara_sdk.api.record.request.FindShortestPathRequest;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.GetFirstArrivalToStopResponse;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequest;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequestImpl;
+import com.github.useful_solutions.tosamara_sdk.classifier.Classifiers;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.FullStop;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.Route;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.RouteWithStops;
@@ -25,7 +24,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 class APIRequestTest {
 
     private static final APIRequest API_REQUEST = new APIRequestImpl();
-    private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
     private static final Random RANDOM = new Random();
     private static final double SAMARA_LATITUDE = 53.215603;
     private static final double SAMARA_LONGITUDE = 50.148011;
@@ -37,10 +35,10 @@ class APIRequestTest {
     @BeforeAll
     static void initializeClassifiers() {
         try {
-            stops = CLASSIFIER_REQUEST.getStops();
-            fullStops = CLASSIFIER_REQUEST.getFullStops();
-            routesWithStops = CLASSIFIER_REQUEST.getRoutesWithStops();
-            routes = CLASSIFIER_REQUEST.getRoutes();
+            stops = Classifiers.getStops();
+            fullStops = Classifiers.getFullStops();
+            routesWithStops = Classifiers.getRoutesWithStops();
+            routes = Classifiers.getRoutes();
         } catch (Exception e) {
             Assertions.fail(e);
         }

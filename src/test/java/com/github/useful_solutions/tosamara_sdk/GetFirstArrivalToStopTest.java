@@ -3,8 +3,7 @@ package com.github.useful_solutions.tosamara_sdk;
 import com.github.useful_solutions.tosamara_sdk.api.APIRequest;
 import com.github.useful_solutions.tosamara_sdk.api.APIRequestImpl;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.GetFirstArrivalToStopResponse;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequest;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequestImpl;
+import com.github.useful_solutions.tosamara_sdk.classifier.Classifiers;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.Stop;
 import org.junit.jupiter.api.Assertions;
 
@@ -13,11 +12,10 @@ import java.util.List;
 class GetFirstArrivalToStopTest {
 
     private static final APIRequest API_REQUEST = new APIRequestImpl();
-    private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
 
     void forAllStopsTest() {
         try {
-            List<Stop> stops = CLASSIFIER_REQUEST.getStops();
+            List<Stop> stops = Classifiers.getStops();
             for (Stop stop : stops) {
                 GetFirstArrivalToStopResponse getFirstArrivalToStopResponse = API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE);
                 if (!getFirstArrivalToStopResponse.arrivalTransports.isEmpty()) {

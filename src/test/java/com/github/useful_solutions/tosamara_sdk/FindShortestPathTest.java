@@ -6,8 +6,7 @@ import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.TransportType;
 import com.github.useful_solutions.tosamara_sdk.api.record.request.FindShortestPathRequest;
 import com.github.useful_solutions.tosamara_sdk.api.record.response.FindShortestPathResponse;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequest;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequestImpl;
+import com.github.useful_solutions.tosamara_sdk.classifier.Classifiers;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.FullStop;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,13 +19,12 @@ import java.util.stream.Collectors;
 class FindShortestPathTest {
 
     private static final APIRequest API_REQUEST = new APIRequestImpl();
-    private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
 
     @Test
     void singleRandomTest() {
         try {
             Random random = new Random();
-            List<FullStop> fullStops = CLASSIFIER_REQUEST.getFullStops();
+            List<FullStop> fullStops = Classifiers.getFullStops();
             FullStop firstStop = fullStops.get(random.nextInt(fullStops.size()));
             FullStop secondStop = fullStops.get(random.nextInt(fullStops.size()));
             GeoPoint firstPoint = new GeoPoint(firstStop.latitude, firstStop.longitude);

@@ -17,7 +17,10 @@ import java.util.zip.ZipInputStream;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
-public class ClassifierRequestImpl implements ClassifierRequest {
+/**
+ * <a href="https://tosamara.ru/api">https://tosamara.ru/api</a>
+ */
+public class Classifiers {
 
     private static final String CLASSIFIERS_URL = "https://tosamara.ru/api/classifiers";
 
@@ -39,7 +42,10 @@ public class ClassifierRequestImpl implements ClassifierRequest {
     private static final ObjectMapper XML_MAPPER = new XmlMapper()
             .disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
 
-    private <T> T doClassifierRequest(Class<T> classifierType, String url) throws APIResponseException, IOException {
+    private Classifiers() {
+    }
+
+    private static <T> T doClassifierRequest(Class<T> classifierType, String url) throws APIResponseException, IOException {
         try (Response response = HttpConnectionManager.buildGetCall(url).execute()) {
             int statusCode = response.code();
             if (statusCode != HTTP_OK) {
@@ -52,14 +58,26 @@ public class ClassifierRequestImpl implements ClassifierRequest {
         }
     }
 
-    @Override
-    public List<Classifier> getClassifiers() throws APIResponseException, IOException {
+    /**
+     * Метод получения списка справочников.
+     *
+     * @return список справочников.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     */
+    public static List<Classifier> getClassifiers() throws APIResponseException, IOException {
         ClassifierWrapper classifierWrapper = doClassifierRequest(ClassifierWrapper.class, CLASSIFIERS_URL);
         return classifierWrapper.files;
     }
 
-    @Override
-    public AllClassifiers getAllClassifiers() throws APIResponseException, IOException {
+    /**
+     * Метод получения всех справочников.
+     *
+     * @return объект, содержащий все справочники.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     */
+    public static AllClassifiers getAllClassifiers() throws APIResponseException, IOException {
         AllClassifiers allClassifiers = new AllClassifiers();
         try (Response response = HttpConnectionManager.buildGetCall(ALL_CLASSIFIERS).execute()) {
             int statusCode = response.code();
@@ -97,37 +115,75 @@ public class ClassifierRequestImpl implements ClassifierRequest {
         }
     }
 
-    @Override
-    public List<Stop> getStops() throws APIResponseException, IOException {
+    /**
+     * Метод получения списка остановок.
+     *
+     * @return список остановок.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     */
+    public static List<Stop> getStops() throws APIResponseException, IOException {
         StopWrapper stopWrapper = doClassifierRequest(StopWrapper.class, STOPS_URL);
         return stopWrapper.stops;
     }
 
-    @Override
-    public List<FullStop> getFullStops() throws APIResponseException, IOException {
+    /**
+     * Метод получения списка остановок с расширенной информацией.
+     *
+     * @return список остановок с расширенной информацией.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     */
+    public static List<FullStop> getFullStops() throws APIResponseException, IOException {
         FullStopWrapper fullStopWrapper = doClassifierRequest(FullStopWrapper.class, STOPS_FULL_URL);
         return fullStopWrapper.fullStops;
     }
 
-    @Override
-    public List<Route> getRoutes() throws APIResponseException, IOException {
+    /**
+     * Метод получения списка маршрутов.
+     *
+     * @return список маршрутов.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     */
+    public static List<Route> getRoutes() throws APIResponseException, IOException {
         RouteWrapper routeWrapper = doClassifierRequest(RouteWrapper.class, ROUTES_URL);
         return routeWrapper.routes;
     }
 
-    @Override
-    public List<RouteWithStops> getRoutesWithStops() throws APIResponseException, IOException {
+    /**
+     * Метод получения списка связей маршрутов и остановок.
+     *
+     * @return список связей маршрутов и остановок.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     */
+    public static List<RouteWithStops> getRoutesWithStops() throws APIResponseException, IOException {
         RouteWithStopsWrapper routeWithStopsWrapper = doClassifierRequest(RouteWithStopsWrapper.class, ROUTES_AND_STOPS_CORRESPONDENCE_URL);
         return routeWithStopsWrapper.routeWithStops;
     }
 
-    @Override
-    public StopOnMapWrapper getStopsOnMap() throws APIResponseException, IOException {
+    /**
+     * Метод получения остановок на карте <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>
+     *
+     * @return список остановок на карте геопортала.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     */
+    public static StopOnMapWrapper getStopsOnMap() throws APIResponseException, IOException {
         return doClassifierRequest(StopOnMapWrapper.class, GEOPORTAL_STOPS_CORRESPONDENCE_URL);
     }
 
-    @Override
-    public List<RouteOnMap> getRoutesOnMap() throws APIResponseException, IOException {
+    /**
+     * Метод получения маршрутов на карте <a href="https://map.samadm.ru/transport/">Муниципального геопортала Самары</a>
+     * Связывает маршруты со слоями и объектами на карте.
+     * В каждом слое обыкновенно находятся два линейных объекта - прямое и обратное направление одного маршрута, и несколько объектов транспорта, которые движутся в реальном времени.
+     *
+     * @return список маршрутов на карте геопортала.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
+     * @throws APIResponseException выбрасывается, если код ответа не равен 200.
+     */
+    public static List<RouteOnMap> getRoutesOnMap() throws APIResponseException, IOException {
         RouteOnMapWrapper routeOnMapWrapper = doClassifierRequest(RouteOnMapWrapper.class, GEOPORTAL_ROUTES_CORRESPONDENCE_URL);
         return routeOnMapWrapper.routesOnMap;
     }

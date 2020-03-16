@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequest;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequestImpl;
+import com.github.useful_solutions.tosamara_sdk.classifier.Classifiers;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.*;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +18,6 @@ import java.util.function.Supplier;
 
 class DownloadClassifierWrapperUtil {
 
-    private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
     private static final Supplier<JacksonXmlModule> JACKSON_XML_MODULE_SUPPLIER = () -> {
         JacksonXmlModule jacksonXmlModule = new JacksonXmlModule();
         jacksonXmlModule.setDefaultUseWrapper(false);
@@ -38,26 +36,26 @@ class DownloadClassifierWrapperUtil {
             createDirIfNeeded();
 
             StopWrapper stopWrapper = new StopWrapper();
-            stopWrapper.stops = CLASSIFIER_REQUEST.getStops();
+            stopWrapper.stops = Classifiers.getStops();
             XML_MAPPER.writeValue(new File(PATH_TO_DIR + "stops.xml"), stopWrapper);
 
             FullStopWrapper fullStopWrapper = new FullStopWrapper();
-            fullStopWrapper.fullStops = CLASSIFIER_REQUEST.getFullStops();
+            fullStopWrapper.fullStops = Classifiers.getFullStops();
             XML_MAPPER.writeValue(new File(PATH_TO_DIR + "fullStops.xml"), fullStopWrapper);
             createShortDescriptionForStops(fullStopWrapper.fullStops);
 
             RouteWrapper routeWrapper = new RouteWrapper();
-            routeWrapper.routes = CLASSIFIER_REQUEST.getRoutes();
+            routeWrapper.routes = Classifiers.getRoutes();
             XML_MAPPER.writeValue(new File(PATH_TO_DIR + "routes.xml"), routeWrapper);
 
             RouteWithStopsWrapper routeWithStopsWrapper = new RouteWithStopsWrapper();
-            routeWithStopsWrapper.routeWithStops = CLASSIFIER_REQUEST.getRoutesWithStops();
+            routeWithStopsWrapper.routeWithStops = Classifiers.getRoutesWithStops();
             XML_MAPPER.writeValue(new File(PATH_TO_DIR + "routesWithStops.xml"), routeWithStopsWrapper);
 
-            XML_MAPPER.writeValue(new File(PATH_TO_DIR + "stopsOnMap.xml"), CLASSIFIER_REQUEST.getStopsOnMap());
+            XML_MAPPER.writeValue(new File(PATH_TO_DIR + "stopsOnMap.xml"), Classifiers.getStopsOnMap());
 
             RouteOnMapWrapper routeOnMapWrapper = new RouteOnMapWrapper();
-            routeOnMapWrapper.routesOnMap = CLASSIFIER_REQUEST.getRoutesOnMap();
+            routeOnMapWrapper.routesOnMap = Classifiers.getRoutesOnMap();
             XML_MAPPER.writeValue(new File(PATH_TO_DIR + "routesOnMap.xml"), routeOnMapWrapper);
         } catch (Exception e) {
             e.printStackTrace();

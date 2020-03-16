@@ -1,8 +1,7 @@
 package com.github.useful_solutions.tosamara_sdk.calculate;
 
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequest;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequestImpl;
+import com.github.useful_solutions.tosamara_sdk.classifier.Classifiers;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.FullStop;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.RouteWithStops;
 
@@ -14,15 +13,14 @@ import java.util.stream.Collectors;
 
 public class DistanceUtil {
 
-    private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
     private static Map<Integer, FullStop> FULL_STOP_MAP;// ksId -> FullStop
     private static Map<Integer, RouteWithStops> ROUTE_WITH_STOPS_MAP;// krId -> RouteWithStops
 
     static {
         try {
-            FULL_STOP_MAP = CLASSIFIER_REQUEST.getFullStops().stream()
+            FULL_STOP_MAP = Classifiers.getFullStops().stream()
                     .collect(Collectors.toMap(fullStop -> fullStop.ksId, fullStop -> fullStop));
-            ROUTE_WITH_STOPS_MAP = CLASSIFIER_REQUEST.getRoutesWithStops().stream()
+            ROUTE_WITH_STOPS_MAP = Classifiers.getRoutesWithStops().stream()
                     .collect(Collectors.toMap(routeWithStops -> routeWithStops.krId, routeWithStops -> routeWithStops));
         } catch (Exception e) {
             e.printStackTrace();

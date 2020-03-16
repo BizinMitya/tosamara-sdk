@@ -1,8 +1,7 @@
 package com.github.useful_solutions.tosamara_sdk.calculate;
 
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequest;
-import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequestImpl;
+import com.github.useful_solutions.tosamara_sdk.classifier.Classifiers;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.FullStop;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.Route;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.RouteWithStops;
@@ -14,7 +13,6 @@ import java.util.List;
 
 class CalculateUtilTest {
 
-    private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
     private static List<FullStop> fullStops;
     private static List<RouteWithStops> routesWithStops;
     private static List<Route> routes;
@@ -22,9 +20,9 @@ class CalculateUtilTest {
     @BeforeAll
     static void initializeClassifiers() {
         try {
-            fullStops = CLASSIFIER_REQUEST.getFullStops();
-            routesWithStops = CLASSIFIER_REQUEST.getRoutesWithStops();
-            routes = CLASSIFIER_REQUEST.getRoutes();
+            fullStops = Classifiers.getFullStops();
+            routesWithStops = Classifiers.getRoutesWithStops();
+            routes = Classifiers.getRoutes();
         } catch (Exception e) {
             Assertions.fail(e);
         }

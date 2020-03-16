@@ -10,7 +10,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class StringToZonedDateTimeDeserializer extends JsonDeserializer<ZonedDateTime> {
+public class ZonedDateTimeDeserializer extends JsonDeserializer<ZonedDateTime> {
 
     @Override
     public ZonedDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {

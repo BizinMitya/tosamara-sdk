@@ -1,13 +1,17 @@
 package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.TransportType;
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.BitConverter;
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.GeoPointsConverter;
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.TransportTypeConverter;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.convert.Convert;
+import com.github.useful_solutions.tosamara_sdk.classifier.deserializer.BitDeserializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.deserializer.GeoPointsDeserializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.deserializer.TransportTypeDeserializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.serializer.BitSerializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.serializer.GeoPointsSerializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.serializer.TransportTypeSerializer;
 
 import java.util.List;
 
@@ -16,49 +20,53 @@ public class RouteWithStops {
     /**
      * Классификаторный номер маршрута.
      */
-    @Element(name = "KR_ID")
+    @JacksonXmlProperty(localName = "KR_ID")
     public Integer krId;
 
     /**
      * Номер маршрута, тот, что пишется на табличках.
      */
-    @Element
+    @JacksonXmlProperty
     public String number;
 
     /**
      * Направление движения, обычно — конечная остановка.
      */
-    @Element
+    @JacksonXmlProperty
     public String direction;
 
-    @Element
+    @JacksonXmlProperty
     public ExtendedTransportType transportType;
 
     /**
      * Признак выполняемости маршрута в настоящее время, 1 — да, 0 — нет.
      */
-    @Element
-    @Convert(BitConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = BitDeserializer.class)
+    @JsonSerialize(using = BitSerializer.class)
     public Boolean performing;
 
     /**
      * Признак того, что маршрут прогнозируется по мониторингу в реальном времени.
      */
-    @Element
-    @Convert(BitConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = BitDeserializer.class)
+    @JsonSerialize(using = BitSerializer.class)
     public Boolean realtimeForecast;
 
     /**
      * Геометрическая форма маршрута, ломаной линии, заданной последовательностью точек в формате «широта,долгота широта,долгота ...» в системе координат WGS 84.
      */
-    @Element
-    @Convert(GeoPointsConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = GeoPointsDeserializer.class)
+    @JsonSerialize(using = GeoPointsSerializer.class)
     public List<GeoPoint> geometry;
 
-    @ElementList(entry = "stop", inline = true)
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "stop")
     public List<Stop> stops;
 
-    static public class ExtendedTransportType {
+    public static class ExtendedTransportType {
 
         /**
          * Числовой код вида транспорта:
@@ -69,48 +77,49 @@ public class RouteWithStops {
          * 5 - электропоезд,
          * 6 - речной транспорт
          */
-        @Element
+        @JacksonXmlProperty
         public Integer id;
 
         /**
          * Вид транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
          */
-        @Element
-        @Convert(TransportTypeConverter.class)
+        @JacksonXmlProperty
+        @JsonDeserialize(using = TransportTypeDeserializer.class)
+        @JsonSerialize(using = TransportTypeSerializer.class)
         public TransportType title;
 
     }
 
-    static public class Stop {
+    public static class Stop {
 
         /**
          * Классификаторный номер остановки.
          */
-        @Element(name = "KS_ID")
+        @JacksonXmlProperty(localName = "KS_ID")
         public Integer ksId;
 
         /**
          * Собственное название.
          */
-        @Element
+        @JacksonXmlProperty
         public String title;
 
         /**
          * Улица, на которой расположена остановка.
          */
-        @Element
+        @JacksonXmlProperty
         public String adjacentStreet;
 
         /**
          * Преимущественное направление движения.
          */
-        @Element(required = false)
+        @JacksonXmlProperty
         public String direction;
 
         /**
          * Плановое время прибытия на остановку от начала выполнения рейса, часто - не заполнено.
          */
-        @Element
+        @JacksonXmlProperty
         public Integer scheduleTime;
 
     }

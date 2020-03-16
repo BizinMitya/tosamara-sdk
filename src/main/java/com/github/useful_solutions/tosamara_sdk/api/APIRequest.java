@@ -22,10 +22,9 @@ public interface APIRequest {
      * @param count количество ближайших прибывающих маршрутов (необязательный параметр).
      * @return объект ответа.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count)
-            throws APIResponseException, IOException;
+    GetFirstArrivalToStopResponse getFirstArrivalToStop(List<Integer> ksIds, @Nullable Integer count) throws APIResponseException, IOException;
 
     /**
      * Метод получения прогнозов прибытия транспорта на выбранную остановку.
@@ -34,10 +33,9 @@ public interface APIRequest {
      * @param count количество ближайших прибывающих маршрутов (необязательный параметр).
      * @return объект ответа.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    GetFirstArrivalToStopResponse getFirstArrivalToStop(Integer ksId, @Nullable Integer count)
-            throws APIResponseException, IOException;
+    GetFirstArrivalToStopResponse getFirstArrivalToStop(Integer ksId, @Nullable Integer count) throws APIResponseException, IOException;
 
     /**
      * Метод получения информации о прибытии транспортных средств выбранного маршрута на выбранную остановку.
@@ -46,10 +44,9 @@ public interface APIRequest {
      * @param krId классификаторный номер маршрута.
      * @return объект ответа.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    GetRouteArrivalToStopResponse getRouteArrivalToStop(Integer ksId, Integer krId)
-            throws APIResponseException, IOException;
+    GetRouteArrivalToStopResponse getRouteArrivalToStop(Integer ksId, Integer krId) throws APIResponseException, IOException;
 
     /**
      * Метод получения плановых расписаний движения маршрута на текущий день.
@@ -58,7 +55,7 @@ public interface APIRequest {
      * @param day  дата, на которую нужно получить расписание, в формате ДД.ММ.ГГГГ.
      * @return объект ответа.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
     GetRouteScheduleResponse getRouteSchedule(Integer krId, String day) throws APIResponseException, IOException;
 
@@ -71,12 +68,12 @@ public interface APIRequest {
      * @param transports допустимые типы транспорта, набор значений через запятую.
      * @return объект ответа.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    FindShortestPathResponse findShortestPath(GeoPoint geoPoint1, GeoPoint geoPoint2,
+    FindShortestPathResponse findShortestPath(GeoPoint geoPoint1,
+                                              GeoPoint geoPoint2,
                                               FindShortestPathRequest.Criterion criterion,
-                                              TransportType... transports)
-            throws APIResponseException, IOException;
+                                              TransportType... transports) throws APIResponseException, IOException;
 
     /**
      * Метод дает информацию, на каком маршруте находится указанное транспортное средство, и сколько времени оно будет двигаться до последующих остановок.
@@ -86,7 +83,7 @@ public interface APIRequest {
      *               {@link #getFirstArrivalToStop(Integer, Integer)} и других методов.
      * @return объект ответа.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
     GetTransportPositionResponse getTransportPosition(Integer hullNo) throws APIResponseException, IOException;
 
@@ -98,10 +95,9 @@ public interface APIRequest {
      * @param count    максимальное количество возвращаемых результатов.
      * @return список транспорта.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    List<Transport> getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count)
-            throws APIResponseException, IOException;
+    List<Transport> getSurroundingTransports(GeoPoint geoPoint, Double radius, Integer count) throws APIResponseException, IOException;
 
     /**
      * Метод дает информацию о положении транспортов на указанных маршрутах.
@@ -110,10 +106,9 @@ public interface APIRequest {
      * @param count максимальное количество возвращаемых результатов.
      * @return список транспорта.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    List<Transport> getTransportsOnRoute(List<Integer> krIds, Integer count)
-            throws APIResponseException, IOException;
+    List<Transport> getTransportsOnRoute(List<Integer> krIds, Integer count) throws APIResponseException, IOException;
 
     /**
      * Метод дает информацию о положении транспортов на указанном маршруте.
@@ -122,10 +117,9 @@ public interface APIRequest {
      * @param count максимальное количество возвращаемых результатов.
      * @return список транспорта.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    List<Transport> getTransportsOnRoute(Integer krId, Integer count)
-            throws APIResponseException, IOException;
+    List<Transport> getTransportsOnRoute(Integer krId, Integer count) throws APIResponseException, IOException;
 
     /**
      * Метод дает информацию о ближайших зданиях с адресом в окрестности указанной точки.
@@ -135,10 +129,9 @@ public interface APIRequest {
      * @param count    максимальное количество возвращаемых результатов.
      * @return список зданий.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    List<Building> getNearestBuilding(GeoPoint geoPoint, Double radius, Integer count)
-            throws APIResponseException, IOException;
+    List<Building> getNearestBuilding(GeoPoint geoPoint, Double radius, Integer count) throws APIResponseException, IOException;
 
     /**
      * Метод дает информацию о зданиях по строке с нечетким почтовым адресом.
@@ -149,10 +142,9 @@ public interface APIRequest {
      * @param count    максимальное количество возвращаемых результатов.
      * @return список зданий.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    List<Building> findBuildingByAddress(@Nullable GeoPoint geoPoint, String address, Integer count)
-            throws APIResponseException, IOException;
+    List<Building> findBuildingByAddress(@Nullable GeoPoint geoPoint, String address, Integer count) throws APIResponseException, IOException;
 
     /**
      * Метод возвращает список пользовательских сообщений в указанной окрестности.
@@ -162,10 +154,9 @@ public interface APIRequest {
      * @param deviceId уникальный идентификатор пользовательского устройства (UDID или DeviceID).
      * @return список сообщений.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    List<Message> getUserMessages(GeoPoint geoPoint, Double radius, String deviceId)
-            throws APIResponseException, IOException;
+    List<Message> getUserMessages(GeoPoint geoPoint, Double radius, String deviceId) throws APIResponseException, IOException;
 
     /**
      * Метод отправляет мнение пользователя об указанном сообщении - голос подтверждения или опровержения.
@@ -176,10 +167,12 @@ public interface APIRequest {
      * @param deviceId уникальный идентификатор пользовательского устройства (UDID или DeviceID).
      * @return объект ответа.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    VoteForMessageResponse voteForMessage(Integer id, Message.Vote vote, GeoPoint geoPoint, String deviceId)
-            throws APIResponseException, IOException;
+    VoteForMessageResponse voteForMessage(Integer id,
+                                          Message.Vote vote,
+                                          GeoPoint geoPoint,
+                                          String deviceId) throws APIResponseException, IOException;
 
     /**
      * Метод отправляет геопривязанное пользовательское сообщение.
@@ -192,10 +185,13 @@ public interface APIRequest {
      * @param deviceId   уникальный идентификатор пользовательского устройства (UDID или DeviceID).
      * @return объект ответа.
      * @throws APIResponseException выбрасывается, если код ответа не равен 200.
-     * @throws IOException          выбрасывается, когда есть несоответствие полей классов и полей JSON или произошла ошибка соединения.
+     * @throws IOException          выбрасывается в случае ошибок десериализации или ошибок соединения.
      */
-    SendUserMessageResponse sendUserMessage(String text, @Nullable String textEn, String link,
-                                            List<Link> links, Integer expireTime, String deviceId)
-            throws APIResponseException, IOException;
+    SendUserMessageResponse sendUserMessage(String text,
+                                            @Nullable String textEn,
+                                            String link,
+                                            List<Link> links,
+                                            Integer expireTime,
+                                            String deviceId) throws APIResponseException, IOException;
 
 }

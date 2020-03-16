@@ -1,9 +1,12 @@
 package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.InfotabloConverter;
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.NumberRoutesConverter;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.convert.Convert;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.github.useful_solutions.tosamara_sdk.classifier.deserializer.InfotabloDeserializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.deserializer.NumberRoutesDeserializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.serializer.InfotabloSerializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.serializer.NumberRoutesSerializer;
 
 import java.util.List;
 
@@ -12,157 +15,169 @@ public class FullStop {
     /**
      * Классификаторный номер остановки.
      */
-    @Element(name = "KS_ID")
+    @JacksonXmlProperty(localName = "KS_ID")
     public Integer ksId;
 
     /**
      * Собственное название.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String title;
 
     /**
      * Улица, на которой расположена остановка.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String adjacentStreet;
 
     /**
      * Преимущественное направление движения.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String direction;
 
     /**
      * Собственное название на английском языке.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String titleEn;
 
     /**
      * Улица на английском.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String adjacentStreetEn;
 
     /**
      * Преимущественное направление движения на английском.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String directionEn;
 
-    @Element(required = false)
+    @JacksonXmlProperty
     public String titleEs;
 
-    @Element(required = false)
+    @JacksonXmlProperty
     public String adjacentStreetEs;
 
-    @Element(required = false)
+    @JacksonXmlProperty
     public String directionEs;
 
     /**
      * Номер остановочного кластера, редко заполнен.
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String cluster;
 
     /**
      * Перечисление маршрутов муниципальных автобусов, проходящих через остановку.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> busesMunicipal;
 
     /**
      * Перечисление маршрутов коммерческих автобусов.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> busesCommercial;
 
     /**
      * Перечисление маршрутов пригородных автобусов.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> busesPrigorod;
 
     /**
      * Перечисление маршрутов сезонных (дачных) автобусов.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> busesSeason;
 
     /**
      * Перечисление маршрутов специальных автобусов.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> busesSpecial;
 
     /**
      * Перечисление маршрутов междугородных автобусов.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> busesIntercity;
 
     /**
      * Перечисление маршрутов трамваев.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> trams;
 
     /**
      * Перечисление маршрутов троллейбусов.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> trolleybuses;
 
     /**
      * Перечисление линий метрополитена (на самом деле, линия в Самаре одна).
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> metros;
 
     /**
      * Перечисление маршрутов электропоездов.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> electricTrains;
 
     /**
      * Перечисление маршрутов речных переправ.
      */
-    @Element(required = false)
-    @Convert(NumberRoutesConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = NumberRoutesDeserializer.class)
+    @JsonSerialize(using = NumberRoutesSerializer.class)
     public List<String> riverTransports;
 
     /**
      * Признак наличия на остановке информационного табло.
      */
-    @Element
-    @Convert(InfotabloConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = InfotabloDeserializer.class)
+    @JsonSerialize(using = InfotabloSerializer.class)
     public Boolean infotabloExists;
 
     /**
      * Географическая северная широта остановки, в градусах.
      */
-    @Element
+    @JacksonXmlProperty
     public Double latitude;
 
     /**
      * Географическая восточная долгота остановки, в градусах.
      */
-    @Element
+    @JacksonXmlProperty
     public Double longitude;
 
-    @Element(required = false)
+    @JacksonXmlProperty
     public Integer angle;
 
 }

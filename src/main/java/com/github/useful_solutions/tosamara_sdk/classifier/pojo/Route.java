@@ -1,42 +1,46 @@
 package com.github.useful_solutions.tosamara_sdk.classifier.pojo;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.TransportType;
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.AffiliationConverter;
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.BitConverter;
-import com.github.useful_solutions.tosamara_sdk.classifier.converter.TransportTypeConverter;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.convert.Convert;
+import com.github.useful_solutions.tosamara_sdk.classifier.deserializer.AffiliationDeserializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.deserializer.BitDeserializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.deserializer.TransportTypeDeserializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.serializer.AffiliationSerializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.serializer.BitSerializer;
+import com.github.useful_solutions.tosamara_sdk.classifier.serializer.TransportTypeSerializer;
 
 public class Route {
 
     /**
      * Классификаторный номер маршрута.
      */
-    @Element(name = "KR_ID")
+    @JacksonXmlProperty(localName = "KR_ID")
     public Integer krId;
 
     /**
      * Номер маршрута, тот, что пишется на табличках.
      */
-    @Element
+    @JacksonXmlProperty
     public String number;
 
     /**
      * Направление движения, обычно — конечная остановка.
      */
-    @Element
+    @JacksonXmlProperty
     public String direction;
 
     /**
      * Направление движения на английском языке.
      */
-    @Element
+    @JacksonXmlProperty
     public String directionEn;
 
     /**
      *
      */
-    @Element(required = false)
+    @JacksonXmlProperty
     public String directionEs;
 
     /**
@@ -48,14 +52,15 @@ public class Route {
      * 5 - электропоезд,
      * 6 - речной транспорт
      */
-    @Element
+    @JacksonXmlProperty
     public Integer transportTypeID;
 
     /**
      * Вид транспорта: автобус, трамвай, троллейбус, метрополитен, электропоезд, речной транспорт.
      */
-    @Element
-    @Convert(TransportTypeConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = TransportTypeDeserializer.class)
+    @JsonSerialize(using = TransportTypeSerializer.class)
     public TransportType transportType;
 
     /**
@@ -68,21 +73,23 @@ public class Route {
      * 6 - междугородный.
      * Маршруты шаттлов включаются в "специальный автобус".
      */
-    @Element
+    @JacksonXmlProperty
     public Integer affiliationID;
 
     /**
      * Принадлежность маршрута: муниципальный, коммерческий, пригородный, сезонный (дачный), специальный, междугородный.
      */
-    @Element
-    @Convert(AffiliationConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = AffiliationDeserializer.class)
+    @JsonSerialize(using = AffiliationSerializer.class)
     public Affiliation affiliation;
 
     /**
      * Признак того, что маршрут прогнозируется по мониторингу в реальном времени.
      */
-    @Element
-    @Convert(BitConverter.class)
+    @JacksonXmlProperty
+    @JsonDeserialize(using = BitDeserializer.class)
+    @JsonSerialize(using = BitSerializer.class)
     public Boolean realtimeForecast;
 
 }

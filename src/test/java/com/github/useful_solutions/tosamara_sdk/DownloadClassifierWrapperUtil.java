@@ -1,12 +1,13 @@
 package com.github.useful_solutions.tosamara_sdk;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequest;
 import com.github.useful_solutions.tosamara_sdk.classifier.ClassifierRequestImpl;
 import com.github.useful_solutions.tosamara_sdk.classifier.pojo.*;
 import org.junit.jupiter.api.Test;
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.convert.AnnotationStrategy;
-import org.simpleframework.xml.core.Persister;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,10 +15,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.function.Supplier;
 
 class DownloadClassifierWrapperUtil {
 
     private static final ClassifierRequest CLASSIFIER_REQUEST = new ClassifierRequestImpl();
+    private static final Supplier<JacksonXmlModule> JACKSON_XML_MODULE_SUPPLIER = () -> {
+        JacksonXmlModule jacksonXmlModule = new JacksonXmlModule();
+        jacksonXmlModule.setDefaultUseWrapper(false);
+        return jacksonXmlModule;
+    };
+    private static final ObjectMapper XML_MAPPER = new XmlMapper(JACKSON_XML_MODULE_SUPPLIER.get())
+            .enable(SerializationFeature.INDENT_OUTPUT);
     private static final String PATH_TO_DIR = "src/test/resources/";
 
     private DownloadClassifierWrapperUtil() {
@@ -26,31 +35,30 @@ class DownloadClassifierWrapperUtil {
     @Test
     void downloadAllClassifiers() {
         try {
-            Serializer serializer = new Persister(new AnnotationStrategy());
             createDirIfNeeded();
 
             StopWrapper stopWrapper = new StopWrapper();
             stopWrapper.stops = CLASSIFIER_REQUEST.getStops();
-            serializer.write(stopWrapper, new File(PATH_TO_DIR + "stops.xml"));
+            XML_MAPPER.writeValue(new File(PATH_TO_DIR + "stops.xml"), stopWrapper);
 
             FullStopWrapper fullStopWrapper = new FullStopWrapper();
             fullStopWrapper.fullStops = CLASSIFIER_REQUEST.getFullStops();
-            serializer.write(fullStopWrapper, new File(PATH_TO_DIR + "fullStops.xml"));
+            XML_MAPPER.writeValue(new File(PATH_TO_DIR + "fullStops.xml"), fullStopWrapper);
             createShortDescriptionForStops(fullStopWrapper.fullStops);
 
             RouteWrapper routeWrapper = new RouteWrapper();
             routeWrapper.routes = CLASSIFIER_REQUEST.getRoutes();
-            serializer.write(routeWrapper, new File(PATH_TO_DIR + "routes.xml"));
+            XML_MAPPER.writeValue(new File(PATH_TO_DIR + "routes.xml"), routeWrapper);
 
             RouteWithStopsWrapper routeWithStopsWrapper = new RouteWithStopsWrapper();
             routeWithStopsWrapper.routeWithStops = CLASSIFIER_REQUEST.getRoutesWithStops();
-            serializer.write(routeWithStopsWrapper, new File(PATH_TO_DIR + "routesWithStops.xml"));
+            XML_MAPPER.writeValue(new File(PATH_TO_DIR + "routesWithStops.xml"), routeWithStopsWrapper);
 
-            serializer.write(CLASSIFIER_REQUEST.getStopsOnMap(), new File(PATH_TO_DIR + "stopsOnMap.xml"));
+            XML_MAPPER.writeValue(new File(PATH_TO_DIR + "stopsOnMap.xml"), CLASSIFIER_REQUEST.getStopsOnMap());
 
             RouteOnMapWrapper routeOnMapWrapper = new RouteOnMapWrapper();
             routeOnMapWrapper.routesOnMap = CLASSIFIER_REQUEST.getRoutesOnMap();
-            serializer.write(routeOnMapWrapper, new File(PATH_TO_DIR + "routesOnMap.xml"));
+            XML_MAPPER.writeValue(new File(PATH_TO_DIR + "routesOnMap.xml"), routeOnMapWrapper);
         } catch (Exception e) {
             e.printStackTrace();
         }

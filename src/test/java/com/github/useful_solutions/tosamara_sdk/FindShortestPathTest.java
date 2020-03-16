@@ -1,7 +1,6 @@
 package com.github.useful_solutions.tosamara_sdk;
 
-import com.github.useful_solutions.tosamara_sdk.api.APIRequest;
-import com.github.useful_solutions.tosamara_sdk.api.APIRequestImpl;
+import com.github.useful_solutions.tosamara_sdk.api.ToSamaraAPI;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.GeoPoint;
 import com.github.useful_solutions.tosamara_sdk.api.record.pojo.TransportType;
 import com.github.useful_solutions.tosamara_sdk.api.record.request.FindShortestPathRequest;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 
 class FindShortestPathTest {
 
-    private static final APIRequest API_REQUEST = new APIRequestImpl();
+    private static final ToSamaraAPI TO_SAMARA_API = new ToSamaraAPI();
 
     @Test
     void singleRandomTest() {
@@ -32,7 +31,7 @@ class FindShortestPathTest {
             Map<Integer, FullStop> fullStopMap = fullStops.stream()
                     .collect(Collectors.toMap(fullStop -> fullStop.ksId, fullStop -> fullStop));
             FindShortestPathResponse shortestPath =
-                    API_REQUEST.findShortestPath(firstPoint, secondPoint, FindShortestPathRequest.Criterion.time,
+                    TO_SAMARA_API.findShortestPath(firstPoint, secondPoint, FindShortestPathRequest.Criterion.time,
                             TransportType.BUS, TransportType.TRAM, TransportType.TROLLEYBUS, TransportType.METRO);
             System.out.println("Маршрут от " + firstStop.title + " до " + secondStop.title);
             if (shortestPath.price == null) {

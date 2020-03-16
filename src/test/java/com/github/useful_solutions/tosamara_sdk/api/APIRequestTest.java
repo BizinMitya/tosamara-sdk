@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 class APIRequestTest {
 
-    private static final APIRequest API_REQUEST = new APIRequestImpl();
+    private static final ToSamaraAPI TO_SAMARA_API = new ToSamaraAPI();
     private static final Random RANDOM = new Random();
     private static final double SAMARA_LATITUDE = 53.215603;
     private static final double SAMARA_LONGITUDE = 50.148011;
@@ -81,7 +81,7 @@ class APIRequestTest {
         stops.forEach(stop -> {
             try {
                 System.out.println("getFirstArrivalToStopTest: " + current.get() + "/" + total);
-                APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
+                APIRequestAssert.getFirstArrivalToStopResponseAssert(TO_SAMARA_API.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
                 current.incrementAndGet();
             } catch (APIResponseException | IOException e) {
                 Assertions.fail(e);
@@ -92,7 +92,7 @@ class APIRequestTest {
     void getFirstArrivalToStopRandomTest() {
         try {
             Stop stop = stops.get(RANDOM.nextInt(stops.size()));
-            APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
+            APIRequestAssert.getFirstArrivalToStopResponseAssert(TO_SAMARA_API.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -107,7 +107,7 @@ class APIRequestTest {
                     System.out.println("findShortestPathTest: " + current + "/" + total);
                     GeoPoint geoPoint1 = new GeoPoint(fullStop1.latitude, fullStop1.longitude);
                     GeoPoint geoPoint2 = new GeoPoint(fullStop2.latitude, fullStop2.longitude);
-                    APIRequestAssert.findShortestPathResponseAssert(API_REQUEST.findShortestPath(geoPoint1, geoPoint2, FindShortestPathRequest.Criterion.time, TransportType.BUS));
+                    APIRequestAssert.findShortestPathResponseAssert(TO_SAMARA_API.findShortestPath(geoPoint1, geoPoint2, FindShortestPathRequest.Criterion.time, TransportType.BUS));
                     current++;
                 }
             }
@@ -122,7 +122,7 @@ class APIRequestTest {
             FullStop fullStop2 = fullStops.get(RANDOM.nextInt(fullStops.size()));
             GeoPoint geoPoint1 = new GeoPoint(fullStop1.latitude, fullStop1.longitude);
             GeoPoint geoPoint2 = new GeoPoint(fullStop2.latitude, fullStop2.longitude);
-            APIRequestAssert.findShortestPathResponseAssert(API_REQUEST.findShortestPath(geoPoint1, geoPoint2, FindShortestPathRequest.Criterion.time, TransportType.BUS));
+            APIRequestAssert.findShortestPathResponseAssert(TO_SAMARA_API.findShortestPath(geoPoint1, geoPoint2, FindShortestPathRequest.Criterion.time, TransportType.BUS));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -136,7 +136,7 @@ class APIRequestTest {
                 List<RouteWithStops.Stop> stops = routeWithStops.stops;
                 for (RouteWithStops.Stop stop : stops) {
                     System.out.println("getRouteArrivalToStopTest: " + current + "/" + total);
-                    APIRequestAssert.getRouteArrivalToStopResponseAssert(API_REQUEST.getRouteArrivalToStop(stop.ksId, routeWithStops.krId));
+                    APIRequestAssert.getRouteArrivalToStopResponseAssert(TO_SAMARA_API.getRouteArrivalToStop(stop.ksId, routeWithStops.krId));
                     current++;
                 }
             }
@@ -149,7 +149,7 @@ class APIRequestTest {
         try {
             RouteWithStops routeWithStops = routesWithStops.get(RANDOM.nextInt(routesWithStops.size()));
             RouteWithStops.Stop stop = routeWithStops.stops.get(RANDOM.nextInt(routeWithStops.stops.size()));
-            APIRequestAssert.getRouteArrivalToStopResponseAssert(API_REQUEST.getRouteArrivalToStop(stop.ksId, routeWithStops.krId));
+            APIRequestAssert.getRouteArrivalToStopResponseAssert(TO_SAMARA_API.getRouteArrivalToStop(stop.ksId, routeWithStops.krId));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -162,7 +162,7 @@ class APIRequestTest {
         routes.forEach(route -> {
             try {
                 System.out.println("getRouteScheduleTest: " + current.get() + "/" + total);
-                APIRequestAssert.getRouteScheduleResponseAssert(API_REQUEST.getRouteSchedule(route.krId, day));
+                APIRequestAssert.getRouteScheduleResponseAssert(TO_SAMARA_API.getRouteSchedule(route.krId, day));
                 current.incrementAndGet();
             } catch (APIResponseException | IOException e) {
                 Assertions.fail(e);
@@ -174,7 +174,7 @@ class APIRequestTest {
         try {
             Route route = routes.get(RANDOM.nextInt(routes.size()));
             String day = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-            APIRequestAssert.getRouteScheduleResponseAssert(API_REQUEST.getRouteSchedule(route.krId, day));
+            APIRequestAssert.getRouteScheduleResponseAssert(TO_SAMARA_API.getRouteSchedule(route.krId, day));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -183,13 +183,13 @@ class APIRequestTest {
     void getTransportPositionRandomTest() {
         try {
             Stop stop = stops.get(RANDOM.nextInt(stops.size()));
-            GetFirstArrivalToStopResponse response = APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
+            GetFirstArrivalToStopResponse response = APIRequestAssert.getFirstArrivalToStopResponseAssert(TO_SAMARA_API.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
             while (response.arrivalTransports.isEmpty()) {
                 stop = stops.get(RANDOM.nextInt(stops.size()));
-                response = APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
+                response = APIRequestAssert.getFirstArrivalToStopResponseAssert(TO_SAMARA_API.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
             }
             ArrivalTransport arrivalTransport = response.arrivalTransports.get(RANDOM.nextInt(response.arrivalTransports.size()));
-            APIRequestAssert.getTransportPositionResponseAssert(API_REQUEST.getTransportPosition(arrivalTransport.hullNo));
+            APIRequestAssert.getTransportPositionResponseAssert(TO_SAMARA_API.getTransportPosition(arrivalTransport.hullNo));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -199,10 +199,10 @@ class APIRequestTest {
         try {
             int current = 1;
             for (Stop stop : stops) {
-                GetFirstArrivalToStopResponse response = APIRequestAssert.getFirstArrivalToStopResponseAssert(API_REQUEST.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
+                GetFirstArrivalToStopResponse response = APIRequestAssert.getFirstArrivalToStopResponseAssert(TO_SAMARA_API.getFirstArrivalToStop(stop.ksId, Integer.MAX_VALUE));
                 for (ArrivalTransport arrivalTransport : response.arrivalTransports) {
                     System.out.println("getTransportPositionTest: " + current);
-                    APIRequestAssert.getTransportPositionResponseAssert(API_REQUEST.getTransportPosition(arrivalTransport.hullNo));
+                    APIRequestAssert.getTransportPositionResponseAssert(TO_SAMARA_API.getTransportPosition(arrivalTransport.hullNo));
                     current++;
                 }
             }
@@ -215,7 +215,7 @@ class APIRequestTest {
         try {
             FullStop fullStop = fullStops.get(RANDOM.nextInt(fullStops.size()));
             GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-            APIRequestAssert.transportsResponseAssert(API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
+            APIRequestAssert.transportsResponseAssert(TO_SAMARA_API.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -228,7 +228,7 @@ class APIRequestTest {
             for (FullStop fullStop : fullStops) {
                 System.out.println("getSurroundingTransportsTest: " + current + "/" + total);
                 GeoPoint geoPoint = new GeoPoint(fullStop.latitude, fullStop.longitude);
-                APIRequestAssert.transportsResponseAssert(API_REQUEST.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
+                APIRequestAssert.transportsResponseAssert(TO_SAMARA_API.getSurroundingTransports(geoPoint, 1_000.5D, Integer.MAX_VALUE));
                 current++;
             }
         } catch (Exception e) {
@@ -239,7 +239,7 @@ class APIRequestTest {
     void getTransportsOnRouteRandomTest() {
         try {
             Route route = routes.get(RANDOM.nextInt(routes.size()));
-            APIRequestAssert.transportsResponseAssert(API_REQUEST.getTransportsOnRoute(route.krId, Integer.MAX_VALUE));
+            APIRequestAssert.transportsResponseAssert(TO_SAMARA_API.getTransportsOnRoute(route.krId, Integer.MAX_VALUE));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -251,7 +251,7 @@ class APIRequestTest {
             int current = 1;
             for (Route route : routes) {
                 System.out.println("getTransportsOnRouteTest: " + current + "/" + total);
-                APIRequestAssert.transportsResponseAssert(API_REQUEST.getTransportsOnRoute(route.krId, Integer.MAX_VALUE));
+                APIRequestAssert.transportsResponseAssert(TO_SAMARA_API.getTransportsOnRoute(route.krId, Integer.MAX_VALUE));
                 current++;
             }
         } catch (Exception e) {
@@ -262,7 +262,7 @@ class APIRequestTest {
     void getNearestBuildingTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
-            APIRequestAssert.buildingsAssert(API_REQUEST.getNearestBuilding(samara, 50.5D, 10));
+            APIRequestAssert.buildingsAssert(TO_SAMARA_API.getNearestBuilding(samara, 50.5D, 10));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -270,7 +270,7 @@ class APIRequestTest {
 
     void findBuildingByAddressTest() {
         try {
-            APIRequestAssert.buildingsAssert(API_REQUEST.findBuildingByAddress(null, "ТЦ Пирамида", 10));
+            APIRequestAssert.buildingsAssert(TO_SAMARA_API.findBuildingByAddress(null, "ТЦ Пирамида", 10));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -279,7 +279,7 @@ class APIRequestTest {
     void userMessagesTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
-            APIRequestAssert.messagesAssert(API_REQUEST.getUserMessages(samara, 100_000.5D, "test"));
+            APIRequestAssert.messagesAssert(TO_SAMARA_API.getUserMessages(samara, 100_000.5D, "test"));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -288,7 +288,7 @@ class APIRequestTest {
     void voteForMessageTest() {
         try {
             GeoPoint samara = new GeoPoint(SAMARA_LATITUDE, SAMARA_LONGITUDE);
-            APIRequestAssert.voteForMessageResponseAssert(API_REQUEST.voteForMessage(2045352, Message.Vote.confirm, samara, "test"));
+            APIRequestAssert.voteForMessageResponseAssert(TO_SAMARA_API.voteForMessage(2045352, Message.Vote.confirm, samara, "test"));
         } catch (Exception e) {
             Assertions.fail(e);
         }
@@ -297,7 +297,7 @@ class APIRequestTest {
     void sendUserMessageTest() {
         try {
             List<Link> links = Collections.singletonList(new Link(SAMARA_LATITUDE, SAMARA_LONGITUDE, 200.5D));
-            APIRequestAssert.sendUserMessageResponseAssert(API_REQUEST.sendUserMessage("Тестовое сообщение.", null, null, links, 1, "test"));
+            APIRequestAssert.sendUserMessageResponseAssert(TO_SAMARA_API.sendUserMessage("Тестовое сообщение.", null, null, links, 1, "test"));
         } catch (Exception e) {
             Assertions.fail(e);
         }

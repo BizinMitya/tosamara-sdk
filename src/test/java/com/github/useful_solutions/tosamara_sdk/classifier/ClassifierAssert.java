@@ -134,7 +134,7 @@ class ClassifierAssert {
         for (RouteWithStops.Stop stop : stops) {
             Assertions.assertNotNull(stop);
             Assertions.assertNotNull(stop.ksId);
-            Assertions.assertNotNull(stop.adjacentStreet);
+            //Assertions.assertNotNull(stop.adjacentStreet);
             //Assertions.assertNotNull(stop.direction);
             Assertions.assertNotNull(stop.scheduleTime);
             Assertions.assertNotNull(stop.title);

@@ -54,7 +54,7 @@
     </distributionManagement>
 
     <properties>
-        <jackson.version>2.10.3</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <okhttp.version>4.4.1</okhttp.version>
         <commons-codec.version>1.4</commons-codec.version>
         <jetbrains-annotations.version>16.0.2</jetbrains-annotations.version>
